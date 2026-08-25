@@ -1,0 +1,71 @@
+[
+  {
+    "id": "admin",
+    "login": "admin",
+    "pwdHash": "ea46519b",
+    "name": "Администратор",
+    "note": "Полный доступ ко всем разделам и настройкам",
+    "builtin": true,
+    "perms": {
+      "roles.create": true,
+      "view.kontrol": true,
+      "manage.kontrol": true,
+      "view.budget": true,
+      "manage.budget": true,
+      "view.analitika": true,
+      "manage.analitika": true,
+      "view.obuchenie": true,
+      "manage.obuchenie": true,
+      "view.motivatsia": true,
+      "manage.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.reglamenty": true
+    }
+  },
+  {
+    "id": "cmo",
+    "login": "cmo",
+    "pwdHash": "f34f2642",
+    "name": "Коммерческий директор",
+    "note": "Полный доступ",
+    "builtin": true,
+    "perms": {
+      "roles.create": true,
+      "view.kontrol": true,
+      "manage.kontrol": true,
+      "view.budget": true,
+      "manage.budget": true,
+      "view.analitika": true,
+      "manage.analitika": true,
+      "view.obuchenie": true,
+      "manage.obuchenie": true,
+      "view.motivatsia": true,
+      "manage.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.reglamenty": true
+    }
+  },
+  {
+    "id": "cfo",
+    "login": "cfo",
+    "pwdHash": "39961c27",
+    "name": "Финансовый директор",
+    "note": "Полный доступ",
+    "builtin": true,
+    "perms": {
+      "roles.create": true,
+      "view.kontrol": true,
+      "manage.kontrol": true,
+      "view.budget": true,
+      "manage.budget": true,
+      "view.analitika": true,
+      "manage.analitika": true,
+      "view.obuchenie": true,
+      "manage.obuchenie": true,
+      "view.motivatsia": true,
+      "manage.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.reglamenty": true
+    }
+  }
+]

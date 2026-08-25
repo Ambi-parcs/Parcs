@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аналитика и отчёты — АмбиЛенд</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal.css">
+<link rel="stylesheet" href="assets/section.css">
+</head>
+<body>
+
+<header class="portal-header slim">
+  <div class="wrap">
+    <div class="head-row">
+      <span class="head-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 17 L9 11 L13 15 L21 7"/><path d="M15.5 7 H21 V12.5"/></svg>
+      </span>
+      <div style="flex:1;min-width:180px">
+        <h1 class="head-title">03 · Аналитика и отчёты</h1>
+        <div class="head-sub">Финансовые прогнозы, еженедельные отчёты и планы по паркам сети</div>
+      </div>
+      <a class="back-link" href="index.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>Все разделы</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M6 3 h9 l4 4 v14 a1.5 1.5 0 0 1-1.5 1.5 h-11 A1.5 1.5 0 0 1 5 21 V4.5 A1.5 1.5 0 0 1 6.5 3 Z"/><path d="M14.5 3 V7.5 H19"/></svg>
+        Документы раздела
+      </h2>
+      <span class="hint">— нажмите, чтобы открыть отчёт</span>
+    </div>
+
+    <div id="toolbar"></div>
+
+    <div class="docs" id="docsGrid">
+
+      <a class="doc" href="ap-analiz.html" data-type="прогноз">
+        <div class="doc-icon">🔮</div>
+        <div class="doc-info">
+          <div class="doc-title">Анализ и прогноз 2026</div>
+          <div class="doc-desc">Сводный анализ и прогноз по Амбилэнд и Амбирест на 2026 год с графиками.</div>
+          <span class="doc-tag">прогноз</span>
+        </div>
+      </a>
+
+      <a class="doc" href="ap-prognoz-parki.html" data-type="прогноз">
+        <div class="doc-icon">🏘️</div>
+        <div class="doc-info">
+          <div class="doc-title">Прогноз доходов и расходов по паркам</div>
+          <div class="doc-desc">Детальный прогноз в разрезе каждого парка, июль–декабрь 2026.</div>
+          <span class="doc-tag">прогноз</span>
+        </div>
+      </a>
+
+      <a class="doc" href="ap-prognoz.html" data-type="прогноз">
+        <div class="doc-icon">📐</div>
+        <div class="doc-info">
+          <div class="doc-title">Прогноз доходов и расходов</div>
+          <div class="doc-desc">Общий прогноз доходов и расходов на июль–декабрь 2026.</div>
+          <span class="doc-tag">прогноз</span>
+        </div>
+      </a>
+
+      <a class="doc" href="ap-ezhenedelnye-byudzhet.html" data-type="отчёт">
+        <div class="doc-icon">📅</div>
+        <div class="doc-info">
+          <div class="doc-title">Еженедельные отчёты (бюджет)</div>
+          <div class="doc-desc">Еженедельная отчётность по исполнению бюджета по паркам.</div>
+          <span class="doc-tag">отчёт</span>
+        </div>
+      </a>
+
+      <a class="doc" href="ap-ezhenedelnye.html" data-type="отчёт">
+        <div class="doc-icon">🗓️</div>
+        <div class="doc-info">
+          <div class="doc-title">Еженедельные отчёты</div>
+          <div class="doc-desc">Общие еженедельные отчёты по паркам сети.</div>
+          <span class="doc-tag">отчёт</span>
+        </div>
+      </a>
+
+      <a class="doc" href="ap-plan-iyul.html" data-type="план">
+        <div class="doc-icon">📋</div>
+        <div class="doc-info">
+          <div class="doc-title">План на июль 2026</div>
+          <div class="doc-desc">Оперативный план работ и задач на июль 2026 года.</div>
+          <span class="doc-tag">план</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="docs-empty" id="docsEmpty" style="display:none">
+      <div class="eh-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16 L21 21"/><path d="M8.5 11 h5"/></svg></div>
+      <div class="eh-title">Ничего не найдено</div>
+      <div class="eh-text">Попробуйте изменить запрос или фильтр.</div>
+    </div>
+
+    <div class="note">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11 v5"/><path d="M12 7.8 v.2"/></svg>
+      <span>Раздел пополняется: администратор может добавлять и удалять документы прямо здесь с компьютера — кнопки «Добавить документ» и «Сохранить изменения» над списком.</span>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="f-brand"><img src="assets/favicon.svg" alt="" width="20" height="20">© АмбиЛенд · Аналитика и отчёты</span>
+    <span><a href="index.html" style="color:var(--brand);text-decoration:none;font-weight:600">← Все разделы</a></span>
+  </div>
+</footer>
+
+<script>window.SECTION = { id: 'analitika' };</script>
+<script>
+/* GitHub-интеграция: автокоммит документов и ролей в репозиторий.
+   ВНИМАНИЕ: токен виден в исходном коде страницы — используйте только
+   fine-grained токен с доступом к одному репозиторию (Contents + Pages). */
+window.GH_CONFIG = {
+  owner: 'Ambi-parcs',
+  repo: 'Parcs',
+  branch: 'main',
+  token: 'GITHUB_TOKEN_HERE'
+};
+</script>
+<script src="assets/github.js"></script>
+<script src="assets/portal.js"></script>
+<script src="assets/section.js"></script>
+
+</body>
+</html>

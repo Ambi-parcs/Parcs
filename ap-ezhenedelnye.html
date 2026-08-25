@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АмбиЛенд – еженедельные отчёты</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 20px; }
+        h1 { color: #1a3c5e; border-bottom: 3px double #d4af37; padding-bottom: 10px; margin-top: 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .user-badge { font-size: 14px; padding: 4px 12px; border-radius: 20px; background: #95a5a6; color: white; }
+        .user-badge.admin { background: #27ae60; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+        .tab-btn { padding: 10px 18px; background: #e6e9ef; border: none; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .tab-btn:hover { background: #d4d9e3; }
+        .tab-btn.active { background: #1a3c5e; color: white; }
+        .tab-content { display: none; animation: fade 0.3s; overflow-x: auto; }
+        .tab-content.active { display: block; }
+        @keyframes fade { from { opacity: 0.3; } to { opacity: 1; } }
+        .park-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px; }
+        .park-header h2 { margin: 0; color: #1a3c5e; }
+        .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .controls label { font-weight: 600; }
+        .controls input[type="date"] { padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; }
+        .btn { padding: 8px 16px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-primary { background: #1a3c5e; color: white; }
+        .btn-primary:hover { background: #2a5a7a; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-success:hover { background: #2ecc71; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn-warning:hover { background: #e67e22; }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn-secondary:hover { background: #7f8c8d; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-sm { padding: 4px 10px; font-size: 12px; }
+        .password-dialog { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 999; }
+        .password-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); text-align: center; min-width: 300px; }
+        .password-box h3 { margin-top: 0; }
+        .password-box input[type="password"] { padding: 10px; width: 100%; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; }
+        .password-box .btn { margin-top: 10px; }
+        .error { color: #e74c3c; margin: 5px 0; }
+        .footer { margin-top: 30px; text-align: center; color: #888; font-size: 13px; border-top: 1px solid #eee; padding-top: 15px; }
+        .month-separator { border-bottom: 3px double #1a3c5e; margin: 10px 0 20px 0; }
+        .explanation { background: #f8f9fa; border-left: 4px solid #1a3c5e; padding: 10px 15px; margin: 15px 0; font-size: 14px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0 10px 0; font-size: 13px; border: 2px solid #2c3e50; }
+        th, td { border: 1px solid #555; padding: 6px 4px; text-align: center; vertical-align: middle; }
+        th { background: #1a3c5e; color: white; font-weight: 700; }
+        tbody tr:nth-child(even) { background: #f9fafc; }
+        tbody tr:nth-child(odd) { background: #ffffff; }
+        .month-table caption { font-size: 1.2em; font-weight: 700; background: #d4e2f0; padding: 8px; border: 2px solid #2c3e50; border-bottom: none; display: flex; justify-content: space-between; align-items: center; }
+        .month-table td input[type="text"] { width: 90px; padding: 3px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 13px; }
+        .month-table td input:disabled { background: #f5f5f5; color: #333; }
+        .editable { background: #fff9e6; }
+        .readonly { background: #f0f0f0; color: #555; }
+        .trend-abs { font-weight: 700; color: #2980b9; }
+        .trend-rel { font-weight: 600; }
+        .trend-up { color: #27ae60; }
+        .trend-down { color: #e74c3c; }
+        .trend-neutral { color: #f39c12; }
+        .locked-month { opacity: 0.7; background: #f9f9f9; }
+        #summary-table .summary-total { background: #d5e8d0 !important; font-weight: 700; }
+        #plan-table td input[type="text"] { width: 80px; padding: 3px; text-align: center; }
+        .mom-table .highlight-change { font-weight: 700; }
+        #summary-table td, #summary-table th, #plan-table td, #plan-table th, .mom-table td, .mom-table th { border-left: 1px solid #555; border-right: 1px solid #555; }
+        #summary-table th:first-child, #summary-table td:first-child, #plan-table th:first-child, #plan-table td:first-child, .mom-table th:first-child, .mom-table td:first-child { border-left: 2px solid #2c3e50; }
+        #summary-table th:last-child, #summary-table td:last-child, #plan-table th:last-child, #plan-table td:last-child, .mom-table th:last-child, .mom-table td:last-child { border-right: 2px solid #2c3e50; }
+        #summary-table { table-layout: auto; width: 100%; }
+        #summary-table th, #summary-table td { white-space: nowrap; padding: 8px 12px; min-width: 80px; }
+        #summary-table th:first-child, #summary-table td:first-child { min-width: 120px; white-space: nowrap; }
+        #summary-table th[colspan] { white-space: nowrap; }
+        .instruction-box { background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 20px 25px; margin: 20px 0; font-size: 14px; line-height: 1.6; }
+        .instruction-box h3 { color: #1a3c5e; margin-top: 0; }
+        .instruction-box ul { padding-left: 20px; }
+        .instruction-box li { margin-bottom: 6px; }
+        .correction-counter { font-weight: 700; color: #e67e22; }
+        @media (max-width: 768px) { table { font-size: 11px; } td input[type="text"] { width: 60px; } .tab-btn { padding: 6px 10px; } #summary-table th, #summary-table td { padding: 6px 6px; min-width: 60px; } #summary-table th:first-child, #summary-table td:first-child { min-width: 80px; } }
+    </style>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal-bar.css">
+</head>
+<body>
+<div class="portal-bar">
+  <img src="assets/favicon.svg" alt="АмбиЛенд">
+  <span class="pb-brand">АмбиЛенд</span>
+  <span class="pb-sep"></span>
+  <span class="pb-title">Аналитика и отчёты</span>
+  <span class="pb-spacer"></span>
+  <a class="pb-back" href="analitika.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>К разделу</a>
+</div>
+<script>document.body.classList.add('has-portal-bar');</script>
+
+<div class="container">
+    <h1>
+        <span>📊 Еженедельные отчёты — АмбиЛенд</span>
+        <span>
+            <span id="role-badge" class="user-badge">Пользователь</span>
+            <button class="btn btn-secondary" id="toggle-admin">Войти как админ</button>
+        </span>
+    </h1>
+    <div id="tabs-container">
+        <div class="tabs" id="tab-buttons"><button class="tab-btn" data-park="Хорошо">Хорошо</button><button class="tab-btn" data-park="Колумбус">Колумбус</button><button class="tab-btn" data-park="Вегас">Вегас</button><button class="tab-btn active" data-park="Океания">Океания</button><button class="tab-btn" data-park="instruction-user">📖 Инструкция (упр.)</button></div>
+        <div id="tab-contents"><div class="tab-content" id="tab-Хорошо" data-park="Хорошо"></div><div class="tab-content" id="tab-Колумбус" data-park="Колумбус"></div><div class="tab-content" id="tab-Вегас" data-park="Вегас"></div><div class="tab-content active" id="tab-Океания" data-park="Океания"><div class="park-header">
+                <h2>🏰 Парк «Океания»</h2>
+                <div class="controls">
+                    <label>Текущая дата: <input type="date" id="current-date" value="2026-07-16"></label>
+                    <button class="btn btn-warning" id="correct-fact">✏️ Корректировка факта (осталось: <span id="corr-counter">6</span>)</button>
+                    <button class="btn btn-success" id="save-all-data">💾 Сохранить все данные</button>
+                    <span id="correction-info" style="font-size:13px;color:#555;">Корректировок осталось: 6</span>
+                </div>
+            </div><table class="month-table"><caption><span>Июль (прогноз на конец месяца)</span><button class="btn btn-success btn-sm" style="margin-left: auto;">💾 Сохранить месяц</button></caption><thead><tr><th>Разрез</th><th>Факт, ₽</th><th>Тенденция (абс.)</th><th>Тенденция (отн.)</th></tr></thead><tbody><tr><td style="font-weight: normal;">Парк</td><td><input type="text" class="fact-input editable" data-park="Океания" data-month="6" data-cat="Парк" data-raw="4819000" inputmode="numeric"></td><td class="trend-abs trend-down">9&nbsp;959&nbsp;267 ₽</td><td class="trend-rel trend-down">90.5%</td></tr><tr><td style="font-weight: normal;">Банкетинг</td><td><input type="text" class="fact-input editable" data-park="Океания" data-month="6" data-cat="Банкетинг" data-raw="211000" inputmode="numeric"></td><td class="trend-abs trend-down">436&nbsp;067 ₽</td><td class="trend-rel trend-down">21.8%</td></tr><tr><td style="font-weight: normal;">Ресторан</td><td><input type="text" class="fact-input editable" data-park="Океания" data-month="6" data-cat="Ресторан" data-raw="0" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: bold;">Общая выручка</td><td><input type="text" class="fact-input-total editable" data-park="Океания" data-month="6" data-cat="total" data-raw="5096000" inputmode="numeric"></td><td class="trend-abs trend-down">10&nbsp;531&nbsp;733 ₽</td><td class="trend-rel trend-down">81.0%</td></tr></tbody></table><div class="month-separator"></div><table class="month-table"><caption><span>Август (прогноз на конец месяца)</span><button class="btn btn-success btn-sm" style="margin-left: auto;">💾 Сохранить месяц</button></caption><thead><tr><th>Разрез</th><th>Факт, ₽</th><th>Тенденция (абс.)</th><th>Тенденция (отн.)</th></tr></thead><tbody><tr><td style="font-weight: normal;">Парк</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="7" data-cat="Парк" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Банкетинг</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="7" data-cat="Банкетинг" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Ресторан</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="7" data-cat="Ресторан" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: bold;">Общая выручка</td><td><input type="text" class="fact-input-total readonly" data-park="Океания" data-month="7" data-cat="total" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr></tbody></table><div class="month-separator"></div><table class="month-table"><caption><span>Сентябрь (прогноз на конец месяца)</span><button class="btn btn-success btn-sm" style="margin-left: auto;">💾 Сохранить месяц</button></caption><thead><tr><th>Разрез</th><th>Факт, ₽</th><th>Тенденция (абс.)</th><th>Тенденция (отн.)</th></tr></thead><tbody><tr><td style="font-weight: normal;">Парк</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="8" data-cat="Парк" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Банкетинг</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="8" data-cat="Банкетинг" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Ресторан</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="8" data-cat="Ресторан" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: bold;">Общая выручка</td><td><input type="text" class="fact-input-total readonly" data-park="Океания" data-month="8" data-cat="total" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr></tbody></table><div class="month-separator"></div><table class="month-table"><caption><span>Октябрь (прогноз на конец месяца)</span><button class="btn btn-success btn-sm" style="margin-left: auto;">💾 Сохранить месяц</button></caption><thead><tr><th>Разрез</th><th>Факт, ₽</th><th>Тенденция (абс.)</th><th>Тенденция (отн.)</th></tr></thead><tbody><tr><td style="font-weight: normal;">Парк</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="9" data-cat="Парк" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Банкетинг</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="9" data-cat="Банкетинг" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Ресторан</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="9" data-cat="Ресторан" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: bold;">Общая выручка</td><td><input type="text" class="fact-input-total readonly" data-park="Океания" data-month="9" data-cat="total" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr></tbody></table><div class="month-separator"></div><table class="month-table"><caption><span>Ноябрь (прогноз на конец месяца)</span><button class="btn btn-success btn-sm" style="margin-left: auto;">💾 Сохранить месяц</button></caption><thead><tr><th>Разрез</th><th>Факт, ₽</th><th>Тенденция (абс.)</th><th>Тенденция (отн.)</th></tr></thead><tbody><tr><td style="font-weight: normal;">Парк</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="10" data-cat="Парк" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Банкетинг</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="10" data-cat="Банкетинг" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Ресторан</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="10" data-cat="Ресторан" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: bold;">Общая выручка</td><td><input type="text" class="fact-input-total readonly" data-park="Океания" data-month="10" data-cat="total" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr></tbody></table><div class="month-separator"></div><table class="month-table"><caption><span>Декабрь (прогноз на конец месяца)</span><button class="btn btn-success btn-sm" style="margin-left: auto;">💾 Сохранить месяц</button></caption><thead><tr><th>Разрез</th><th>Факт, ₽</th><th>Тенденция (абс.)</th><th>Тенденция (отн.)</th></tr></thead><tbody><tr><td style="font-weight: normal;">Парк</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="11" data-cat="Парк" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Банкетинг</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="11" data-cat="Банкетинг" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: normal;">Ресторан</td><td><input type="text" class="fact-input readonly" data-park="Океания" data-month="11" data-cat="Ресторан" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr><tr><td style="font-weight: bold;">Общая выручка</td><td><input type="text" class="fact-input-total readonly" data-park="Океания" data-month="11" data-cat="total" data-raw="0" disabled="" inputmode="numeric"></td><td class="trend-abs trend-neutral">0 ₽</td><td class="trend-rel trend-down">0.0%</td></tr></tbody></table><div class="month-separator"></div></div><div class="tab-content" id="tab-instruction-user" data-park="instruction-user"></div><div class="tab-content" id="tab-plan" data-park="plan"></div><div class="tab-content" id="tab-mom" data-park="mom"></div><div class="tab-content" id="tab-summary" data-park="summary"></div><div class="tab-content" id="tab-instruction-admin" data-park="instruction-admin"></div></div>
+    </div>
+    <div class="footer">Данные сохраняются автоматически. План защищён паролем 0987. Тенденция – прогноз на конец месяца.</div>
+</div>
+
+<script>
+    (function() {
+        // ---------- КОНФИГ ----------
+        const months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+        const daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+        const categories = ['Парк', 'Банкетинг', 'Ресторан'];
+        const ADMIN_PASSWORD = '0987';
+        const MAX_CORRECTIONS = 6;
+
+        const parkPasswords = {
+            'Хорошо': '1234',
+            'Колумбус': '2345',
+            'Вегас': '3456',
+            'Океания': '4567'
+        };
+        const summaryPassword = '0987';
+
+        let data = {};
+        let currentPark = null;
+        let unlockedParks = {};
+        let isAdmin = false;
+        let summaryUnlocked = false;
+        let adminInstructionUnlocked = false;
+
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentDay = now.getDate();
+
+        // ---------- ФОРМАТИРОВАНИЕ ----------
+        function formatNumber(num) {
+            if (num === undefined || num === null) return '0 ₽';
+            return num.toLocaleString('ru-RU') + ' ₽';
+        }
+
+        function formatPlain(num) {
+            if (num === undefined || num === null) return '0';
+            return num.toLocaleString('ru-RU');
+        }
+
+        function formatPlainNoCurrency(num) {
+            if (num === undefined || num === null) return '0';
+            return num.toLocaleString('ru-RU');
+        }
+
+        function formatPercent(num) {
+            if (num === undefined || num === null) return '0%';
+            return num.toFixed(1) + '%';
+        }
+
+        function parseRaw(input) {
+            const raw = input.value.replace(/\s/g, '').replace(/[^0-9.-]/g, '');
+            const num = parseFloat(raw);
+            return isNaN(num) ? 0 : num;
+        }
+
+        function setupNumericInput(input, onSave) {
+            input.type = 'text';
+            input.inputMode = 'numeric';
+            const rawVal = input.dataset.raw || '0';
+            input.value = formatPlain(parseFloat(rawVal) || 0);
+            input.addEventListener('focus', function() {
+                this.value = this.dataset.raw || '0';
+                this.select();
+            });
+            input.addEventListener('blur', function() {
+                const num = parseRaw(this);
+                this.dataset.raw = num.toString();
+                this.value = formatPlain(num);
+                if (onSave) onSave(this);
+            });
+            // При любом изменении – сохраняем (для плана и факта)
+            input.addEventListener('input', function() {
+                if (onSave) onSave(this);
+            });
+        }
+
+        // ---------- СОХРАНЕНИЕ ВСЕХ ДАННЫХ В LOCALSTORAGE ----------
+        function saveAllData() {
+            localStorage.setItem('ambiland_data', JSON.stringify(data));
+            // console.log('Данные сохранены');
+        }
+
+        // ---------- ДОСТУП К ДАННЫМ ----------
+        function getPlan(park, month, cat) {
+            return data[park]?.[month]?.plan?.[cat] ?? 0;
+        }
+
+        function getFact(park, month, cat) {
+            return data[park]?.[month]?.fact?.[cat] ?? 0;
+        }
+
+        function getPlanTotal(park, month) {
+            return getPlan(park, month, 'total');
+        }
+
+        function getFactTotal(park, month) {
+            return getFact(park, month, 'total');
+        }
+
+        function setPlan(park, month, cat, val) {
+            if (!data[park]) data[park] = createParkData();
+            if (!data[park][month]) data[park][month] = createParkData()[month];
+            data[park][month].plan[cat] = val;
+            saveAllData();
+        }
+
+        function setFact(park, month, cat, val) {
+            if (!data[park]) data[park] = createParkData();
+            if (!data[park][month]) data[park][month] = createParkData()[month];
+            data[park][month].fact[cat] = val;
+            saveAllData();
+        }
+
+        function isMonthLocked(month) {
+            if (month < currentMonth - 1) return true;
+            if (month === currentMonth - 1) {
+                return currentDay > 3;
+            }
+            return false;
+        }
+
+        function resetFactsIfNeeded() {
+            const lastReset = data.__meta?.lastReset;
+            const currentMonthKey = `${currentMonth}-${now.getFullYear()}`;
+            if (lastReset === currentMonthKey) return;
+
+            const parks = getParkNames();
+            parks.forEach(p => {
+                if (data[p] && data[p][currentMonth]) {
+                    categories.forEach(cat => {
+                        data[p][currentMonth].fact[cat] = 0;
+                    });
+                    data[p][currentMonth].fact['total'] = 0;
+                    data[p][currentMonth].saved = false;
+                }
+            });
+            if (!data.__meta) data.__meta = {};
+            data.__meta.lastReset = currentMonthKey;
+            saveAllData();
+        }
+
+        // ---------- ИНИЦИАЛИЗАЦИЯ ----------
+        function init() {
+            loadFromStorage();
+            resetFactsIfNeeded();
+            renderTabs();
+            const parks = getParkNames();
+            if (parks.length > 0) {
+                switchTab(parks[0]);
+            } else {
+                const defaultParks = ['Хорошо', 'Колумбус', 'Вегас', 'Океания'];
+                defaultParks.forEach(p => {
+                    if (!data[p]) data[p] = createParkData();
+                });
+                saveAllData();
+                renderTabs();
+                switchTab(defaultParks[0]);
+            }
+            updateRoleBadge();
+
+            // Автосохранение при закрытии страницы
+            window.addEventListener('beforeunload', function() {
+                saveAllData();
+            });
+        }
+
+        function createParkData() {
+            const park = {};
+            for (let m = 0; m < 12; m++) {
+                park[m] = {
+                    plan: { 'Парк': 0, 'Банкетинг': 0, 'Ресторан': 0, 'total': 0 },
+                    fact: { 'Парк': 0, 'Банкетинг': 0, 'Ресторан': 0, 'total': 0 },
+                    saved: false,
+                    correctionsLeft: 1 // не используется теперь, используем общий счётчик
+                };
+            }
+            // Общий счётчик корректировок для парка
+            park._correctionsTotal = MAX_CORRECTIONS;
+            return park;
+        }
+
+        function getParkCorrections(parkName) {
+            return data[parkName]?._correctionsTotal ?? MAX_CORRECTIONS;
+        }
+
+        function setParkCorrections(parkName, val) {
+            if (data[parkName]) {
+                data[parkName]._correctionsTotal = val;
+                saveAllData();
+            }
+        }
+
+        function getParkNames() {
+            return Object.keys(data).filter(k => k !== '__summary' && k !== '__meta' && !k.startsWith('_'));
+        }
+
+        function loadFromStorage() {
+            const stored = localStorage.getItem('ambiland_data');
+            if (stored) {
+                try {
+                    data = JSON.parse(stored);
+                    for (let p in data) {
+                        if (p === '__summary' || p === '__meta' || p.startsWith('_')) continue;
+                        for (let m = 0; m < 12; m++) {
+                            if (!data[p][m]) data[p][m] = createParkData()[m];
+                            if (data[p][m].correctionsLeft === undefined) data[p][m].correctionsLeft = 1;
+                            ['plan','fact'].forEach(type => {
+                                if (!data[p][m][type]) data[p][m][type] = {};
+                                categories.forEach(cat => {
+                                    if (data[p][m][type][cat] === undefined) data[p][m][type][cat] = 0;
+                                });
+                                if (data[p][m][type]['total'] === undefined) data[p][m][type]['total'] = 0;
+                            });
+                            if (data[p][m].saved === undefined) data[p][m].saved = false;
+                        }
+                        if (data[p]._correctionsTotal === undefined) data[p]._correctionsTotal = MAX_CORRECTIONS;
+                    }
+                    if (!data.__meta) data.__meta = { planLocked: true };
+                    if (data.__meta.planLocked === undefined) data.__meta.planLocked = true;
+                } catch(e) { data = {}; }
+            } else {
+                data = {};
+                data.__meta = { planLocked: true };
+                const defaultParks = ['Хорошо', 'Колумбус', 'Вегас', 'Океания'];
+                defaultParks.forEach(p => {
+                    if (!data[p]) data[p] = createParkData();
+                });
+            }
+        }
+
+        function updateRoleBadge() {
+            const badge = document.getElementById('role-badge');
+            if (badge) {
+                if (isAdmin) {
+                    badge.textContent = 'Администратор';
+                    badge.className = 'user-badge admin';
+                } else {
+                    badge.textContent = 'Пользователь';
+                    badge.className = 'user-badge';
+                }
+            }
+        }
+
+        function refreshAllTabs() {
+            const active = document.querySelector('.tab-content.active');
+            if (active) {
+                const park = active.dataset.park;
+                if (park === 'summary') renderSummary(active);
+                else if (park === 'plan') renderPlanTab(active);
+                else if (park === 'mom') renderMomTab(active);
+                else if (park === 'instruction-user') renderInstructionUser(active);
+                else if (park === 'instruction-admin') renderInstructionAdmin(active);
+                else renderPark(active, park);
+            }
+        }
+
+        // ---------- РЕНДЕРИНГ ВКЛАДОК ----------
+        function renderTabs() {
+            const btnContainer = document.getElementById('tab-buttons');
+            const contentContainer = document.getElementById('tab-contents');
+            btnContainer.innerHTML = '';
+            contentContainer.innerHTML = '';
+
+            const parks = getParkNames();
+
+            parks.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'tab-btn';
+                btn.textContent = p;
+                btn.dataset.park = p;
+                btn.addEventListener('click', () => switchTab(p));
+                btnContainer.appendChild(btn);
+            });
+
+            const instrUserBtn = document.createElement('button');
+            instrUserBtn.className = 'tab-btn';
+            instrUserBtn.textContent = '📖 Инструкция (упр.)';
+            instrUserBtn.dataset.park = 'instruction-user';
+            instrUserBtn.addEventListener('click', () => switchTab('instruction-user'));
+            btnContainer.appendChild(instrUserBtn);
+
+            if (isAdmin) {
+                const planBtn = document.createElement('button');
+                planBtn.className = 'tab-btn';
+                planBtn.textContent = '📝 План';
+                planBtn.dataset.park = 'plan';
+                planBtn.addEventListener('click', () => switchTab('plan'));
+                btnContainer.appendChild(planBtn);
+
+                const momBtn = document.createElement('button');
+                momBtn.className = 'tab-btn';
+                momBtn.textContent = '📈 MoM';
+                momBtn.dataset.park = 'mom';
+                momBtn.addEventListener('click', () => switchTab('mom'));
+                btnContainer.appendChild(momBtn);
+
+                const summaryBtn = document.createElement('button');
+                summaryBtn.className = 'tab-btn';
+                summaryBtn.textContent = '📋 Сводный';
+                summaryBtn.dataset.park = 'summary';
+                summaryBtn.addEventListener('click', () => switchTab('summary'));
+                btnContainer.appendChild(summaryBtn);
+
+                const instrAdminBtn = document.createElement('button');
+                instrAdminBtn.className = 'tab-btn';
+                instrAdminBtn.textContent = '🔐 Инструкция (админ)';
+                instrAdminBtn.dataset.park = 'instruction-admin';
+                instrAdminBtn.addEventListener('click', () => switchTab('instruction-admin'));
+                btnContainer.appendChild(instrAdminBtn);
+            }
+
+            parks.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'tab-content';
+                div.id = 'tab-' + p;
+                div.dataset.park = p;
+                contentContainer.appendChild(div);
+            });
+
+            const instrUserDiv = document.createElement('div');
+            instrUserDiv.className = 'tab-content';
+            instrUserDiv.id = 'tab-instruction-user';
+            instrUserDiv.dataset.park = 'instruction-user';
+            contentContainer.appendChild(instrUserDiv);
+
+            const planDiv = document.createElement('div');
+            planDiv.className = 'tab-content';
+            planDiv.id = 'tab-plan';
+            planDiv.dataset.park = 'plan';
+            contentContainer.appendChild(planDiv);
+
+            const momDiv = document.createElement('div');
+            momDiv.className = 'tab-content';
+            momDiv.id = 'tab-mom';
+            momDiv.dataset.park = 'mom';
+            contentContainer.appendChild(momDiv);
+
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'tab-content';
+            summaryDiv.id = 'tab-summary';
+            summaryDiv.dataset.park = 'summary';
+            contentContainer.appendChild(summaryDiv);
+
+            const instrAdminDiv = document.createElement('div');
+            instrAdminDiv.className = 'tab-content';
+            instrAdminDiv.id = 'tab-instruction-admin';
+            instrAdminDiv.dataset.park = 'instruction-admin';
+            contentContainer.appendChild(instrAdminDiv);
+        }
+
+        function switchTab(parkName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            const targetContent = document.getElementById('tab-' + parkName);
+            if (!targetContent) return;
+
+            if (parkName === 'instruction-admin') {
+                if (!isAdmin && !adminInstructionUnlocked) {
+                    requestPassword('инструкция администратора', (pwd) => {
+                        if (pwd === ADMIN_PASSWORD) {
+                            adminInstructionUnlocked = true;
+                            activateTabContent(parkName);
+                        } else {
+                            alert('Неверный пароль!');
+                        }
+                    });
+                    return;
+                }
+            }
+
+            if (parkName !== 'summary' && parkName !== 'plan' && parkName !== 'mom' && parkName !== 'instruction-user' && parkName !== 'instruction-admin') {
+                if (!isAdmin && !unlockedParks[parkName]) {
+                    requestPassword(parkName, (pwd) => {
+                        if (pwd === parkPasswords[parkName]) {
+                            unlockedParks[parkName] = true;
+                            activateTabContent(parkName);
+                        } else {
+                            alert('Неверный пароль!');
+                        }
+                    });
+                    return;
+                }
+            } else if (parkName === 'summary') {
+                if (!summaryUnlocked && !isAdmin) {
+                    requestPassword('summary', (pwd) => {
+                        if (pwd === summaryPassword || (isAdmin && pwd === ADMIN_PASSWORD)) {
+                            summaryUnlocked = true;
+                            activateTabContent(parkName);
+                        } else {
+                            alert('Неверный пароль!');
+                        }
+                    });
+                    return;
+                }
+            } else if (parkName === 'plan') {
+                if (!isAdmin) {
+                    requestPassword('план', (pwd) => {
+                        if (pwd === ADMIN_PASSWORD) {
+                            isAdmin = true;
+                            const parks = getParkNames();
+                            parks.forEach(p => { unlockedParks[p] = true; });
+                            summaryUnlocked = true;
+                            updateRoleBadge();
+                            renderTabs();
+                            activateTabContent(parkName);
+                        } else {
+                            alert('Неверный пароль!');
+                        }
+                    });
+                    return;
+                }
+            } else if (parkName === 'mom' || parkName === 'instruction-user') {
+                // доступны всем
+            }
+            activateTabContent(parkName);
+        }
+
+        function activateTabContent(parkName) {
+            const content = document.getElementById('tab-' + parkName);
+            if (!content) return;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.park === parkName) btn.classList.add('active');
+            });
+            content.classList.add('active');
+            currentPark = parkName;
+
+            if (parkName === 'summary') renderSummary(content);
+            else if (parkName === 'plan') renderPlanTab(content);
+            else if (parkName === 'mom') renderMomTab(content);
+            else if (parkName === 'instruction-user') renderInstructionUser(content);
+            else if (parkName === 'instruction-admin') renderInstructionAdmin(content);
+            else renderPark(content, parkName);
+        }
+
+        function requestPassword(parkName, callback) {
+            const overlay = document.createElement('div');
+            overlay.className = 'password-dialog';
+            overlay.innerHTML = `
+                <div class="password-box">
+                    <h3>🔒 Введите пароль для "${parkName}"</h3>
+                    <input type="password" id="pwd-input" placeholder="Пароль" autofocus>
+                    <div id="pwd-error" class="error"></div>
+                    <button class="btn btn-primary" id="pwd-ok">ОК</button>
+                    <button class="btn btn-secondary" id="pwd-cancel">Отмена</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            const input = overlay.querySelector('#pwd-input');
+            const error = overlay.querySelector('#pwd-error');
+            const okBtn = overlay.querySelector('#pwd-ok');
+            const cancelBtn = overlay.querySelector('#pwd-cancel');
+
+            function checkPassword() {
+                const pwd = input.value;
+                callback(pwd);
+                overlay.remove();
+            }
+
+            okBtn.addEventListener('click', checkPassword);
+            cancelBtn.addEventListener('click', () => overlay.remove());
+            input.addEventListener('keydown', (e) => { if (e.key === 'Enter') checkPassword(); });
+            input.focus();
+        }
+
+        // ---------- ИНСТРУКЦИИ ----------
+        function renderInstructionUser(container) {
+            container.innerHTML = `
+                <div class="instruction-box">
+                    <h3>📘 Инструкция для управляющего парком</h3>
+                    <ul>
+                        <li><strong>Ввод фактов:</strong> выберите свой парк, в таблице текущего месяца введите данные (Парк, Банкетинг, Ресторан, Общая выручка).</li>
+                        <li><strong>Тенденция:</strong> пересчитывается автоматически при вводе – показывает прогноз на конец месяца.</li>
+                        <li><strong>Сохранение:</strong> данные сохраняются автоматически при вводе. Кнопка <em>«Сохранить месяц»</em> фиксирует данные и блокирует их от правки.</li>
+                        <li><strong>Корректировка:</strong> если нужно исправить сохранённые данные, используйте кнопку <em>«Корректировка факта»</em> (доступно <strong>6</strong> раз на весь парк).</li>
+                        <li><strong>Сроки:</strong> редактирование предыдущего месяца допускается только до 3-го числа текущего месяца.</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function renderInstructionAdmin(container) {
+            container.innerHTML = `
+                <div class="instruction-box">
+                    <h3>🔑 Инструкция для администратора</h3>
+                    <ul>
+                        <li><strong>Вход:</strong> нажмите <em>«Войти как админ»</em> (пароль <strong>0987</strong>). После входа появляются дополнительные вкладки.</li>
+                        <li><strong>План:</strong> во вкладке <em>«План»</em> данные сохраняются автоматически при вводе.</li>
+                        <li><strong>Управление парками:</strong> в сводной вкладке кнопка <em>«Добавить парк»</em>.</li>
+                        <li><strong>Выгрузка:</strong> в сводной вкладке <em>«Скачать CSV»</em> и <em>«Отправить учредителю»</em>.</li>
+                        <li><strong>Корректировка фактов:</strong> в каждом парке кнопка <em>«Корректировка факта»</em> (6 раз на парк).</li>
+                        <li><strong>Автосохранение:</strong> все изменения сохраняются мгновенно и при закрытии страницы.</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // ---------- СОХРАНЕНИЕ МЕСЯЦА (блокировка) ----------
+        function saveMonthFact(parkName, month) {
+            const container = document.getElementById('tab-' + parkName);
+            if (!container) return;
+            const tables = container.querySelectorAll('.month-table');
+            let targetTable = null;
+            tables.forEach(table => {
+                const caption = table.querySelector('caption');
+                if (caption && caption.textContent.includes(months[month])) {
+                    targetTable = table;
+                }
+            });
+            if (!targetTable) {
+                alert('Таблица для месяца не найдена.');
+                return;
+            }
+            const inputs = targetTable.querySelectorAll('.fact-input, .fact-input-total');
+            let changed = false;
+            inputs.forEach(inp => {
+                const park = inp.dataset.park;
+                if (park !== parkName) return;
+                const m = parseInt(inp.dataset.month);
+                if (m !== month) return;
+                const cat = inp.dataset.cat;
+                const val = parseRaw(inp);
+                if (data[parkName] && data[parkName][m]) {
+                    if (data[parkName][m].fact[cat] !== val) {
+                        data[parkName][m].fact[cat] = val;
+                        changed = true;
+                    }
+                }
+            });
+            if (changed) {
+                data[parkName][month].saved = true;
+                saveAllData();
+                alert(`Факты за ${months[month]} сохранены и заблокированы.`);
+                renderPark(container, parkName);
+            } else {
+                alert('Нет изменений для сохранения.');
+            }
+        }
+
+        // ---------- РЕНДЕРИНГ ПАРКА ----------
+        function renderPark(container, parkName) {
+            if (!data[parkName]) {
+                data[parkName] = createParkData();
+                saveAllData();
+            }
+
+            const correctionsLeft = getParkCorrections(parkName);
+
+            container.innerHTML = '';
+            const header = document.createElement('div');
+            header.className = 'park-header';
+            header.innerHTML = `
+                <h2>🏰 Парк «${parkName}»</h2>
+                <div class="controls">
+                    <label>Текущая дата: <input type="date" id="current-date" value="${new Date().toISOString().slice(0,10)}"></label>
+                    <button class="btn btn-warning" id="correct-fact">✏️ Корректировка факта (осталось: <span id="corr-counter">${correctionsLeft}</span>)</button>
+                    <button class="btn btn-success" id="save-all-data">💾 Сохранить все данные</button>
+                    <span id="correction-info" style="font-size:13px;color:#555;">Корректировок осталось: ${correctionsLeft}</span>
+                </div>
+            `;
+            container.appendChild(header);
+
+            let monthIndices = [];
+            for (let m = currentMonth; m < 12; m++) monthIndices.push(m);
+            if (currentMonth > 0 && currentDay <= 3) {
+                monthIndices.unshift(currentMonth - 1);
+            }
+
+            monthIndices.forEach((m) => {
+                const monthData = data[parkName][m];
+                if (!monthData) return;
+                const monthName = months[m];
+                const daysInMonthVal = daysInMonth[m];
+                let daysPassed = 0;
+                if (m < currentMonth) daysPassed = daysInMonthVal;
+                else if (m === currentMonth) daysPassed = Math.min(currentDay, daysInMonthVal);
+                else daysPassed = 0;
+
+                const isLocked = isMonthLocked(m);
+                // Редактирование факта разрешено если:
+                // - админ ИЛИ (месяц не заблокирован и (это текущий месяц ИЛИ предыдущий с day<=3))
+                // И если месяц не сохранён, либо есть корректировки
+                const canEditFact = (isAdmin || (!isLocked && (m === currentMonth || (m === currentMonth - 1 && currentDay <= 3))));
+                // Но также учитываем, что если месяц сохранён (saved=true), то редактирование только через корректировку
+                // Однако мы разрешаем редактировать сохранённые месяцы, если correctionsLeft > 0 или админ
+                const factEditable = (isAdmin || (correctionsLeft > 0)) && canEditFact;
+
+                const table = document.createElement('table');
+                table.className = 'month-table';
+                if (isLocked) table.classList.add('locked-month');
+                const caption = document.createElement('caption');
+                const captionText = document.createElement('span');
+                captionText.textContent = `${monthName} (прогноз на конец месяца)`;
+                caption.appendChild(captionText);
+
+                const saveMonthBtn = document.createElement('button');
+                saveMonthBtn.className = 'btn btn-success btn-sm';
+                saveMonthBtn.textContent = '💾 Сохранить месяц';
+                saveMonthBtn.style.marginLeft = 'auto';
+                saveMonthBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    saveMonthFact(parkName, m);
+                });
+                caption.appendChild(saveMonthBtn);
+                table.appendChild(caption);
+
+                const thead = document.createElement('thead');
+                let headerRow = '<tr><th>Разрез</th>';
+                if (isAdmin) {
+                    headerRow += '<th>План, ₽</th>';
+                }
+                headerRow += '<th>Факт, ₽</th><th>Тенденция (абс.)</th><th>Тенденция (отн.)</th></tr>';
+                thead.innerHTML = headerRow;
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+
+                const allCategories = [...categories, 'Общая выручка'];
+
+                allCategories.forEach(cat => {
+                    const isTotal = (cat === 'Общая выручка');
+                    const key = isTotal ? 'total' : cat;
+                    let planVal = isTotal ? getPlanTotal(parkName, m) : monthData.plan[cat] || 0;
+                    let factVal = isTotal ? getFactTotal(parkName, m) : monthData.fact[cat] || 0;
+
+                    let trendAbs = 0, trendRel = 0;
+                    if (daysPassed > 1) {
+                        trendAbs = (factVal / (daysPassed - 1)) * daysInMonthVal;
+                    } else if (daysPassed === 1) {
+                        trendAbs = factVal;
+                    } else {
+                        trendAbs = factVal;
+                    }
+                    trendAbs = Math.round(trendAbs);
+                    trendRel = (planVal > 0) ? (trendAbs / planVal) * 100 : 0;
+
+                    const tr = document.createElement('tr');
+
+                    const tdName = document.createElement('td');
+                    tdName.textContent = cat;
+                    tdName.style.fontWeight = isTotal ? 'bold' : 'normal';
+                    tr.appendChild(tdName);
+
+                    if (isAdmin) {
+                        const tdPlan = document.createElement('td');
+                        // Для плана – автосохранение
+                        const planInput = createNumericInputWithSave(
+                            isTotal ? 'plan-input-total' : 'plan-input',
+                            parkName, m, key, planVal, false,
+                            function(inp) {
+                                const val = parseRaw(inp);
+                                setPlan(parkName, m, key, val);
+                            }
+                        );
+                        tdPlan.appendChild(planInput);
+                        tr.appendChild(tdPlan);
+                    }
+
+                    const tdFact = document.createElement('td');
+                    const factInput = createNumericInputWithSave(
+                        isTotal ? 'fact-input-total' : 'fact-input',
+                        parkName, m, key, factVal, !factEditable,
+                        function(inp) {
+                            const val = parseRaw(inp);
+                            setFact(parkName, m, key, val);
+                            // После изменения факта обновляем тенденцию (пересчитаем в input событии)
+                        }
+                    );
+                    tdFact.appendChild(factInput);
+                    tr.appendChild(tdFact);
+
+                    const tdTrendAbs = document.createElement('td');
+                    tdTrendAbs.textContent = formatNumber(trendAbs);
+                    let clsAbs = 'trend-abs';
+                    if (trendAbs > planVal) clsAbs += ' trend-up';
+                    else if (trendAbs < planVal) clsAbs += ' trend-down';
+                    else clsAbs += ' trend-neutral';
+                    tdTrendAbs.className = clsAbs;
+                    tr.appendChild(tdTrendAbs);
+
+                    const tdTrendRel = document.createElement('td');
+                    tdTrendRel.textContent = formatPercent(trendRel);
+                    let clsRel = 'trend-rel';
+                    if (trendRel > 100) clsRel += ' trend-up';
+                    else if (trendRel < 100) clsRel += ' trend-down';
+                    else clsRel += ' trend-neutral';
+                    tdTrendRel.className = clsRel;
+                    tr.appendChild(tdTrendRel);
+
+                    tbody.appendChild(tr);
+                });
+
+                table.appendChild(tbody);
+                container.appendChild(table);
+
+                const separator = document.createElement('div');
+                separator.className = 'month-separator';
+                container.appendChild(separator);
+            });
+
+            // Обновляем счётчик корректировок
+            const corrCounter = container.querySelector('#corr-counter');
+            if (corrCounter) corrCounter.textContent = getParkCorrections(parkName);
+            const corrInfo = container.querySelector('#correction-info');
+            if (corrInfo) corrInfo.textContent = `Корректировок осталось: ${getParkCorrections(parkName)}`;
+
+            // Обработчик кнопки корректировки
+            const correctBtn = container.querySelector('#correct-fact');
+            correctBtn.addEventListener('click', function() {
+                const left = getParkCorrections(parkName);
+                if (left <= 0 && !isAdmin) {
+                    alert('Лимит корректировок исчерпан (максимум 6).');
+                    return;
+                }
+                // Если админ, то корректировка без ограничений
+                if (!isAdmin) {
+                    setParkCorrections(parkName, left - 1);
+                }
+                // Разблокируем все поля факта (для всех месяцев)
+                const inputs = container.querySelectorAll('.fact-input, .fact-input-total');
+                inputs.forEach(inp => {
+                    inp.disabled = false;
+                    inp.classList.remove('readonly');
+                    inp.classList.add('editable');
+                });
+                // Обновляем счётчик
+                const corrCounter2 = container.querySelector('#corr-counter');
+                if (corrCounter2) corrCounter2.textContent = getParkCorrections(parkName);
+                const corrInfo2 = container.querySelector('#correction-info');
+                if (corrInfo2) corrInfo2.textContent = `Корректировок осталось: ${getParkCorrections(parkName)}`;
+                alert('Корректировка разрешена. После редактирования нажмите "Сохранить месяц" для фиксации.');
+            });
+
+            // Кнопка "Сохранить все данные"
+            const saveAllBtn = container.querySelector('#save-all-data');
+            saveAllBtn.addEventListener('click', function() {
+                saveAllData();
+                alert('Все данные сохранены.');
+            });
+        }
+
+        // Вспомогательная функция для создания поля с автосохранением
+        function createNumericInputWithSave(className, park, month, cat, value, disabled, onSave) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = className;
+            input.dataset.park = park;
+            input.dataset.month = month;
+            input.dataset.cat = cat;
+            input.dataset.raw = (value || 0).toString();
+            input.value = formatPlain(value || 0);
+            input.disabled = !!disabled;
+            if (disabled) {
+                input.classList.add('readonly');
+            } else {
+                input.classList.add('editable');
+            }
+            setupNumericInput(input, onSave);
+
+            // Дополнительно: при вводе обновляем тенденцию (как раньше)
+            input.addEventListener('input', function() {
+                // Обновляем тенденцию для этой строки
+                const tr = this.closest('tr');
+                if (!tr) return;
+                const tds = tr.querySelectorAll('td');
+                const isAdminMode = document.getElementById('role-badge').classList.contains('admin');
+                const factIdx = isAdminMode ? 2 : 1;
+                const trendAbsIdx = factIdx + 1;
+                const trendRelIdx = factIdx + 2;
+
+                let planVal = 0;
+                if (isAdminMode) {
+                    const planInput = tds[factIdx - 1]?.querySelector('input');
+                    if (planInput) planVal = parseRaw(planInput);
+                } else {
+                    planVal = data[park]?.[month]?.plan?.[cat] || 0;
+                }
+                const factVal = parseRaw(this);
+                const monthIdx = parseInt(this.dataset.month);
+                const daysInMonthVal = daysInMonth[monthIdx];
+                let daysPassed = 0;
+                if (monthIdx < currentMonth) daysPassed = daysInMonthVal;
+                else if (monthIdx === currentMonth) daysPassed = Math.min(currentDay, daysInMonthVal);
+                else daysPassed = 0;
+
+                let trendAbs = 0, trendRel = 0;
+                if (daysPassed > 1) {
+                    trendAbs = (factVal / (daysPassed - 1)) * daysInMonthVal;
+                } else if (daysPassed === 1) {
+                    trendAbs = factVal;
+                } else {
+                    trendAbs = factVal;
+                }
+                trendAbs = Math.round(trendAbs);
+                trendRel = (planVal > 0) ? (trendAbs / planVal) * 100 : 0;
+
+                const trendAbsTd = tds[trendAbsIdx];
+                const trendRelTd = tds[trendRelIdx];
+                if (trendAbsTd) {
+                    trendAbsTd.textContent = formatNumber(trendAbs);
+                    trendAbsTd.className = 'trend-abs ' + (trendAbs > planVal ? 'trend-up' : (trendAbs < planVal ? 'trend-down' : 'trend-neutral'));
+                }
+                if (trendRelTd) {
+                    trendRelTd.textContent = formatPercent(trendRel);
+                    trendRelTd.className = 'trend-rel ' + (trendRel > 100 ? 'trend-up' : (trendRel < 100 ? 'trend-down' : 'trend-neutral'));
+                }
+            });
+
+            return input;
+        }
+
+        // ---------- ВКЛАДКА "ПЛАН" (автосохранение) ----------
+        function renderPlanTab(container) {
+            if (!isAdmin) {
+                container.innerHTML = '<p>Доступ запрещён. Войдите как администратор.</p>';
+                return;
+            }
+            container.innerHTML = '';
+            const header = document.createElement('div');
+            header.className = 'park-header';
+            header.innerHTML = `
+                <h2>📝 Плановые показатели (все парки)</h2>
+                <div class="controls">
+                    <button class="btn btn-success" id="save-plan-force">💾 Принудительно сохранить план</button>
+                </div>
+            `;
+            container.appendChild(header);
+
+            const parks = getParkNames();
+            if (parks.length === 0) {
+                container.innerHTML += '<p>Нет парков.</p>';
+                return;
+            }
+
+            let monthIndices = [];
+            for (let m = currentMonth; m < 12; m++) monthIndices.push(m);
+            if (currentMonth > 0 && currentDay <= 3) {
+                monthIndices.unshift(currentMonth - 1);
+            }
+
+            const table = document.createElement('table');
+            table.id = 'plan-table';
+            let thead = `<thead><tr><th rowspan="2">Парк</th>`;
+            monthIndices.forEach(m => {
+                thead += `<th colspan="4">${months[m]}</th>`;
+            });
+            thead += `</tr><tr>`;
+            monthIndices.forEach(() => {
+                thead += `<th>Парк</th><th>Банкет</th><th>Ресторан</th><th>Общая</th>`;
+            });
+            thead += `</tr></thead>`;
+            table.innerHTML = thead;
+
+            let tbody = '<tbody>';
+            parks.forEach(p => {
+                tbody += `<tr><td><strong>${p}</strong></td>`;
+                monthIndices.forEach(m => {
+                    const monthData = data[p]?.[m];
+                    if (!monthData) {
+                        tbody += `<td>0</td><td>0</td><td>0</td><td>0</td>`;
+                        return;
+                    }
+                    categories.forEach(cat => {
+                        const val = monthData.plan[cat] || 0;
+                        const input = createNumericInputWithSave(
+                            'plan-input-global',
+                            p, m, cat, val, false,
+                            function(inp) {
+                                const val2 = parseRaw(inp);
+                                setPlan(p, m, cat, val2);
+                            }
+                        );
+                        tbody += `<td>${input.outerHTML}</td>`;
+                    });
+                    const totalVal = monthData.plan['total'] || 0;
+                    const totalInput = createNumericInputWithSave(
+                        'plan-input-global-total',
+                        p, m, 'total', totalVal, false,
+                        function(inp) {
+                            const val2 = parseRaw(inp);
+                            setPlan(p, m, 'total', val2);
+                        }
+                    );
+                    tbody += `<td>${totalInput.outerHTML}</td>`;
+                });
+                tbody += `</tr>`;
+            });
+            tbody += '</tbody>';
+            table.innerHTML += tbody;
+            container.appendChild(table);
+
+            // После вставки нужно перепривязать обработчики
+            container.querySelectorAll('input[type="text"]').forEach(inp => {
+                // уже есть обработчики из createNumericInputWithSave
+            });
+
+            const saveBtn = container.querySelector('#save-plan-force');
+            saveBtn.addEventListener('click', function() {
+                saveAllData();
+                alert('План принудительно сохранён.');
+            });
+        }
+
+        // ---------- ВКЛАДКА "MoM" (без изменений) ----------
+        function renderMomTab(container) {
+            container.innerHTML = '';
+            const header = document.createElement('div');
+            header.className = 'park-header';
+            header.innerHTML = `<h2>📈 Динамика месяц к месяцу (MoM) по общей выручке</h2>`;
+            container.appendChild(header);
+
+            const parks = getParkNames();
+            if (parks.length === 0) {
+                container.innerHTML += '<p>Нет парков.</p>';
+                return;
+            }
+
+            let monthIndices = [];
+            for (let m = currentMonth; m < 12; m++) monthIndices.push(m);
+            if (currentMonth > 0 && currentDay <= 3) {
+                monthIndices.unshift(currentMonth - 1);
+            }
+
+            const table = document.createElement('table');
+            table.className = 'mom-table';
+            let thead = `<thead><tr><th rowspan="2">Парк</th>`;
+            monthIndices.forEach((m) => {
+                thead += `<th colspan="4" style="background:#2c3e50; color:white;">${months[m]}</th>`;
+            });
+            thead += `</tr><tr>`;
+            monthIndices.forEach((m) => {
+                thead += `<th>План</th><th>Факт</th><th>Δ план</th><th>Δ факт</th>`;
+            });
+            thead += `</tr></thead>`;
+            table.innerHTML = thead;
+
+            let tbody = '<tbody>';
+            parks.forEach(p => {
+                tbody += `<tr><td><strong>${p}</strong></td>`;
+                let prevPlan = null, prevFact = null;
+                monthIndices.forEach((m, idx) => {
+                    const planTotal = getPlanTotal(p, m);
+                    const factTotal = getFactTotal(p, m);
+                    let changePlan = null, changeFact = null;
+                    if (idx > 0) {
+                        const prevMonth = monthIndices[idx-1];
+                        const prevPlan = getPlanTotal(p, prevMonth);
+                        const prevFact = getFactTotal(p, prevMonth);
+                        if (prevPlan > 0) changePlan = ((planTotal - prevPlan) / prevPlan) * 100;
+                        else changePlan = 0;
+                        if (prevFact > 0) changeFact = ((factTotal - prevFact) / prevFact) * 100;
+                        else changeFact = 0;
+                    }
+                    tbody += `<td>${formatNumber(planTotal)}</td><td>${formatNumber(factTotal)}</td>`;
+                    if (changePlan !== null) {
+                        const clsPlan = changePlan >= 0 ? 'trend-up' : 'trend-down';
+                        tbody += `<td class="${clsPlan} highlight-change">${changePlan.toFixed(1)}%</td>`;
+                        const clsFact = changeFact >= 0 ? 'trend-up' : 'trend-down';
+                        tbody += `<td class="${clsFact} highlight-change">${changeFact.toFixed(1)}%</td>`;
+                    } else {
+                        tbody += `<td>—</td><td>—</td>`;
+                    }
+                });
+                tbody += `</tr>`;
+            });
+            tbody += '</tbody>';
+            table.innerHTML += tbody;
+            container.appendChild(table);
+
+            const explanation = document.createElement('div');
+            explanation.className = 'explanation';
+            explanation.innerHTML = `
+                <strong>📌 Что такое MoM?</strong><br>
+                MoM (Month-over-Month) — это динамика изменения показателей по сравнению с предыдущим месяцем.
+                <ul style="margin:5px 0 0 20px;">
+                    <li><strong>Δ план</strong> — изменение планового значения в процентах относительно предыдущего месяца.</li>
+                    <li><strong>Δ факт</strong> — изменение фактического значения в процентах относительно предыдущего месяца.</li>
+                </ul>
+                Положительное изменение (зелёный цвет) — рост, отрицательное (красный) — падение.
+            `;
+            container.appendChild(explanation);
+        }
+
+        // ---------- ГЕНЕРАЦИЯ CSV (без изменений) ----------
+        function generateSummaryCSV() {
+            const parks = getParkNames();
+            if (parks.length === 0) return '';
+
+            let monthIndices = [];
+            for (let m = currentMonth; m < 12; m++) monthIndices.push(m);
+            if (currentMonth > 0 && currentDay <= 3) {
+                monthIndices.unshift(currentMonth - 1);
+            }
+
+            const header = ['Парк', 'Месяц', 'План', 'Факт', 'Абс.тренд', 'Отн.тренд', '% выполнения'];
+            let rows = [];
+            parks.forEach(p => {
+                monthIndices.forEach(m => {
+                    const planTotal = getPlanTotal(p, m);
+                    const factTotal = getFactTotal(p, m);
+                    const daysInMonthVal = daysInMonth[m];
+                    let daysPassed = 0;
+                    if (m < currentMonth) daysPassed = daysInMonthVal;
+                    else if (m === currentMonth) daysPassed = Math.min(currentDay, daysInMonthVal);
+                    else daysPassed = 0;
+                    let trendAbs = 0, trendRel = 0;
+                    if (daysPassed > 1) {
+                        trendAbs = (factTotal / (daysPassed - 1)) * daysInMonthVal;
+                    } else if (daysPassed === 1) {
+                        trendAbs = factTotal;
+                    } else {
+                        trendAbs = factTotal;
+                    }
+                    trendAbs = Math.round(trendAbs);
+                    trendRel = (planTotal > 0) ? (trendAbs / planTotal) * 100 : 0;
+                    const execPct = (planTotal > 0) ? (factTotal / planTotal) * 100 : 0;
+                    rows.push([
+                        p,
+                        months[m],
+                        formatPlainNoCurrency(planTotal),
+                        formatPlainNoCurrency(factTotal),
+                        formatPlainNoCurrency(trendAbs),
+                        trendRel.toFixed(1) + '%',
+                        execPct.toFixed(1) + '%'
+                    ]);
+                });
+            });
+
+            let totalRow = ['ИТОГО', ''];
+            monthIndices.forEach(m => {
+                let sumPlan = 0, sumFact = 0;
+                parks.forEach(p => {
+                    sumPlan += getPlanTotal(p, m);
+                    sumFact += getFactTotal(p, m);
+                });
+                const daysInMonthVal = daysInMonth[m];
+                let daysPassed = 0;
+                if (m < currentMonth) daysPassed = daysInMonthVal;
+                else if (m === currentMonth) daysPassed = Math.min(currentDay, daysInMonthVal);
+                else daysPassed = 0;
+                let trendAbs = 0, trendRel = 0;
+                if (daysPassed > 1) {
+                    trendAbs = (sumFact / (daysPassed - 1)) * daysInMonthVal;
+                } else if (daysPassed === 1) {
+                    trendAbs = sumFact;
+                } else {
+                    trendAbs = sumFact;
+                }
+                trendAbs = Math.round(trendAbs);
+                trendRel = (sumPlan > 0) ? (trendAbs / sumPlan) * 100 : 0;
+                const execPct = (sumPlan > 0) ? (sumFact / sumPlan) * 100 : 0;
+                totalRow.push(
+                    formatPlainNoCurrency(sumPlan),
+                    formatPlainNoCurrency(sumFact),
+                    formatPlainNoCurrency(trendAbs),
+                    trendRel.toFixed(1) + '%',
+                    execPct.toFixed(1) + '%'
+                );
+            });
+            rows.push(totalRow);
+
+            let csv = header.join(';') + '\n';
+            rows.forEach(row => {
+                csv += row.join(';') + '\n';
+            });
+            return csv;
+        }
+
+        // ---------- СВОДНЫЙ ЛИСТ (с автосохранением) ----------
+        function renderSummary(container) {
+            container.innerHTML = '';
+            const header = document.createElement('div');
+            header.className = 'park-header';
+            header.innerHTML = `
+                <h2>📋 Сводный отчёт по всем паркам</h2>
+                <div class="controls">
+                    <button class="btn btn-primary" id="refresh-summary">🔄 Обновить</button>
+                    <button class="btn btn-success" id="download-csv">📥 Скачать CSV</button>
+                    <button class="btn btn-warning" id="send-to-founder">📧 Отправить учредителю</button>
+                    ${isAdmin ? '<button class="btn btn-secondary" id="add-park-from-summary">➕ Добавить парк</button>' : ''}
+                    ${isAdmin ? '<button class="btn btn-danger" id="fill-examples">📊 Заполнить тестовыми</button>' : ''}
+                    <button class="btn btn-info" id="save-all-summary">💾 Сохранить всё</button>
+                </div>
+            `;
+            container.appendChild(header);
+
+            const parks = getParkNames();
+            if (parks.length === 0) {
+                container.innerHTML += '<p>Нет парков. Нажмите "Добавить парк".</p>';
+                const addBtn = container.querySelector('#add-park-from-summary');
+                if (addBtn) addBtn.addEventListener('click', addNewPark);
+                return;
+            }
+
+            let monthIndices = [];
+            for (let m = currentMonth; m < 12; m++) monthIndices.push(m);
+            if (currentMonth > 0 && currentDay <= 3) {
+                monthIndices.unshift(currentMonth - 1);
+            }
+
+            const table = document.createElement('table');
+            table.id = 'summary-table';
+            table.style.tableLayout = 'auto';
+            let thead = `<thead><tr><th rowspan="2">Парк</th>`;
+            monthIndices.forEach(m => {
+                thead += `<th colspan="5">${months[m]}</th>`;
+            });
+            thead += `</tr><tr>`;
+            monthIndices.forEach(() => {
+                thead += `<th>План</th><th>Факт</th><th>Абс. тренд</th><th>Отн. тренд</th><th>% вып.</th>`;
+            });
+            thead += `</tr></thead>`;
+            table.innerHTML = thead;
+
+            let tbody = '<tbody>';
+            parks.forEach(p => {
+                tbody += `<tr><td><strong>${p}</strong></td>`;
+                monthIndices.forEach(m => {
+                    const planTotal = getPlanTotal(p, m);
+                    const factTotal = getFactTotal(p, m);
+                    const daysInMonthVal = daysInMonth[m];
+                    let daysPassed = 0;
+                    if (m < currentMonth) daysPassed = daysInMonthVal;
+                    else if (m === currentMonth) daysPassed = Math.min(currentDay, daysInMonthVal);
+                    else daysPassed = 0;
+                    let trendAbs = 0, trendRel = 0;
+                    if (daysPassed > 1) {
+                        trendAbs = (factTotal / (daysPassed - 1)) * daysInMonthVal;
+                    } else if (daysPassed === 1) {
+                        trendAbs = factTotal;
+                    } else {
+                        trendAbs = factTotal;
+                    }
+                    trendAbs = Math.round(trendAbs);
+                    trendRel = (planTotal > 0) ? (trendAbs / planTotal) * 100 : 0;
+                    const execPct = (planTotal > 0) ? (factTotal / planTotal) * 100 : 0;
+
+                    tbody += `<td>${formatPlainNoCurrency(planTotal)}</td>`;
+                    tbody += `<td>${formatPlainNoCurrency(factTotal)}</td>`;
+                    tbody += `<td>${formatPlainNoCurrency(trendAbs)}</td>`;
+                    tbody += `<td>${trendRel.toFixed(1)}%</td>`;
+                    tbody += `<td>${execPct.toFixed(1)}%</td>`;
+                });
+                tbody += `</tr>`;
+            });
+
+            tbody += `<tr class="summary-total"><td><strong>ИТОГО</strong></td>`;
+            monthIndices.forEach(m => {
+                let sumPlan = 0, sumFact = 0;
+                parks.forEach(p => {
+                    sumPlan += getPlanTotal(p, m);
+                    sumFact += getFactTotal(p, m);
+                });
+                const daysInMonthVal = daysInMonth[m];
+                let daysPassed = 0;
+                if (m < currentMonth) daysPassed = daysInMonthVal;
+                else if (m === currentMonth) daysPassed = Math.min(currentDay, daysInMonthVal);
+                else daysPassed = 0;
+                let trendAbs = 0, trendRel = 0;
+                if (daysPassed > 1) {
+                    trendAbs = (sumFact / (daysPassed - 1)) * daysInMonthVal;
+                } else if (daysPassed === 1) {
+                    trendAbs = sumFact;
+                } else {
+                    trendAbs = sumFact;
+                }
+                trendAbs = Math.round(trendAbs);
+                trendRel = (sumPlan > 0) ? (trendAbs / sumPlan) * 100 : 0;
+                const execPct = (sumPlan > 0) ? (sumFact / sumPlan) * 100 : 0;
+                tbody += `<td>${formatPlainNoCurrency(sumPlan)}</td>`;
+                tbody += `<td>${formatPlainNoCurrency(sumFact)}</td>`;
+                tbody += `<td>${formatPlainNoCurrency(trendAbs)}</td>`;
+                tbody += `<td>${trendRel.toFixed(1)}%</td>`;
+                tbody += `<td>${execPct.toFixed(1)}%</td>`;
+            });
+            tbody += `</tr>`;
+            tbody += '</tbody>';
+            table.innerHTML += tbody;
+            container.appendChild(table);
+
+            // Обработчики
+            const refreshBtn = container.querySelector('#refresh-summary');
+            if (refreshBtn) refreshBtn.addEventListener('click', () => renderSummary(container));
+
+            const addBtn = container.querySelector('#add-park-from-summary');
+            if (addBtn) addBtn.addEventListener('click', addNewPark);
+
+            const fillBtn = container.querySelector('#fill-examples');
+            if (fillBtn) fillBtn.addEventListener('click', fillExamples);
+
+            const downloadBtn = container.querySelector('#download-csv');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function() {
+                    const csv = generateSummaryCSV();
+                    if (!csv) {
+                        alert('Нет данных для выгрузки.');
+                        return;
+                    }
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `Сводный_отчёт_АмбиЛенд_${new Date().toISOString().slice(0,10)}.csv`;
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                });
+            }
+
+            const sendBtn = container.querySelector('#send-to-founder');
+            if (sendBtn) {
+                sendBtn.addEventListener('click', function() {
+                    const subject = encodeURIComponent('Сводный отчёт АмбиЛенд за ' + months[currentMonth]);
+                    const body = encodeURIComponent(
+                        'Уважаемый учредитель!\n\n' +
+                        'Направляю сводный отчёт по всем паркам.\n' +
+                        'Данные актуальны на ' + new Date().toLocaleString() + '.\n\n' +
+                        'Для просмотра деталей откройте прикреплённый CSV-файл.\n' +
+                        'Если файл не приложен, скачайте его с помощью кнопки "Скачать CSV" в отчёте.\n\n' +
+                        'С уважением,\n' +
+                        'Руководство АмбиЛенд.'
+                    );
+                    window.location.href = `mailto:surits-eao@mail.ru?subject=${subject}&body=${body}`;
+                });
+            }
+
+            const saveAllBtn = container.querySelector('#save-all-summary');
+            if (saveAllBtn) {
+                saveAllBtn.addEventListener('click', function() {
+                    saveAllData();
+                    alert('Все данные сохранены.');
+                });
+            }
+        }
+
+        // ---------- ЗАПОЛНЕНИЕ ПРИМЕРАМИ ----------
+        function fillExamples() {
+            if (!isAdmin) {
+                alert('Только администратор может заполнять тестовые данные.');
+                return;
+            }
+            const parks = getParkNames();
+            if (parks.length === 0) {
+                alert('Сначала добавьте парки.');
+                return;
+            }
+
+            const monthsToFill = [currentMonth];
+            if (currentMonth > 0 && currentDay <= 3) {
+                monthsToFill.push(currentMonth - 1);
+            }
+
+            parks.forEach(p => {
+                monthsToFill.forEach(m => {
+                    const planPark = Math.floor(Math.random() * 500000) + 100000;
+                    const planBanquet = Math.floor(Math.random() * 200000) + 50000;
+                    const planRestaurant = Math.floor(Math.random() * 300000) + 80000;
+                    const planTotal = planPark + planBanquet + planRestaurant;
+                    setPlan(p, m, 'Парк', planPark);
+                    setPlan(p, m, 'Банкетинг', planBanquet);
+                    setPlan(p, m, 'Ресторан', planRestaurant);
+                    setPlan(p, m, 'total', planTotal);
+
+                    const factPark = Math.floor(planPark * (0.6 + Math.random() * 0.3));
+                    const factBanquet = Math.floor(planBanquet * (0.6 + Math.random() * 0.3));
+                    const factRestaurant = Math.floor(planRestaurant * (0.6 + Math.random() * 0.3));
+                    const factTotal = factPark + factBanquet + factRestaurant;
+                    setFact(p, m, 'Парк', factPark);
+                    setFact(p, m, 'Банкетинг', factBanquet);
+                    setFact(p, m, 'Ресторан', factRestaurant);
+                    setFact(p, m, 'total', factTotal);
+
+                    data[p][m].saved = true;
+                });
+            });
+
+            saveAllData();
+            alert('Тестовые данные загружены!');
+            refreshAllTabs();
+        }
+
+        // ---------- ДОБАВЛЕНИЕ ПАРКА ----------
+        function addNewPark() {
+            if (!isAdmin) {
+                alert('Только администратор может добавлять парки.');
+                return;
+            }
+            const name = prompt('Введите название нового парка:');
+            if (!name || name.trim() === '') return;
+            const parkName = name.trim();
+            if (data[parkName]) {
+                alert('Парк с таким названием уже существует.');
+                return;
+            }
+            let pwd = prompt(`Задайте пароль для парка "${parkName}" (по умолчанию 0000):`);
+            if (pwd === null) return;
+            if (pwd.trim() === '') pwd = '0000';
+            parkPasswords[parkName] = pwd;
+            data[parkName] = createParkData();
+            saveAllData();
+            renderTabs();
+            switchTab(parkName);
+        }
+
+        // ---------- УПРАВЛЕНИЕ АДМИНОМ ----------
+        document.getElementById('toggle-admin').addEventListener('click', function() {
+            if (isAdmin) {
+                isAdmin = false;
+                summaryUnlocked = false;
+                adminInstructionUnlocked = false;
+                unlockedParks = {};
+                updateRoleBadge();
+                renderTabs();
+                const parks = getParkNames();
+                if (parks.length > 0) {
+                    switchTab(parks[0]);
+                } else {
+                    switchTab('instruction-user');
+                }
+                this.textContent = 'Войти как админ';
+            } else {
+                requestPassword('админ', (pwd) => {
+                    if (pwd === ADMIN_PASSWORD) {
+                        isAdmin = true;
+                        summaryUnlocked = true;
+                        adminInstructionUnlocked = true;
+                        const parks = getParkNames();
+                        parks.forEach(p => { unlockedParks[p] = true; });
+                        updateRoleBadge();
+                        renderTabs();
+                        if (currentPark && document.getElementById('tab-' + currentPark)) {
+                            switchTab(currentPark);
+                        } else {
+                            switchTab('summary');
+                        }
+                        document.getElementById('toggle-admin').textContent = 'Выйти из админа';
+                    } else {
+                        alert('Неверный пароль!');
+                    }
+                });
+            }
+        });
+
+        // ---------- ЗАПУСК ----------
+        init();
+    })();
+</script>
+
+
+</body></html>

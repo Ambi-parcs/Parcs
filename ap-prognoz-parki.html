@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прогноз доходов и расходов по паркам (июль–декабрь 2026)</title>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        background: #f1f5f9;
+        padding: 30px 20px;
+        color: #0f172a;
+    }
+    .container {
+        max-width: 1440px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        padding: 24px 28px 32px;
+    }
+    h1 {
+        font-size: 26px;
+        font-weight: 600;
+        border-left: 6px solid #2563eb;
+        padding-left: 18px;
+        margin-bottom: 6px;
+    }
+    .sub {
+        color: #475569;
+        font-size: 15px;
+        margin-left: 24px;
+        margin-bottom: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        background: #f8fafc;
+        padding: 10px 18px;
+        border-radius: 14px;
+    }
+    .sub span {
+        background: #e2e8f0;
+        padding: 2px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    .tabs {
+        display: flex;
+        gap: 6px;
+        margin: 20px 0 16px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 0;
+    }
+    .tab-btn {
+        background: transparent;
+        border: none;
+        padding: 10px 22px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 8px 8px 0 0;
+        color: #475569;
+        transition: 0.2s;
+    }
+    .tab-btn:hover { background: #eef2f6; }
+    .tab-btn.active {
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+    }
+    .tab-content {
+        display: none;
+        animation: fade 0.25s ease;
+    }
+    .tab-content.active { display: block; }
+    @keyframes fade { from { opacity:0.3; } to { opacity:1; } }
+
+    .table-wrap {
+        overflow-x: auto;
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        margin-top: 6px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+        min-width: 800px;
+    }
+    th {
+        background: #f1f5f9;
+        padding: 10px 12px;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #d1d9e6;
+        white-space: nowrap;
+    }
+    td {
+        padding: 8px 12px;
+        border-bottom: 1px solid #e9edf2;
+        vertical-align: top;
+    }
+    .numeric { text-align: right; font-variant-numeric: tabular-nums; }
+    .indent1 { padding-left: 28px; }
+    .indent2 { padding-left: 44px; }
+    .total-row td { font-weight: 600; background: #fafcff; }
+    .total-row-bottom { border-top: 2px solid #94a3b8; }
+    .highlight-blue { background: #eff6ff; }
+    .highlight-gray { background: #f8fafc; }
+    .park-header td { font-weight: 600; background: #e6edf5; }
+    .subtotal td { font-weight: 600; background: #f1f5f9; border-top: 1px solid #cbd5e1; }
+    .grand-total td { font-weight: 700; background: #dbeafe; border-top: 2px solid #2563eb; }
+    .small-note {
+        font-size: 13px;
+        color: #475569;
+        margin-top: 12px;
+        padding: 10px 16px;
+        background: #f8fafc;
+        border-radius: 12px;
+    }
+    .footnote {
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 14px 20px;
+        margin-top: 20px;
+        border-left: 4px solid #2563eb;
+        font-size: 14px;
+    }
+    .footnote ul { margin-top: 6px; padding-left: 20px; list-style: disc; }
+    .badge {
+        display: inline-block;
+        background: #dbeafe;
+        color: #1e4f8a;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 2px 12px;
+        border-radius: 20px;
+        margin-right: 6px;
+    }
+    @media (max-width: 600px) {
+        .container { padding: 12px; }
+        h1 { font-size: 20px; }
+        td, th { padding: 6px 8px; font-size: 12px; }
+        .tab-btn { padding: 8px 14px; font-size: 14px; }
+    }
+</style>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal-bar.css">
+</head>
+<body>
+<div class="portal-bar">
+  <img src="assets/favicon.svg" alt="АмбиЛенд">
+  <span class="pb-brand">АмбиЛенд</span>
+  <span class="pb-sep"></span>
+  <span class="pb-title">Аналитика и отчёты</span>
+  <span class="pb-spacer"></span>
+  <a class="pb-back" href="analitika.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>К разделу</a>
+</div>
+<script>document.body.classList.add('has-portal-bar');</script>
+
+<div class="container">
+
+    <h1>📊 Прогноз доходов и расходов (июль–декабрь 2026)</h1>
+    <div class="sub">
+        <span>Разбивка по паркам</span>
+        <span>Коэффициент сезонности IV/III квартал 2025 = 1,284</span>
+        <span>Все суммы в рублях</span>
+        <span>Данные: БДР УУ 2025-2026</span>
+    </div>
+
+    <!-- Вкладки -->
+    <div class="tabs">
+        <button class="tab-btn" data-tab="income">💰 Доходы</button>
+        <button class="tab-btn active" data-tab="expense">📉 Расходы</button>
+    </div>
+
+    <!-- Вкладка Доходы -->
+    <div id="income" class="tab-content">
+        <div class="table-wrap" id="incomeTableWrap"><table><thead><tr><th>Парк / Статья</th><th class="numeric">Июль</th><th class="numeric">Август</th><th class="numeric">Сентябрь</th><th class="numeric">Октябрь</th><th class="numeric">Ноябрь</th><th class="numeric">Декабрь</th></tr></thead><tbody><tr class="park-header"><td><strong>Коламбус</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">Игровая зона</td><td class="numeric">22&nbsp;000&nbsp;000</td><td class="numeric">23&nbsp;500&nbsp;000</td><td class="numeric">25&nbsp;500&nbsp;000</td><td class="numeric">28&nbsp;248&nbsp;000</td><td class="numeric">30&nbsp;174&nbsp;000</td><td class="numeric">32&nbsp;742&nbsp;000</td></tr><tr><td class="indent1">Ресторан</td><td class="numeric">8&nbsp;500&nbsp;000</td><td class="numeric">9&nbsp;500&nbsp;000</td><td class="numeric">10&nbsp;500&nbsp;000</td><td class="numeric">10&nbsp;914&nbsp;000</td><td class="numeric">12&nbsp;198&nbsp;000</td><td class="numeric">13&nbsp;482&nbsp;000</td></tr><tr><td class="indent1">Банкеты</td><td class="numeric">4&nbsp;000&nbsp;000</td><td class="numeric">5&nbsp;500&nbsp;000</td><td class="numeric">7&nbsp;000&nbsp;000</td><td class="numeric">5&nbsp;136&nbsp;000</td><td class="numeric">7&nbsp;062&nbsp;000</td><td class="numeric">8&nbsp;988&nbsp;000</td></tr><tr><td class="indent1">Мерчандайзинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Коламбус</strong></td><td class="numeric"><strong>34&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>38&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>43&nbsp;000&nbsp;000</strong></td><td class="numeric"><strong>44&nbsp;298&nbsp;000</strong></td><td class="numeric"><strong>49&nbsp;434&nbsp;000</strong></td><td class="numeric"><strong>55&nbsp;212&nbsp;000</strong></td></tr><tr class="park-header"><td><strong>Вегас</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">Игровая зона</td><td class="numeric">8&nbsp;000&nbsp;000</td><td class="numeric">8&nbsp;500&nbsp;000</td><td class="numeric">9&nbsp;500&nbsp;000</td><td class="numeric">10&nbsp;272&nbsp;000</td><td class="numeric">10&nbsp;914&nbsp;000</td><td class="numeric">12&nbsp;198&nbsp;000</td></tr><tr><td class="indent1">Ресторан</td><td class="numeric">6&nbsp;500&nbsp;000</td><td class="numeric">7&nbsp;500&nbsp;000</td><td class="numeric">8&nbsp;500&nbsp;000</td><td class="numeric">8&nbsp;346&nbsp;000</td><td class="numeric">9&nbsp;630&nbsp;000</td><td class="numeric">10&nbsp;914&nbsp;000</td></tr><tr><td class="indent1">Банкеты</td><td class="numeric">3&nbsp;000&nbsp;000</td><td class="numeric">3&nbsp;500&nbsp;000</td><td class="numeric">3&nbsp;500&nbsp;000</td><td class="numeric">3&nbsp;852&nbsp;000</td><td class="numeric">4&nbsp;494&nbsp;000</td><td class="numeric">4&nbsp;494&nbsp;000</td></tr><tr><td class="indent1">Мерчандайзинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Вегас</strong></td><td class="numeric"><strong>17&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>19&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>21&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>22&nbsp;470&nbsp;000</strong></td><td class="numeric"><strong>25&nbsp;038&nbsp;000</strong></td><td class="numeric"><strong>27&nbsp;606&nbsp;000</strong></td></tr><tr class="park-header"><td><strong>Океания</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">Игровая зона</td><td class="numeric">10&nbsp;000&nbsp;000</td><td class="numeric">11&nbsp;500&nbsp;000</td><td class="numeric">13&nbsp;000&nbsp;000</td><td class="numeric">12&nbsp;840&nbsp;000</td><td class="numeric">14&nbsp;766&nbsp;000</td><td class="numeric">16&nbsp;692&nbsp;000</td></tr><tr><td class="indent1">Ресторан</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Банкеты</td><td class="numeric">2&nbsp;500&nbsp;000</td><td class="numeric">3&nbsp;000&nbsp;000</td><td class="numeric">3&nbsp;500&nbsp;000</td><td class="numeric">3&nbsp;210&nbsp;000</td><td class="numeric">3&nbsp;852&nbsp;000</td><td class="numeric">4&nbsp;494&nbsp;000</td></tr><tr><td class="indent1">Мерчандайзинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Океания</strong></td><td class="numeric"><strong>12&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>14&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>16&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>16&nbsp;050&nbsp;000</strong></td><td class="numeric"><strong>18&nbsp;618&nbsp;000</strong></td><td class="numeric"><strong>21&nbsp;186&nbsp;000</strong></td></tr><tr class="park-header"><td><strong>Хорошо</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">Игровая зона</td><td class="numeric">4&nbsp;000&nbsp;000</td><td class="numeric">4&nbsp;500&nbsp;000</td><td class="numeric">5&nbsp;000&nbsp;000</td><td class="numeric">5&nbsp;136&nbsp;000</td><td class="numeric">5&nbsp;778&nbsp;000</td><td class="numeric">6&nbsp;420&nbsp;000</td></tr><tr><td class="indent1">Ресторан</td><td class="numeric">4&nbsp;000&nbsp;000</td><td class="numeric">5&nbsp;000&nbsp;000</td><td class="numeric">5&nbsp;000&nbsp;000</td><td class="numeric">5&nbsp;136&nbsp;000</td><td class="numeric">6&nbsp;420&nbsp;000</td><td class="numeric">6&nbsp;420&nbsp;000</td></tr><tr><td class="indent1">Банкеты</td><td class="numeric">2&nbsp;500&nbsp;000</td><td class="numeric">3&nbsp;000&nbsp;000</td><td class="numeric">3&nbsp;000&nbsp;000</td><td class="numeric">3&nbsp;210&nbsp;000</td><td class="numeric">3&nbsp;852&nbsp;000</td><td class="numeric">3&nbsp;852&nbsp;000</td></tr><tr><td class="indent1">Мерчандайзинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Хорошо</strong></td><td class="numeric"><strong>10&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>12&nbsp;500&nbsp;000</strong></td><td class="numeric"><strong>13&nbsp;000&nbsp;000</strong></td><td class="numeric"><strong>13&nbsp;482&nbsp;000</strong></td><td class="numeric"><strong>16&nbsp;050&nbsp;000</strong></td><td class="numeric"><strong>16&nbsp;692&nbsp;000</strong></td></tr><tr class="grand-total"><td><strong>ВСЕГО по паркам</strong></td><td class="numeric"><strong>75&nbsp;000&nbsp;000</strong></td><td class="numeric"><strong>85&nbsp;000&nbsp;000</strong></td><td class="numeric"><strong>94&nbsp;000&nbsp;000</strong></td><td class="numeric"><strong>96&nbsp;300&nbsp;000</strong></td><td class="numeric"><strong>109&nbsp;140&nbsp;000</strong></td><td class="numeric"><strong>120&nbsp;696&nbsp;000</strong></td></tr></tbody></table></div>
+        <div class="small-note">
+            * Округление до целых рублей. Прогноз октября-декабря получен умножением соответствующих месяцев III квартала на 1,284.<br>
+            <strong>Классификация статей:</strong>
+            «Игровая зона» — билеты и абонементы;
+            «Ресторан» — еда и напитки (блюда, чай, кофе, лимонады и т.п.);
+            «Банкеты» — банкетные наборы, тарелки, закуски, сеты (позиции с пометкой _банкет);
+            «Мерчандайзинг» — товары (шары, носки, сувениры, аквагрим-наборы и пр.);
+            «Прочие» — услуги (шоу, квесты, аниматоры, фото/видео, пакеты, сертификаты, доплаты, надбавки, пробковый сбор и др.). В текущем прогнозе прочие доходы не выделены отдельно и могут быть добавлены при детализации.
+        </div>
+    </div>
+
+    <!-- Вкладка Расходы -->
+    <div id="expense" class="tab-content active">
+        <div class="table-wrap" id="expenseTableWrap"><table><thead><tr><th>Парк / Статья</th><th class="numeric">Июль</th><th class="numeric">Август</th><th class="numeric">Сентябрь</th><th class="numeric">Октябрь</th><th class="numeric">Ноябрь</th><th class="numeric">Декабрь</th></tr></thead><tbody><tr class="park-header"><td><strong>Коламбус</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">ФОТ игровой</td><td class="numeric">3&nbsp;000&nbsp;000</td><td class="numeric">3&nbsp;100&nbsp;000</td><td class="numeric">3&nbsp;300&nbsp;000</td><td class="numeric">3&nbsp;852&nbsp;000</td><td class="numeric">3&nbsp;980&nbsp;400</td><td class="numeric">4&nbsp;237&nbsp;200</td></tr><tr><td class="indent1">Расходники игровые</td><td class="numeric">100&nbsp;000</td><td class="numeric">150&nbsp;000</td><td class="numeric">250&nbsp;000</td><td class="numeric">128&nbsp;400</td><td class="numeric">192&nbsp;600</td><td class="numeric">321&nbsp;000</td></tr><tr><td class="indent1">Услуги подряда игровые</td><td class="numeric">200&nbsp;000</td><td class="numeric">250&nbsp;000</td><td class="numeric">300&nbsp;000</td><td class="numeric">256&nbsp;800</td><td class="numeric">321&nbsp;000</td><td class="numeric">385&nbsp;200</td></tr><tr><td class="indent1">ФОТ ресторана</td><td class="numeric">2&nbsp;900&nbsp;000</td><td class="numeric">3&nbsp;000&nbsp;000</td><td class="numeric">3&nbsp;200&nbsp;000</td><td class="numeric">3&nbsp;723&nbsp;600</td><td class="numeric">3&nbsp;852&nbsp;000</td><td class="numeric">4&nbsp;108&nbsp;800</td></tr><tr><td class="indent1">Аренда</td><td class="numeric">8&nbsp;076&nbsp;200</td><td class="numeric">8&nbsp;954&nbsp;600</td><td class="numeric">9&nbsp;942&nbsp;800</td><td class="numeric">10&nbsp;369&nbsp;841</td><td class="numeric">11&nbsp;497&nbsp;706</td><td class="numeric">12&nbsp;766&nbsp;555</td></tr><tr><td class="indent1">Обслуживание</td><td class="numeric">1&nbsp;075&nbsp;000</td><td class="numeric">1&nbsp;075&nbsp;000</td><td class="numeric">1&nbsp;075&nbsp;000</td><td class="numeric">1&nbsp;380&nbsp;300</td><td class="numeric">1&nbsp;380&nbsp;300</td><td class="numeric">1&nbsp;380&nbsp;300</td></tr><tr><td class="indent1">Расходные материалы</td><td class="numeric">475&nbsp;000</td><td class="numeric">475&nbsp;000</td><td class="numeric">475&nbsp;000</td><td class="numeric">609&nbsp;900</td><td class="numeric">609&nbsp;900</td><td class="numeric">609&nbsp;900</td></tr><tr><td class="indent1">Затраты на сотрудников</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Технические работы</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td></tr><tr><td class="indent1">Реклама</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Маркетинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Строительство</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие коммерческие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Коламбус</strong></td><td class="numeric"><strong>15&nbsp;901&nbsp;200</strong></td><td class="numeric"><strong>17&nbsp;079&nbsp;600</strong></td><td class="numeric"><strong>18&nbsp;617&nbsp;800</strong></td><td class="numeric"><strong>20&nbsp;417&nbsp;141</strong></td><td class="numeric"><strong>21&nbsp;930&nbsp;206</strong></td><td class="numeric"><strong>23&nbsp;905&nbsp;255</strong></td></tr><tr class="park-header"><td><strong>Вегас</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">ФОТ игровой</td><td class="numeric">2&nbsp;000&nbsp;000</td><td class="numeric">2&nbsp;200&nbsp;000</td><td class="numeric">2&nbsp;400&nbsp;000</td><td class="numeric">2&nbsp;568&nbsp;000</td><td class="numeric">2&nbsp;824&nbsp;800</td><td class="numeric">3&nbsp;081&nbsp;600</td></tr><tr><td class="indent1">Расходники игровые</td><td class="numeric">100&nbsp;000</td><td class="numeric">150&nbsp;000</td><td class="numeric">150&nbsp;000</td><td class="numeric">128&nbsp;400</td><td class="numeric">192&nbsp;600</td><td class="numeric">192&nbsp;600</td></tr><tr><td class="indent1">Услуги подряда игровые</td><td class="numeric">150&nbsp;000</td><td class="numeric">200&nbsp;000</td><td class="numeric">200&nbsp;000</td><td class="numeric">192&nbsp;600</td><td class="numeric">256&nbsp;800</td><td class="numeric">256&nbsp;800</td></tr><tr><td class="indent1">ФОТ ресторана</td><td class="numeric">2&nbsp;500&nbsp;000</td><td class="numeric">2&nbsp;700&nbsp;000</td><td class="numeric">2&nbsp;800&nbsp;000</td><td class="numeric">3&nbsp;210&nbsp;000</td><td class="numeric">3&nbsp;466&nbsp;800</td><td class="numeric">3&nbsp;595&nbsp;200</td></tr><tr><td class="indent1">Аренда</td><td class="numeric">3&nbsp;314&nbsp;845</td><td class="numeric">3&nbsp;607&nbsp;645</td><td class="numeric">3&nbsp;900&nbsp;445</td><td class="numeric">4&nbsp;256&nbsp;261</td><td class="numeric">4&nbsp;632&nbsp;216</td><td class="numeric">5&nbsp;008&nbsp;171</td></tr><tr><td class="indent1">Обслуживание</td><td class="numeric">960&nbsp;000</td><td class="numeric">960&nbsp;000</td><td class="numeric">960&nbsp;000</td><td class="numeric">1&nbsp;232&nbsp;640</td><td class="numeric">1&nbsp;232&nbsp;640</td><td class="numeric">1&nbsp;232&nbsp;640</td></tr><tr><td class="indent1">Расходные материалы</td><td class="numeric">375&nbsp;000</td><td class="numeric">375&nbsp;000</td><td class="numeric">375&nbsp;000</td><td class="numeric">481&nbsp;500</td><td class="numeric">481&nbsp;500</td><td class="numeric">481&nbsp;500</td></tr><tr><td class="indent1">Затраты на сотрудников</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Технические работы</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td></tr><tr><td class="indent1">Реклама</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Маркетинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Строительство</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие коммерческие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Вегас</strong></td><td class="numeric"><strong>9&nbsp;474&nbsp;845</strong></td><td class="numeric"><strong>10&nbsp;267&nbsp;645</strong></td><td class="numeric"><strong>10&nbsp;860&nbsp;445</strong></td><td class="numeric"><strong>12&nbsp;165&nbsp;701</strong></td><td class="numeric"><strong>13&nbsp;183&nbsp;656</strong></td><td class="numeric"><strong>13&nbsp;944&nbsp;811</strong></td></tr><tr class="park-header"><td><strong>Океания</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">ФОТ игровой</td><td class="numeric">1&nbsp;800&nbsp;000</td><td class="numeric">1&nbsp;900&nbsp;000</td><td class="numeric">2&nbsp;100&nbsp;000</td><td class="numeric">2&nbsp;311&nbsp;200</td><td class="numeric">2&nbsp;439&nbsp;600</td><td class="numeric">2&nbsp;696&nbsp;400</td></tr><tr><td class="indent1">Расходники игровые</td><td class="numeric">100&nbsp;000</td><td class="numeric">150&nbsp;000</td><td class="numeric">150&nbsp;000</td><td class="numeric">128&nbsp;400</td><td class="numeric">192&nbsp;600</td><td class="numeric">192&nbsp;600</td></tr><tr><td class="indent1">Услуги подряда игровые</td><td class="numeric">150&nbsp;000</td><td class="numeric">200&nbsp;000</td><td class="numeric">250&nbsp;000</td><td class="numeric">192&nbsp;600</td><td class="numeric">256&nbsp;800</td><td class="numeric">321&nbsp;000</td></tr><tr><td class="indent1">ФОТ ресторана</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Аренда</td><td class="numeric">3&nbsp;195&nbsp;000</td><td class="numeric">3&nbsp;634&nbsp;200</td><td class="numeric">4&nbsp;073&nbsp;400</td><td class="numeric">4&nbsp;102&nbsp;380</td><td class="numeric">4&nbsp;666&nbsp;313</td><td class="numeric">5&nbsp;230&nbsp;246</td></tr><tr><td class="indent1">Обслуживание</td><td class="numeric">425&nbsp;000</td><td class="numeric">425&nbsp;000</td><td class="numeric">425&nbsp;000</td><td class="numeric">545&nbsp;700</td><td class="numeric">545&nbsp;700</td><td class="numeric">545&nbsp;700</td></tr><tr><td class="indent1">Расходные материалы</td><td class="numeric">325&nbsp;000</td><td class="numeric">325&nbsp;000</td><td class="numeric">325&nbsp;000</td><td class="numeric">417&nbsp;300</td><td class="numeric">417&nbsp;300</td><td class="numeric">417&nbsp;300</td></tr><tr><td class="indent1">Затраты на сотрудников</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Технические работы</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td></tr><tr><td class="indent1">Реклама</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Маркетинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Строительство</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие коммерческие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Океания</strong></td><td class="numeric"><strong>6&nbsp;070&nbsp;000</strong></td><td class="numeric"><strong>6&nbsp;709&nbsp;200</strong></td><td class="numeric"><strong>7&nbsp;398&nbsp;400</strong></td><td class="numeric"><strong>7&nbsp;793&nbsp;880</strong></td><td class="numeric"><strong>8&nbsp;614&nbsp;613</strong></td><td class="numeric"><strong>9&nbsp;499&nbsp;546</strong></td></tr><tr class="park-header"><td><strong>Хорошо</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">ФОТ игровой</td><td class="numeric">1&nbsp;700&nbsp;000</td><td class="numeric">1&nbsp;800&nbsp;000</td><td class="numeric">1&nbsp;900&nbsp;000</td><td class="numeric">2&nbsp;182&nbsp;800</td><td class="numeric">2&nbsp;311&nbsp;200</td><td class="numeric">2&nbsp;439&nbsp;600</td></tr><tr><td class="indent1">Расходники игровые</td><td class="numeric">100&nbsp;000</td><td class="numeric">150&nbsp;000</td><td class="numeric">150&nbsp;000</td><td class="numeric">128&nbsp;400</td><td class="numeric">192&nbsp;600</td><td class="numeric">192&nbsp;600</td></tr><tr><td class="indent1">Услуги подряда игровые</td><td class="numeric">150&nbsp;000</td><td class="numeric">200&nbsp;000</td><td class="numeric">250&nbsp;000</td><td class="numeric">192&nbsp;600</td><td class="numeric">256&nbsp;800</td><td class="numeric">321&nbsp;000</td></tr><tr><td class="indent1">ФОТ ресторана</td><td class="numeric">1&nbsp;800&nbsp;000</td><td class="numeric">1&nbsp;900&nbsp;000</td><td class="numeric">1&nbsp;900&nbsp;000</td><td class="numeric">2&nbsp;311&nbsp;200</td><td class="numeric">2&nbsp;439&nbsp;600</td><td class="numeric">2&nbsp;439&nbsp;600</td></tr><tr><td class="indent1">Аренда</td><td class="numeric">2&nbsp;805&nbsp;800</td><td class="numeric">3&nbsp;245&nbsp;000</td><td class="numeric">3&nbsp;354&nbsp;800</td><td class="numeric">3&nbsp;602&nbsp;647</td><td class="numeric">4&nbsp;166&nbsp;580</td><td class="numeric">4&nbsp;307&nbsp;563</td></tr><tr><td class="indent1">Обслуживание</td><td class="numeric">325&nbsp;000</td><td class="numeric">325&nbsp;000</td><td class="numeric">325&nbsp;000</td><td class="numeric">417&nbsp;300</td><td class="numeric">417&nbsp;300</td><td class="numeric">417&nbsp;300</td></tr><tr><td class="indent1">Расходные материалы</td><td class="numeric">325&nbsp;000</td><td class="numeric">325&nbsp;000</td><td class="numeric">325&nbsp;000</td><td class="numeric">417&nbsp;300</td><td class="numeric">417&nbsp;300</td><td class="numeric">417&nbsp;300</td></tr><tr><td class="indent1">Затраты на сотрудников</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Технические работы</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">75&nbsp;000</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td><td class="numeric">96&nbsp;300</td></tr><tr><td class="indent1">Реклама</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Маркетинг</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Строительство</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td class="indent1">Прочие коммерческие</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого Хорошо</strong></td><td class="numeric"><strong>7&nbsp;280&nbsp;800</strong></td><td class="numeric"><strong>8&nbsp;020&nbsp;000</strong></td><td class="numeric"><strong>8&nbsp;279&nbsp;800</strong></td><td class="numeric"><strong>9&nbsp;348&nbsp;547</strong></td><td class="numeric"><strong>10&nbsp;297&nbsp;680</strong></td><td class="numeric"><strong>10&nbsp;631&nbsp;263</strong></td></tr><tr class="park-header"><td><strong>Управленческие расходы (компания)</strong></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="indent1">Аренда офиса</td><td class="numeric">390&nbsp;000</td><td class="numeric">390&nbsp;000</td><td class="numeric">390&nbsp;000</td><td class="numeric">500&nbsp;760</td><td class="numeric">500&nbsp;760</td><td class="numeric">500&nbsp;760</td></tr><tr><td class="indent1">Зарплата офис</td><td class="numeric">3&nbsp;800&nbsp;000</td><td class="numeric">3&nbsp;800&nbsp;000</td><td class="numeric">3&nbsp;800&nbsp;000</td><td class="numeric">4&nbsp;879&nbsp;200</td><td class="numeric">4&nbsp;879&nbsp;200</td><td class="numeric">4&nbsp;879&nbsp;200</td></tr><tr><td class="indent1">Отчисления ФОТ</td><td class="numeric">8&nbsp;100&nbsp;000</td><td class="numeric">8&nbsp;500&nbsp;000</td><td class="numeric">8&nbsp;800&nbsp;000</td><td class="numeric">10&nbsp;400&nbsp;400</td><td class="numeric">10&nbsp;914&nbsp;000</td><td class="numeric">11&nbsp;299&nbsp;200</td></tr><tr><td class="indent1">Расходы на ИТ</td><td class="numeric">1&nbsp;100&nbsp;000</td><td class="numeric">1&nbsp;100&nbsp;000</td><td class="numeric">1&nbsp;100&nbsp;000</td><td class="numeric">1&nbsp;412&nbsp;400</td><td class="numeric">1&nbsp;412&nbsp;400</td><td class="numeric">1&nbsp;412&nbsp;400</td></tr><tr><td class="indent1">Лицензирование</td><td class="numeric">100&nbsp;000</td><td class="numeric">100&nbsp;000</td><td class="numeric">100&nbsp;000</td><td class="numeric">128&nbsp;400</td><td class="numeric">128&nbsp;400</td><td class="numeric">128&nbsp;400</td></tr><tr><td class="indent1">РКО/эквайринг</td><td class="numeric">1&nbsp;750&nbsp;000</td><td class="numeric">1&nbsp;850&nbsp;000</td><td class="numeric">1&nbsp;900&nbsp;000</td><td class="numeric">2&nbsp;247&nbsp;000</td><td class="numeric">2&nbsp;375&nbsp;400</td><td class="numeric">2&nbsp;439&nbsp;600</td></tr><tr><td class="indent1">Расходы ТМЦ</td><td class="numeric">300&nbsp;000</td><td class="numeric">300&nbsp;000</td><td class="numeric">300&nbsp;000</td><td class="numeric">385&nbsp;200</td><td class="numeric">385&nbsp;200</td><td class="numeric">385&nbsp;200</td></tr><tr><td class="indent1">Прочие управленческие</td><td class="numeric">50&nbsp;000</td><td class="numeric">50&nbsp;000</td><td class="numeric">50&nbsp;000</td><td class="numeric">64&nbsp;200</td><td class="numeric">64&nbsp;200</td><td class="numeric">64&nbsp;200</td></tr><tr class="subtotal"><td class="indent1"><strong>Итого управленческие</strong></td><td class="numeric"><strong>15&nbsp;590&nbsp;000</strong></td><td class="numeric"><strong>16&nbsp;090&nbsp;000</strong></td><td class="numeric"><strong>16&nbsp;440&nbsp;000</strong></td><td class="numeric"><strong>20&nbsp;017&nbsp;560</strong></td><td class="numeric"><strong>20&nbsp;659&nbsp;560</strong></td><td class="numeric"><strong>21&nbsp;108&nbsp;960</strong></td></tr><tr class="grand-total"><td><strong>ВСЕГО расходы</strong></td><td class="numeric"><strong>54&nbsp;316&nbsp;845</strong></td><td class="numeric"><strong>58&nbsp;166&nbsp;445</strong></td><td class="numeric"><strong>61&nbsp;596&nbsp;445</strong></td><td class="numeric"><strong>69&nbsp;742&nbsp;829</strong></td><td class="numeric"><strong>74&nbsp;685&nbsp;715</strong></td><td class="numeric"><strong>79&nbsp;089&nbsp;835</strong></td></tr></tbody></table></div>
+        <div class="small-note">* Расходы по паркам – прямые и коммерческие. Управленческие расходы показаны отдельно (не распределяются по паркам).</div>
+    </div>
+
+    <div class="footnote">
+        <strong>📌 Примечания:</strong>
+        <ul>
+            <li>Прогноз построен на основе планов III квартала 2026 (лист «бюджет 3кв парки») и сезонного коэффициента 1,284.</li>
+            <li>Статьи доходов переименованы в соответствии с классификацией: игровая зона, ресторан, банкеты, мерчандайзинг, прочие. Отнесение позиций выполнено на основе данных OLAP-отчёта по продажам.</li>
+            <li>Ответственные: управляющие парками (доходы игровой зоны, прочие услуги), бренд-шеф (ресторан), РОП (банкеты), коммерческий директор (мерчендайзинг, маркетинг).</li>
+            <li>Управленческие расходы (аренда офиса, зарплата офиса, налоги ФОТ, ИТ, лицензии, РКО, ТМЦ, прочие) – рассчитаны по данным листа «бюджет 3кв» и прогнозируются с тем же коэффициентом.</li>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    // Коэффициент для IV квартала
+    const K = 1.284;
+
+    // Данные по паркам на июль-сентябрь (из листа «бюджет 3кв парки»)
+    // Парки: Коламбус, Вегас, Океания, Хорошо
+    // Доходы (исходные категории: Билеты, Мероприятие, Доп. продажи, Ресторан)
+    const incomeData = {
+        'Коламбус': {
+            'Билеты': [22000000, 23500000, 25500000],
+            'Мероприятие': [4000000, 5500000, 7000000],
+            'Доп. продажи': [0, 0, 0],
+            'Ресторан': [8500000, 9500000, 10500000]
+        },
+        'Вегас': {
+            'Билеты': [8000000, 8500000, 9500000],
+            'Мероприятие': [3000000, 3500000, 3500000],
+            'Доп. продажи': [0, 0, 0],
+            'Ресторан': [6500000, 7500000, 8500000]
+        },
+        'Океания': {
+            'Билеты': [10000000, 11500000, 13000000],
+            'Мероприятие': [2500000, 3000000, 3500000],
+            'Доп. продажи': [0, 0, 0],
+            'Ресторан': [0, 0, 0]
+        },
+        'Хорошо': {
+            'Билеты': [4000000, 4500000, 5000000],
+            'Мероприятие': [2500000, 3000000, 3000000],
+            'Доп. продажи': [0, 0, 0],
+            'Ресторан': [4000000, 5000000, 5000000]
+        }
+    };
+
+    // Расходы по паркам (прямые и коммерческие) – данные из листа «бюджет 3кв парки»
+    const expenseData = {
+        'Коламбус': {
+            'ФОТ игровой': [3000000, 3100000, 3300000],
+            'Расходники игровые': [100000, 150000, 250000],
+            'Услуги подряда игровые': [200000, 250000, 300000],
+            'ФОТ ресторана': [2900000, 3000000, 3200000],
+            'Аренда': [8076200, 8954600, 9942800],
+            'Обслуживание': [1075000, 1075000, 1075000],
+            'Расходные материалы': [475000, 475000, 475000],
+            'Затраты на сотрудников': [0, 0, 0],
+            'Технические работы': [75000, 75000, 75000],
+            'Реклама': [0, 0, 0],
+            'Маркетинг': [0, 0, 0],
+            'Строительство': [0, 0, 0],
+            'Прочие коммерческие': [0, 0, 0]
+        },
+        'Вегас': {
+            'ФОТ игровой': [2000000, 2200000, 2400000],
+            'Расходники игровые': [100000, 150000, 150000],
+            'Услуги подряда игровые': [150000, 200000, 200000],
+            'ФОТ ресторана': [2500000, 2700000, 2800000],
+            'Аренда': [3314845, 3607645, 3900445],
+            'Обслуживание': [960000, 960000, 960000],
+            'Расходные материалы': [375000, 375000, 375000],
+            'Затраты на сотрудников': [0, 0, 0],
+            'Технические работы': [75000, 75000, 75000],
+            'Реклама': [0, 0, 0],
+            'Маркетинг': [0, 0, 0],
+            'Строительство': [0, 0, 0],
+            'Прочие коммерческие': [0, 0, 0]
+        },
+        'Океания': {
+            'ФОТ игровой': [1800000, 1900000, 2100000],
+            'Расходники игровые': [100000, 150000, 150000],
+            'Услуги подряда игровые': [150000, 200000, 250000],
+            'ФОТ ресторана': [0, 0, 0],
+            'Аренда': [3195000, 3634200, 4073400],
+            'Обслуживание': [425000, 425000, 425000],
+            'Расходные материалы': [325000, 325000, 325000],
+            'Затраты на сотрудников': [0, 0, 0],
+            'Технические работы': [75000, 75000, 75000],
+            'Реклама': [0, 0, 0],
+            'Маркетинг': [0, 0, 0],
+            'Строительство': [0, 0, 0],
+            'Прочие коммерческие': [0, 0, 0]
+        },
+        'Хорошо': {
+            'ФОТ игровой': [1700000, 1800000, 1900000],
+            'Расходники игровые': [100000, 150000, 150000],
+            'Услуги подряда игровые': [150000, 200000, 250000],
+            'ФОТ ресторана': [1800000, 1900000, 1900000],
+            'Аренда': [2805800, 3245000, 3354800],
+            'Обслуживание': [325000, 325000, 325000],
+            'Расходные материалы': [325000, 325000, 325000],
+            'Затраты на сотрудников': [0, 0, 0],
+            'Технические работы': [75000, 75000, 75000],
+            'Реклама': [0, 0, 0],
+            'Маркетинг': [0, 0, 0],
+            'Строительство': [0, 0, 0],
+            'Прочие коммерческие': [0, 0, 0]
+        }
+    };
+
+    // Управленческие расходы (по компании в целом) – из листа «бюджет 3кв»
+    const mgmtExpense = {
+        'Аренда офиса': [390000, 390000, 390000],
+        'Зарплата офис': [3800000, 3800000, 3800000],
+        'Отчисления ФОТ': [8100000, 8500000, 8800000],
+        'Расходы на ИТ': [1100000, 1100000, 1100000],
+        'Лицензирование': [100000, 100000, 100000],
+        'РКО/эквайринг': [1750000, 1850000, 1900000],
+        'Расходы ТМЦ': [300000, 300000, 300000],
+        'Прочие управленческие': [50000, 50000, 50000]
+    };
+
+    // Функция для генерации таблицы доходов (с новыми названиями категорий)
+    function buildIncomeTable() {
+        const months = ['Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        const parks = ['Коламбус', 'Вегас', 'Океания', 'Хорошо'];
+        // Новые категории, соответствующие старым: 
+        // Игровая зона <- Билеты, Ресторан <- Ресторан, Банкеты <- Мероприятие, Мерчандайзинг <- Доп. продажи, Прочие <- (пока 0)
+        const categories = [
+            { name: 'Игровая зона', oldKey: 'Билеты' },
+            { name: 'Ресторан', oldKey: 'Ресторан' },
+            { name: 'Банкеты', oldKey: 'Мероприятие' },
+            { name: 'Мерчандайзинг', oldKey: 'Доп. продажи' },
+            { name: 'Прочие', oldKey: null } // нет данных, заполняем нулями
+        ];
+
+        let html = '<table><thead><tr><th>Парк / Статья</th>';
+        months.forEach(m => html += `<th class="numeric">${m}</th>`);
+        html += '</tr></thead><tbody>';
+
+        let grandTotal = Array(6).fill(0);
+        parks.forEach(park => {
+            const data = incomeData[park];
+            // Строка с названием парка
+            html += `<tr class="park-header"><td><strong>${park}</strong></td>`;
+            for (let m=0; m<6; m++) html += '<td></td>';
+            html += '</tr>';
+
+            let parkTotal = Array(6).fill(0);
+            categories.forEach(cat => {
+                let rowVals = [];
+                if (cat.oldKey && data[cat.oldKey]) {
+                    const vals = data[cat.oldKey];
+                    for (let i=0; i<3; i++) rowVals.push(vals[i] || 0);
+                    for (let i=0; i<3; i++) rowVals.push(Math.round(rowVals[i] * K));
+                } else {
+                    // Для "Прочие" – нули
+                    for (let i=0; i<6; i++) rowVals.push(0);
+                }
+                rowVals.forEach((v, idx) => parkTotal[idx] += v);
+                html += `<tr><td class="indent1">${cat.name}</td>`;
+                rowVals.forEach(v => html += `<td class="numeric">${v.toLocaleString('ru-RU')}</td>`);
+                html += '</tr>';
+            });
+
+            // Итог по парку
+            html += `<tr class="subtotal"><td class="indent1"><strong>Итого ${park}</strong></td>`;
+            parkTotal.forEach(v => html += `<td class="numeric"><strong>${v.toLocaleString('ru-RU')}</strong></td>`);
+            html += '</tr>';
+
+            parkTotal.forEach((v, idx) => grandTotal[idx] += v);
+        });
+
+        // Общий итог
+        html += `<tr class="grand-total"><td><strong>ВСЕГО по паркам</strong></td>`;
+        grandTotal.forEach(v => html += `<td class="numeric"><strong>${v.toLocaleString('ru-RU')}</strong></td>`);
+        html += '</tr>';
+
+        html += '</tbody></table>';
+        return html;
+    }
+
+    // Функция для генерации таблицы расходов (без изменений)
+    function buildExpenseTable() {
+        const months = ['Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        const parks = ['Коламбус', 'Вегас', 'Океания', 'Хорошо'];
+        const categories = [
+            'ФОТ игровой', 'Расходники игровые', 'Услуги подряда игровые',
+            'ФОТ ресторана', 'Аренда', 'Обслуживание', 'Расходные материалы',
+            'Затраты на сотрудников', 'Технические работы', 'Реклама', 'Маркетинг',
+            'Строительство', 'Прочие коммерческие'
+        ];
+
+        let html = '<table><thead><tr><th>Парк / Статья</th>';
+        months.forEach(m => html += `<th class="numeric">${m}</th>`);
+        html += '</tr></thead><tbody>';
+
+        let grandTotal = Array(6).fill(0);
+        parks.forEach(park => {
+            const data = expenseData[park];
+            if (!data) return;
+            html += `<tr class="park-header"><td><strong>${park}</strong></td>`;
+            for (let m=0; m<6; m++) html += '<td></td>';
+            html += '</tr>';
+
+            let parkTotal = Array(6).fill(0);
+            categories.forEach(cat => {
+                const vals = data[cat];
+                if (!vals) return;
+                let rowVals = [];
+                for (let i=0; i<3; i++) rowVals.push(vals[i] || 0);
+                for (let i=0; i<3; i++) rowVals.push(Math.round(rowVals[i] * K));
+                rowVals.forEach((v, idx) => parkTotal[idx] += v);
+                html += `<tr><td class="indent1">${cat}</td>`;
+                rowVals.forEach(v => html += `<td class="numeric">${v.toLocaleString('ru-RU')}</td>`);
+                html += '</tr>';
+            });
+
+            html += `<tr class="subtotal"><td class="indent1"><strong>Итого ${park}</strong></td>`;
+            parkTotal.forEach(v => html += `<td class="numeric"><strong>${v.toLocaleString('ru-RU')}</strong></td>`);
+            html += '</tr>';
+
+            parkTotal.forEach((v, idx) => grandTotal[idx] += v);
+        });
+
+        // Управленческие расходы
+        html += `<tr class="park-header"><td><strong>Управленческие расходы (компания)</strong></td>`;
+        for (let m=0; m<6; m++) html += '<td></td>';
+        html += '</tr>';
+
+        let mgmtTotal = Array(6).fill(0);
+        for (let [cat, vals] of Object.entries(mgmtExpense)) {
+            let rowVals = [];
+            for (let i=0; i<3; i++) rowVals.push(vals[i]);
+            for (let i=0; i<3; i++) rowVals.push(Math.round(rowVals[i] * K));
+            rowVals.forEach((v, idx) => mgmtTotal[idx] += v);
+            html += `<tr><td class="indent1">${cat}</td>`;
+            rowVals.forEach(v => html += `<td class="numeric">${v.toLocaleString('ru-RU')}</td>`);
+            html += '</tr>';
+        }
+        html += `<tr class="subtotal"><td class="indent1"><strong>Итого управленческие</strong></td>`;
+        mgmtTotal.forEach(v => html += `<td class="numeric"><strong>${v.toLocaleString('ru-RU')}</strong></td>`);
+        html += '</tr>';
+
+        let allTotal = grandTotal.map((v, idx) => v + mgmtTotal[idx]);
+        html += `<tr class="grand-total"><td><strong>ВСЕГО расходы</strong></td>`;
+        allTotal.forEach(v => html += `<td class="numeric"><strong>${v.toLocaleString('ru-RU')}</strong></td>`);
+        html += '</tr>';
+
+        html += '</tbody></table>';
+        return html;
+    }
+
+    // Вставка таблиц
+    document.getElementById('incomeTableWrap').innerHTML = buildIncomeTable();
+    document.getElementById('expenseTableWrap').innerHTML = buildExpenseTable();
+
+    // Переключение вкладок
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const tabId = this.dataset.tab;
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+</script>
+
+
+</body></html>

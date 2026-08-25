@@ -1,0 +1,42 @@
+/* ============================================================
+   АмбиЛенд — панель навигации для страниц отчётов
+   Подключается к автономным документам (rg-*, ap-*).
+   Стили строго ограничены классом .portal-bar и не влияют
+   на оформление самого документа.
+   ============================================================ */
+.portal-bar{
+  position:fixed;top:0;left:0;right:0;z-index:99999;
+  display:flex;align-items:center;gap:11px;
+  height:52px;padding:0 16px;
+  background:rgba(11,26,44,.94);backdrop-filter:blur(8px);
+  color:#fff;
+  font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  box-shadow:0 2px 12px rgba(0,0,0,.28);
+  box-sizing:border-box;
+}
+.portal-bar *{box-sizing:border-box;margin:0;padding:0}
+.portal-bar img{width:26px;height:26px;border-radius:7px;display:block}
+.portal-bar .pb-brand{font-size:13.5px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
+.portal-bar .pb-sep{width:1px;height:22px;background:rgba(255,255,255,.22)}
+.portal-bar .pb-title{
+  font-size:12.5px;color:#b8c6d4;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
+}
+.portal-bar .pb-spacer{flex:1}
+.portal-bar a.pb-back{
+  display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;
+  background:rgba(255,255,255,.14);padding:6px 14px;border-radius:18px;
+  font-size:12.5px;font-weight:700;transition:background .15s;white-space:nowrap;
+  border:1px solid rgba(255,255,255,.1);
+}
+.portal-bar a.pb-back:hover{background:rgba(255,255,255,.27)}
+.portal-bar a.pb-back svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+body.has-portal-bar{padding-top:52px !important}
+@media(max-width:640px){
+  .portal-bar .pb-title{display:none}
+  .portal-bar .pb-sep{display:none}
+}
+@media print{
+  .portal-bar{display:none !important}
+  body.has-portal-bar{padding-top:0 !important}
+}

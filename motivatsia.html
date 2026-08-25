@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мотивация — АмбиЛенд</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal.css">
+<link rel="stylesheet" href="assets/section.css">
+</head>
+<body>
+
+<header class="portal-header slim">
+  <div class="wrap">
+    <div class="head-row">
+      <span class="head-icon">
+        <svg viewBox="0 0 24 24"><path d="M8 4 h8 v5 a4 4 0 0 1-8 0 Z"/><path d="M8 5.5 H5 a3 3 0 0 0 3.2 3.5"/><path d="M16 5.5 h3 a3 3 0 0 1-3.2 3.5"/><path d="M12 13 v3.5"/><path d="M9 20 h6"/><path d="M10 16.5 h4"/></svg>
+      </span>
+      <div style="flex:1;min-width:180px">
+        <h1 class="head-title">05 · Мотивация</h1>
+        <div class="head-sub">Системы KPI, премий и материального поощрения команд парков</div>
+      </div>
+      <a class="back-link" href="index.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>Все разделы</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M6 3 h9 l4 4 v14 a1.5 1.5 0 0 1-1.5 1.5 h-11 A1.5 1.5 0 0 1 5 21 V4.5 A1.5 1.5 0 0 1 6.5 3 Z"/><path d="M14.5 3 V7.5 H19"/></svg>
+        Документы раздела
+      </h2>
+      <span class="hint">— положения о KPI, премиях и поощрениях</span>
+    </div>
+
+    <div id="toolbar"></div>
+
+    <div class="docs" id="docsGrid"></div>
+
+    <div class="docs-empty" id="docsEmpty" data-mode="nofiles" style="display:none">
+      <div class="eh-icon"><svg viewBox="0 0 24 24"><path d="M6 3 h9 l4 4 v14 a1.5 1.5 0 0 1-1.5 1.5 h-11 A1.5 1.5 0 0 1 5 21 V4.5 A1.5 1.5 0 0 1 6.5 3 Z"/><path d="M14.5 3 V7.5 H19"/></svg></div>
+      <div class="eh-title">Раздел пока пуст</div>
+      <div class="eh-text">Пока нет ни одного документа.</div>
+    </div>
+
+    <div class="note">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5 V12 L15.5 14"/></svg>
+      <span>Раздел в разработке. Материалы уже можно добавлять: администратор видит кнопки «Добавить документ» и «Сохранить изменения» над списком.</span>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="f-brand"><img src="assets/favicon.svg" alt="" width="20" height="20">© АмбиЛенд · Мотивация</span>
+    <span><a href="index.html" style="color:var(--brand);text-decoration:none;font-weight:600">← Все разделы</a></span>
+  </div>
+</footer>
+
+<script>window.SECTION = { id: 'motivatsia' };</script>
+<script>
+/* GitHub-интеграция: автокоммит документов и ролей в репозиторий.
+   ВНИМАНИЕ: токен виден в исходном коде страницы — используйте только
+   fine-grained токен с доступом к одному репозиторию (Contents + Pages). */
+window.GH_CONFIG = {
+  owner: 'Ambi-parcs',
+  repo: 'Parcs',
+  branch: 'main',
+  token: 'GITHUB_TOKEN_HERE'
+};
+</script>
+<script src="assets/github.js"></script>
+<script src="assets/portal.js"></script>
+<script src="assets/section.js"></script>
+
+</body>
+</html>

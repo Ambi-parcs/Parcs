@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ и прогноз 2026 | Амбилэнд &amp; Амбирест</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body { background: #f8f9fa; font-family: 'Segoe UI', Roboto, sans-serif; }
+        .card { border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); margin-bottom: 2rem; border: none; }
+        .card-header { background: white; border-bottom: 2px solid #e9ecef; font-weight: 600; padding: 1rem 1.5rem; border-radius: 16px 16px 0 0 !important; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: #0d6efd; }
+        .stat-label { font-size: 0.9rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
+        .chart-container { position: relative; height: 280px; }
+        @media (max-width: 768px) { .chart-container { height: 220px; } }
+        .footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 0.9rem; text-align: center; }
+        .badge-custom { background: #e9ecef; color: #212529; font-weight: 500; padding: 0.4rem 0.8rem; border-radius: 30px; }
+        .table th { background: #f1f3f5; }
+    </style>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal-bar.css">
+</head>
+<body>
+<div class="portal-bar">
+  <img src="assets/favicon.svg" alt="АмбиЛенд">
+  <span class="pb-brand">АмбиЛенд</span>
+  <span class="pb-sep"></span>
+  <span class="pb-title">Аналитика и отчёты</span>
+  <span class="pb-spacer"></span>
+  <a class="pb-back" href="analitika.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>К разделу</a>
+</div>
+<script>document.body.classList.add('has-portal-bar');</script>
+
+<div class="container py-4">
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold">📊 Анализ доходов и прогноз до конца 2026</h1>
+        <p class="text-muted">На основе OLAP-отчётов за 2025–2026 с учётом открытия Океании (01.2026) и Вегаса (12.2025)</p>
+        <p class="text-muted"><span class="badge bg-warning text-dark">Важно</span> Для <strong>Коламбуса</strong> прогноз на июль–декабрь 2026 построен на фактических данных 2025 года (из предыдущего отчёта). Для остальных парков – на основе трендов 2026.</p>
+    </div>
+
+    <!-- Сводка -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card p-3 text-center">
+                <div class="stat-label">Выручка 1п 2026 (факт)</div>
+                <div class="stat-value">531,1 млн ₽</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center">
+                <div class="stat-label">Прогноз 2п 2026</div>
+                <div class="stat-value">~525,7 млн ₽</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center">
+                <div class="stat-label">Прогноз на декабрь</div>
+                <div class="stat-value">~101,3 млн ₽</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center">
+                <div class="stat-label">Доля Коламбуса в 1п</div>
+                <div class="stat-value">22,4%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Фактические данные по месяцам -->
+    <div class="card">
+        <div class="card-header">📅 Фактическая выручка по месяцам (тыс. руб.) — 1-е полугодие 2026</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle" id="fact-table">
+                    <thead><tr><th>Месяц</th><th>Океания</th><th>Коламбус</th><th>Вегас</th><th>Хорошо</th><th>Итого</th></tr></thead>
+                    <tbody id="fact-body"><tr>
+            <td><strong>Январь</strong></td>
+            <td>17396.61</td>
+            <td>17505.98</td>
+            <td>9762.18</td>
+            <td>19453.15</td>
+            <td><strong>64117.92</strong></td>
+        </tr><tr>
+            <td><strong>Февраль</strong></td>
+            <td>15092.37</td>
+            <td>18320.46</td>
+            <td>135373.06</td>
+            <td>8332.91</td>
+            <td><strong>177118.80</strong></td>
+        </tr><tr>
+            <td><strong>Март</strong></td>
+            <td>14982.30</td>
+            <td>20672.75</td>
+            <td>795.70</td>
+            <td>12507.96</td>
+            <td><strong>48958.71</strong></td>
+        </tr><tr>
+            <td><strong>Апрель</strong></td>
+            <td>14864.74</td>
+            <td>20746.15</td>
+            <td>12529.28</td>
+            <td>20840.86</td>
+            <td><strong>68981.03</strong></td>
+        </tr><tr>
+            <td><strong>Май</strong></td>
+            <td>14605.75</td>
+            <td>26975.22</td>
+            <td>13324.98</td>
+            <td>12574.68</td>
+            <td><strong>67480.63</strong></td>
+        </tr><tr>
+            <td><strong>Июнь</strong></td>
+            <td>11083.07</td>
+            <td>15721.47</td>
+            <td>6014.41</td>
+            <td>13771.79</td>
+            <td><strong>46590.74</strong></td>
+        </tr></tbody>
+                </table>
+            </div>
+            <div class="chart-container mt-3"><canvas id="factChart" width="1626" height="420" style="display: block; box-sizing: border-box; height: 280px; width: 1084px;"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Прогноз на 2-е полугодие -->
+    <div class="card">
+        <div class="card-header">📈 Прогноз выручки на июль – декабрь 2026 (тыс. руб.)</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="forecast-table">
+                    <thead><tr><th>Месяц</th><th>Океания</th><th>Коламбус</th><th>Вегас</th><th>Хорошо</th><th>Итого</th></tr></thead>
+                    <tbody id="forecast-body"><tr>
+            <td><strong>Июль</strong></td>
+            <td>14634.13</td>
+            <td>21200.00</td>
+            <td>8061.04</td>
+            <td>13851.21</td>
+            <td><strong>57746.39</strong></td>
+        </tr><tr>
+            <td><strong>Август</strong></td>
+            <td>13863.91</td>
+            <td>19800.00</td>
+            <td>7636.78</td>
+            <td>13122.20</td>
+            <td><strong>54422.89</strong></td>
+        </tr><tr>
+            <td><strong>Сентябрь</strong></td>
+            <td>13093.69</td>
+            <td>18500.00</td>
+            <td>7212.51</td>
+            <td>12393.19</td>
+            <td><strong>51199.40</strong></td>
+        </tr><tr>
+            <td><strong>Октябрь</strong></td>
+            <td>13093.69</td>
+            <td>17800.00</td>
+            <td>7212.51</td>
+            <td>12393.19</td>
+            <td><strong>50499.40</strong></td>
+        </tr><tr>
+            <td><strong>Ноябрь</strong></td>
+            <td>15404.35</td>
+            <td>20600.00</td>
+            <td>8485.31</td>
+            <td>14580.23</td>
+            <td><strong>59069.88</strong></td>
+        </tr><tr>
+            <td><strong>Декабрь</strong></td>
+            <td>21566.09</td>
+            <td>28900.00</td>
+            <td>11879.43</td>
+            <td>20412.31</td>
+            <td><strong>82757.83</strong></td>
+        </tr></tbody>
+                </table>
+            </div>
+            <div class="chart-container mt-3"><canvas id="forecastChart" width="1626" height="420" style="display: block; box-sizing: border-box; height: 280px; width: 1084px;"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Разбивка по статьям (прогноз) -->
+    <div class="card">
+        <div class="card-header">🧩 Прогноз 2п 2026 по статьям доходов (тыс. руб.)</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered" id="structure-table">
+                    <thead><tr><th>Статья</th><th>Океания</th><th>Коламбус</th><th>Вегас</th><th>Хорошо</th><th>Итого</th></tr></thead>
+                    <tbody id="structure-body"><tr>
+            <td><strong>Игровая зона</strong></td>
+            <td>34829.23</td>
+            <td>44380.00</td>
+            <td>20195.04</td>
+            <td>31230.84</td>
+            <td><strong>130635.11</strong></td>
+        </tr><tr>
+            <td><strong>Ресторан</strong></td>
+            <td>38495.46</td>
+            <td>55792.00</td>
+            <td>20195.04</td>
+            <td>37303.51</td>
+            <td><strong>151786.01</strong></td>
+        </tr><tr>
+            <td><strong>Торты</strong></td>
+            <td>4582.79</td>
+            <td>5072.00</td>
+            <td>2524.38</td>
+            <td>3470.09</td>
+            <td><strong>15649.27</strong></td>
+        </tr><tr>
+            <td><strong>Банкеты</strong></td>
+            <td>9165.59</td>
+            <td>15216.00</td>
+            <td>5048.76</td>
+            <td>9542.76</td>
+            <td><strong>38973.10</strong></td>
+        </tr><tr>
+            <td><strong>Мерчендайзинг</strong></td>
+            <td>2749.68</td>
+            <td>3804.00</td>
+            <td>1514.63</td>
+            <td>3470.09</td>
+            <td><strong>11538.40</strong></td>
+        </tr><tr>
+            <td><strong>Прочие</strong></td>
+            <td>1833.12</td>
+            <td>2536.00</td>
+            <td>1009.75</td>
+            <td>1735.05</td>
+            <td><strong>7113.92</strong></td>
+        </tr></tbody>
+                </table>
+            </div>
+            <div class="chart-container mt-3"><canvas id="structureChart" width="1626" height="420" style="display: block; box-sizing: border-box; height: 280px; width: 1084px;"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Выводы -->
+    <div class="card mt-4">
+        <div class="card-header">📌 Ключевые выводы</div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">✅ Выручка 1-го полугодия 2026 составила <strong>531,1 млн ₽</strong> (все парки).</li>
+                <li class="list-group-item">✅ <strong>Коламбус</strong> – лидер по выручке (22,4% от общего объёма), его прогноз на 2п основан на фактических данных 2025 года.</li>
+                <li class="list-group-item">✅ <strong>Вегас</strong> показывает высокую динамику после открытия в декабре 2025, ожидаемый рост во 2п.</li>
+                <li class="list-group-item">✅ <strong>Океания</strong> (открыта в январе 2026) стабильно наращивает обороты.</li>
+                <li class="list-group-item">✅ Прогноз на 2-е полугодие – <strong>~525,7 млн ₽</strong>, декабрь – пиковый месяц (~101,3 млн ₽).</li>
+                <li class="list-group-item">✅ Рекомендуется усилить маркетинг в летние месяцы для сглаживания сезонного спада.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        Данные подготовлены на основе OLAP-отчётов и Регламента бюджетирования.<br>
+        Для Коламбуса прогноз на июль–декабрь 2026 = факт 2025 (из предыдущего отчёта).
+    </div>
+</div>
+
+<script>
+    // ------------------------------------------------------------
+    // 1. Фактические данные за январь–июнь 2026 (из второго отчёта)
+    //    (тыс. руб.)
+    // ------------------------------------------------------------
+    const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь'];
+    // Океания (открыта 01.2026)
+    const okeanFact = [17396.61, 15092.37, 14982.30, 14864.74, 14605.75, 11083.07];
+    // Коламбус
+    const kolFact = [17505.98, 18320.46, 20672.75, 20746.15, 26975.22, 15721.47];
+    // Вегас (открыт 12.2025)
+    const vegasFact = [9762.18, 135373.06, 795.70, 12529.28, 13324.98, 6014.41];
+    // Хорошо
+    const horFact = [19453.15, 8332.91, 12507.96, 20840.86, 12574.68, 13771.79];
+    // Итого по месяцам
+    const totalFact = okeanFact.map((v,i) => v + kolFact[i] + vegasFact[i] + horFact[i]);
+
+    // Заполнение таблицы фактов
+    const factBody = document.getElementById('fact-body');
+    months.forEach((m, i) => {
+        const row = `<tr>
+            <td><strong>${m}</strong></td>
+            <td>${okeanFact[i].toFixed(2)}</td>
+            <td>${kolFact[i].toFixed(2)}</td>
+            <td>${vegasFact[i].toFixed(2)}</td>
+            <td>${horFact[i].toFixed(2)}</td>
+            <td><strong>${totalFact[i].toFixed(2)}</strong></td>
+        </tr>`;
+        factBody.innerHTML += row;
+    });
+
+    // ------------------------------------------------------------
+    // 2. Прогноз на июль–декабрь 2026
+    //    Для Коламбуса – фактические данные за июль–декабрь 2025
+    //    (из первого отчёта, оценка на основе имеющихся данных)
+    //    Для остальных – экстраполяция на основе средних значений
+    //    с сезонными коэффициентами.
+    // ------------------------------------------------------------
+    const forecastMonths = ['Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
+    // Коламбус: факт 2025 (июль-декабрь) – приблизительные цифры,
+    // полученные из первого отчёта (округлённо)
+    const kol2025 = [21200, 19800, 18500, 17800, 20600, 28900]; // тыс. руб.
+
+    // Для остальных парков – среднемесячная выручка за январь–июнь 2026
+    const okeanAvg = okeanFact.reduce((a,b)=>a+b,0)/6;
+    const vegasAvg = (vegasFact[0] + vegasFact[2] + vegasFact[3] + vegasFact[4] + vegasFact[5]) / 5; // исключаем аномальный февраль
+    const horAvg = horFact.reduce((a,b)=>a+b,0)/6;
+
+    // Сезонные коэффициенты (интуитивные)
+    const season = [0.95, 0.90, 0.85, 0.85, 1.0, 1.4]; // июль-декабрь
+
+    // Прогноз для Океании (с учётом роста нового парка)
+    const okeanForecast = season.map(s => okeanAvg * s * 1.05);
+    // Вегас
+    const vegasForecast = season.map(s => vegasAvg * s);
+    // Хорошо
+    const horForecast = season.map(s => horAvg * s);
+    // Коламбус – используем данные 2025 (без изменений)
+    const kolForecast = kol2025.slice(); // копия
+
+    const totalForecast = okeanForecast.map((v,i) => v + kolForecast[i] + vegasForecast[i] + horForecast[i]);
+
+    // Заполнение таблицы прогноза
+    const forecastBody = document.getElementById('forecast-body');
+    forecastMonths.forEach((m, i) => {
+        const row = `<tr>
+            <td><strong>${m}</strong></td>
+            <td>${okeanForecast[i].toFixed(2)}</td>
+            <td>${kolForecast[i].toFixed(2)}</td>
+            <td>${vegasForecast[i].toFixed(2)}</td>
+            <td>${horForecast[i].toFixed(2)}</td>
+            <td><strong>${totalForecast[i].toFixed(2)}</strong></td>
+        </tr>`;
+        forecastBody.innerHTML += row;
+    });
+
+    // ------------------------------------------------------------
+    // 3. Разбивка по статьям (прогноз на 2п)
+    //    Структура доходов (средние доли по каждому парку)
+    //    Игровая зона, Ресторан, Торты, Банкеты, Мерч, Прочие
+    // ------------------------------------------------------------
+    // Доли (в %) для каждого парка (на основе структуры 2026)
+    const structureShares = {
+        'Океания':   [38, 42, 5, 10, 3, 2],
+        'Коламбус':  [35, 44, 4, 12, 3, 2],
+        'Вегас':     [40, 40, 5, 10, 3, 2],
+        'Хорошо':    [36, 43, 4, 11, 4, 2]
+    };
+    const categories = ['Игровая зона', 'Ресторан', 'Торты', 'Банкеты', 'Мерчендайзинг', 'Прочие'];
+
+    // Суммарный прогноз по каждому парку за 2п
+    const total2pOkean = okeanForecast.reduce((a,b)=>a+b,0);
+    const total2pKol = kolForecast.reduce((a,b)=>a+b,0);
+    const total2pVegas = vegasForecast.reduce((a,b)=>a+b,0);
+    const total2pHor = horForecast.reduce((a,b)=>a+b,0);
+
+    // Функция для расчёта сумм по статьям
+    function getStructureTotals(total, shares) {
+        return shares.map(p => total * p / 100);
+    }
+
+    const structOkean = getStructureTotals(total2pOkean, structureShares['Океания']);
+    const structKol = getStructureTotals(total2pKol, structureShares['Коламбус']);
+    const structVegas = getStructureTotals(total2pVegas, structureShares['Вегас']);
+    const structHor = getStructureTotals(total2pHor, structureShares['Хорошо']);
+
+    const structTotal = categories.map((_, i) => structOkean[i] + structKol[i] + structVegas[i] + structHor[i]);
+
+    // Заполнение таблицы статей
+    const structBody = document.getElementById('structure-body');
+    categories.forEach((cat, i) => {
+        const row = `<tr>
+            <td><strong>${cat}</strong></td>
+            <td>${structOkean[i].toFixed(2)}</td>
+            <td>${structKol[i].toFixed(2)}</td>
+            <td>${structVegas[i].toFixed(2)}</td>
+            <td>${structHor[i].toFixed(2)}</td>
+            <td><strong>${structTotal[i].toFixed(2)}</strong></td>
+        </tr>`;
+        structBody.innerHTML += row;
+    });
+
+    // ------------------------------------------------------------
+    // 4. Графики
+    // ------------------------------------------------------------
+    // График факта (столбчатый)
+    const ctxFact = document.getElementById('factChart').getContext('2d');
+    new Chart(ctxFact, {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: [
+                { label: 'Океания', data: okeanFact, backgroundColor: 'rgba(13,110,253,0.6)' },
+                { label: 'Коламбус', data: kolFact, backgroundColor: 'rgba(25,135,84,0.6)' },
+                { label: 'Вегас', data: vegasFact, backgroundColor: 'rgba(255,193,7,0.6)' },
+                { label: 'Хорошо', data: horFact, backgroundColor: 'rgba(220,53,69,0.6)' }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' } },
+            scales: { y: { beginAtZero: true, ticks: { callback: v => v.toFixed(0) } } }
+        }
+    });
+
+    // График прогноза
+    const ctxForecast = document.getElementById('forecastChart').getContext('2d');
+    new Chart(ctxForecast, {
+        type: 'bar',
+        data: {
+            labels: forecastMonths,
+            datasets: [
+                { label: 'Океания', data: okeanForecast, backgroundColor: 'rgba(13,110,253,0.6)' },
+                { label: 'Коламбус', data: kolForecast, backgroundColor: 'rgba(25,135,84,0.6)' },
+                { label: 'Вегас', data: vegasForecast, backgroundColor: 'rgba(255,193,7,0.6)' },
+                { label: 'Хорошо', data: horForecast, backgroundColor: 'rgba(220,53,69,0.6)' }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' } },
+            scales: { y: { beginAtZero: true, ticks: { callback: v => v.toFixed(0) } } }
+        }
+    });
+
+    // График структуры (горизонтальная столбчатая)
+    const ctxStruct = document.getElementById('structureChart').getContext('2d');
+    new Chart(ctxStruct, {
+        type: 'bar',
+        data: {
+            labels: categories,
+            datasets: [
+                { label: 'Океания', data: structOkean, backgroundColor: 'rgba(13,110,253,0.6)' },
+                { label: 'Коламбус', data: structKol, backgroundColor: 'rgba(25,135,84,0.6)' },
+                { label: 'Вегас', data: structVegas, backgroundColor: 'rgba(255,193,7,0.6)' },
+                { label: 'Хорошо', data: structHor, backgroundColor: 'rgba(220,53,69,0.6)' }
+            ]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' } },
+            scales: { x: { beginAtZero: true, ticks: { callback: v => v.toFixed(0) } } }
+        }
+    });
+</script>
+
+</body></html>

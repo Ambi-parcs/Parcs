@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План на июль 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            padding: 30px 35px 40px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a2634;
+            margin-bottom: 6px;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #5e6f8d;
+            margin-bottom: 28px;
+            border-left: 4px solid #2a7de1;
+            padding-left: 14px;
+            background: #f0f4fe;
+            border-radius: 0 12px 12px 0;
+            line-height: 1.4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+        th {
+            background: #1a2634;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 14px 12px;
+            text-align: right;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        th:first-child { text-align: left; border-radius: 12px 0 0 0; }
+        th:last-child { border-radius: 0 12px 0 0; }
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e9ecf0;
+            text-align: right;
+            font-weight: 500;
+            color: #1e2a3a;
+        }
+        td:first-child { text-align: left; font-weight: 600; color: #0b1a2b; }
+        tr:last-child td { border-bottom: none; }
+        .total-row td {
+            background: #f8faff;
+            font-weight: 700;
+            border-top: 2px solid #2a7de1;
+            border-bottom: 2px solid #2a7de1;
+            font-size: 16px;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 16px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecf0;
+            font-size: 14px;
+            color: #3f4f66;
+        }
+        .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+        .dot-blue { background: #2a7de1; }
+        .dot-green { background: #20b87c; }
+        .dot-orange { background: #f5a623; }
+        .dot-purple { background: #8b5cf6; }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .note {
+            margin-top: 22px;
+            font-size: 13px;
+            color: #7b8ba3;
+            border-top: 1px dashed #dce1e8;
+            padding-top: 16px;
+        }
+        @media (max-width: 600px) {
+            .card { padding: 20px 15px; }
+            th, td { padding: 10px 8px; font-size: 13px; }
+            h1 { font-size: 22px; }
+        }
+    </style>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal-bar.css">
+</head>
+<body>
+<div class="portal-bar">
+  <img src="assets/favicon.svg" alt="АмбиЛенд">
+  <span class="pb-brand">АмбиЛенд</span>
+  <span class="pb-sep"></span>
+  <span class="pb-title">Аналитика и отчёты</span>
+  <span class="pb-spacer"></span>
+  <a class="pb-back" href="analitika.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>К разделу</a>
+</div>
+<script>document.body.classList.add('has-portal-bar');</script>
+
+<div class="card">
+    <h1>📋 План на июль 2026</h1>
+    <div class="subtitle">
+        Общий товарооборот <strong>80,0 млн ₽</strong> · Коламбус: +2,0 млн в билеты за счёт ресторана
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Объект</th>
+                <th>Банкетник</th>
+                <th>Билеты</th>
+                <th>Ресторан (розница)</th>
+                <th>Итого</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Коламбус</strong></td>
+                <td>6,5</td>
+                <td><strong>21,2</strong></td>
+                <td><strong>8,6</strong></td>
+                <td>36,3</td>
+            </tr>
+            <tr>
+                <td><strong>Вегас</strong></td>
+                <td>6,0</td>
+                <td>7,6</td>
+                <td>4,6</td>
+                <td>18,2</td>
+            </tr>
+            <tr>
+                <td><strong>Хорошо</strong></td>
+                <td>3,7</td>
+                <td>4,3</td>
+                <td>2,6</td>
+                <td>10,6</td>
+            </tr>
+            <tr>
+                <td><strong>Океания</strong></td>
+                <td>2,6</td>
+                <td>12,3</td>
+                <td>0,0</td>
+                <td>14,9</td>
+            </tr>
+            <tr class="total-row">
+                <td><strong>Итого</strong></td>
+                <td><strong>18,8</strong></td>
+                <td><strong>45,4</strong></td>
+                <td><strong>15,8</strong></td>
+                <td><strong>80,0</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <div class="legend">
+            <span><span class="dot dot-blue"></span> Банкетник – 18,8 млн</span>
+            <span><span class="dot dot-green"></span> Билеты – 45,4 млн</span>
+            <span><span class="dot dot-orange"></span> Ресторан – 15,8 млн</span>
+            <span><span class="dot dot-purple"></span> Общий ТО – 80,0 млн</span>
+        </div>
+        <div style="font-weight: 500; color: #1a2634;">✅ План утверждён</div>
+    </div>
+    <div class="note">
+        * Корректировка: в Коламбусе ресторан снижен с 10,6 до 8,6 млн, билеты увеличены с 19,2 до 21,2 млн.<br>
+        Океания без ресторанной розницы согласно фактической структуре.
+    </div>
+</div>
+
+</body></html>

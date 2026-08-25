@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Прогноз доходов и расходов на июль–декабрь 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f5f7fa;
+      padding: 30px 20px;
+      color: #1e293b;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px 35px;
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #0f172a;
+      border-left: 6px solid #3b82f6;
+      padding-left: 18px;
+      margin-bottom: 8px;
+    }
+    .subhead {
+      color: #475569;
+      font-size: 16px;
+      margin-left: 24px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      background: #f8fafc;
+      padding: 12px 20px;
+      border-radius: 14px;
+    }
+    .subhead span {
+      background: #e2e8f0;
+      padding: 2px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 32px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e9edf2;
+    }
+    h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin: 24px 0 12px 0;
+      color: #1e293b;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 24px;
+      border-radius: 16px;
+      border: 1px solid #e9edf2;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 700px;
+    }
+    th {
+      background: #f1f5f9;
+      text-align: left;
+      padding: 12px 14px;
+      font-weight: 600;
+      border-bottom: 2px solid #d1d9e6;
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e9edf2;
+      vertical-align: top;
+    }
+    .numeric {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .indent1 { padding-left: 28px; }
+    .indent2 { padding-left: 44px; }
+    .total-row td { font-weight: 600; background: #fafcff; }
+    .total-row-bottom { border-top: 2px solid #94a3b8; }
+    .highlight-blue { background: #eff6ff; }
+    .highlight-gray { background: #f8fafc; }
+    .small-note {
+      font-size: 13px;
+      color: #475569;
+      margin-top: 6px;
+    }
+    .footnote {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-top: 20px;
+      font-size: 14px;
+      border-left: 4px solid #3b82f6;
+    }
+    .badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e4f8a;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 20px;
+      margin-right: 6px;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 16px; }
+      h1 { font-size: 22px; }
+      td, th { padding: 8px 10px; font-size: 13px; }
+    }
+  </style>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal-bar.css">
+</head>
+<body>
+<div class="portal-bar">
+  <img src="assets/favicon.svg" alt="АмбиЛенд">
+  <span class="pb-brand">АмбиЛенд</span>
+  <span class="pb-sep"></span>
+  <span class="pb-title">Аналитика и отчёты</span>
+  <span class="pb-spacer"></span>
+  <a class="pb-back" href="analitika.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>К разделу</a>
+</div>
+<script>document.body.classList.add('has-portal-bar');</script>
+
+<div class="container">
+
+  <h1>📊 Прогноз доходов и расходов</h1>
+  <div class="subhead">
+    <span>Июль – декабрь 2026</span>
+    <span>На основе БДР УУ 2025-2026</span>
+    <span>Сезонный коэффициент IV к III кварталу 2025 = 1,284</span>
+    <span>Все суммы в рублях</span>
+  </div>
+
+  <!-- ========== P&L ========== -->
+  <h2>📋 Прогнозный отчёт о прибылях и убытках (P&amp;L)</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Статья</th>
+          <th class="numeric">Июль 2026</th>
+          <th class="numeric">Август 2026</th>
+          <th class="numeric">Сентябрь 2026</th>
+          <th class="numeric">Октябрь 2026</th>
+          <th class="numeric">Ноябрь 2026</th>
+          <th class="numeric">Декабрь 2026</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-blue"><td><strong>Выручка (всего)</strong></td>
+          <td class="numeric">75 000 000</td>
+          <td class="numeric">85 000 000</td>
+          <td class="numeric">94 000 000</td>
+          <td class="numeric">98 098 000</td>
+          <td class="numeric">120 706 000</td>
+          <td class="numeric">107 332 000</td>
+        </tr>
+        <tr><td class="indent1">Игровая зона</td>
+          <td class="numeric">56 000 000</td>
+          <td class="numeric">63 000 000</td>
+          <td class="numeric">70 000 000</td>
+          <td class="numeric">73 010 000</td>
+          <td class="numeric">89 810 000</td>
+          <td class="numeric">79 870 000</td>
+        </tr>
+        <tr><td class="indent1">Ресторан</td>
+          <td class="numeric">19 000 000</td>
+          <td class="numeric">22 000 000</td>
+          <td class="numeric">24 000 000</td>
+          <td class="numeric">25 088 000</td>
+          <td class="numeric">30 896 000</td>
+          <td class="numeric">27 462 000</td>
+        </tr>
+
+        <tr class="highlight-gray"><td><strong>Себестоимость продаж (всего)</strong></td>
+          <td class="numeric">6 650 000</td>
+          <td class="numeric">7 700 000</td>
+          <td class="numeric">8 400 000</td>
+          <td class="numeric">8 786 000</td>
+          <td class="numeric">10 812 000</td>
+          <td class="numeric">9 613 000</td>
+        </tr>
+        <tr><td class="indent1">Игровая зона</td>
+          <td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td>
+          <td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td>
+        </tr>
+        <tr><td class="indent1">Ресторан</td>
+          <td class="numeric">6 650 000</td>
+          <td class="numeric">7 700 000</td>
+          <td class="numeric">8 400 000</td>
+          <td class="numeric">8 786 000</td>
+          <td class="numeric">10 812 000</td>
+          <td class="numeric">9 613 000</td>
+        </tr>
+
+        <tr class="highlight-blue"><td><strong>Валовая прибыль</strong></td>
+          <td class="numeric">68 350 000</td>
+          <td class="numeric">77 300 000</td>
+          <td class="numeric">85 600 000</td>
+          <td class="numeric">89 312 000</td>
+          <td class="numeric">109 894 000</td>
+          <td class="numeric">97 719 000</td>
+        </tr>
+
+        <tr class="highlight-gray"><td><strong>Прямые затраты (всего)</strong></td>
+          <td class="numeric">16 750 000</td>
+          <td class="numeric">18 050 000</td>
+          <td class="numeric">19 300 000</td>
+          <td class="numeric">20 895 000</td>
+          <td class="numeric">25 709 000</td>
+          <td class="numeric">22 859 000</td>
+        </tr>
+        <tr><td class="indent1">Игровая зона</td>
+          <td class="numeric">9 550 000</td>
+          <td class="numeric">10 450 000</td>
+          <td class="numeric">11 400 000</td>
+          <td class="numeric">12 119 000</td>
+          <td class="numeric">14 911 000</td>
+          <td class="numeric">13 258 000</td>
+        </tr>
+        <tr><td class="indent1">Ресторан</td>
+          <td class="numeric">7 200 000</td>
+          <td class="numeric">7 600 000</td>
+          <td class="numeric">7 900 000</td>
+          <td class="numeric">8 776 000</td>
+          <td class="numeric">10 798 000</td>
+          <td class="numeric">9 601 000</td>
+        </tr>
+
+        <tr class="highlight-blue"><td><strong>Маржинальная прибыль</strong></td>
+          <td class="numeric">51 600 000</td>
+          <td class="numeric">59 250 000</td>
+          <td class="numeric">66 300 000</td>
+          <td class="numeric">68 417 000</td>
+          <td class="numeric">84 185 000</td>
+          <td class="numeric">74 860 000</td>
+        </tr>
+
+        <tr><td><strong>Управленческие расходы</strong></td>
+          <td class="numeric">15 590 000</td>
+          <td class="numeric">16 090 000</td>
+          <td class="numeric">16 440 000</td>
+          <td class="numeric">18 585 000</td>
+          <td class="numeric">22 865 000</td>
+          <td class="numeric">20 336 000</td>
+        </tr>
+        <tr><td><strong>Коммерческие расходы</strong></td>
+          <td class="numeric">24 092 845</td>
+          <td class="numeric">27 142 445</td>
+          <td class="numeric">28 972 445</td>
+          <td class="numeric">30 978 000</td>
+          <td class="numeric">38 116 000</td>
+          <td class="numeric">33 893 000</td>
+        </tr>
+
+        <tr class="total-row total-row-bottom"><td><strong>Операционная прибыль (EBIT)</strong></td>
+          <td class="numeric">11 917 155</td>
+          <td class="numeric">16 017 555</td>
+          <td class="numeric">20 887 555</td>
+          <td class="numeric">18 854 000</td>
+          <td class="numeric">23 204 000</td>
+          <td class="numeric">20 631 000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="small-note">* Округление до тысяч рублей. Прогноз октября–декабря построен с применением сезонного коэффициента 1,284 к показателям III квартала 2026 г. (на основе динамики IV к III кварталу 2025).</div>
+
+  <!-- ========== Коммерческие расходы ========== -->
+  <h2>🧾 Детализация коммерческих расходов</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Статья</th><th class="numeric">Июль</th><th class="numeric">Август</th><th class="numeric">Сентябрь</th>
+          <th class="numeric">Октябрь</th><th class="numeric">Ноябрь</th><th class="numeric">Декабрь</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Аренда площадки</td>
+          <td class="numeric">17 391 845</td><td class="numeric">19 441 445</td><td class="numeric">21 271 445</td>
+          <td class="numeric">22 740 000</td><td class="numeric">27 980 000</td><td class="numeric">24 880 000</td>
+        </tr>
+        <tr><td>Обслуживание парка</td>
+          <td class="numeric">2 941 000</td><td class="numeric">2 941 000</td><td class="numeric">2 941 000</td>
+          <td class="numeric">3 145 000</td><td class="numeric">3 870 000</td><td class="numeric">3 440 000</td>
+        </tr>
+        <tr><td>Расходные материалы парки</td>
+          <td class="numeric">1 700 000</td><td class="numeric">1 700 000</td><td class="numeric">1 700 000</td>
+          <td class="numeric">1 818 000</td><td class="numeric">2 236 000</td><td class="numeric">1 988 000</td>
+        </tr>
+        <tr><td>Затраты на сотрудников</td>
+          <td class="numeric">110 000</td><td class="numeric">110 000</td><td class="numeric">110 000</td>
+          <td class="numeric">118 000</td><td class="numeric">145 000</td><td class="numeric">129 000</td>
+        </tr>
+        <tr><td>Технические работы</td>
+          <td class="numeric">300 000</td><td class="numeric">300 000</td><td class="numeric">300 000</td>
+          <td class="numeric">321 000</td><td class="numeric">395 000</td><td class="numeric">351 000</td>
+        </tr>
+        <tr><td>Реклама</td>
+          <td class="numeric">1 500 000</td><td class="numeric">1 500 000</td><td class="numeric">1 500 000</td>
+          <td class="numeric">1 604 000</td><td class="numeric">1 974 000</td><td class="numeric">1 755 000</td>
+        </tr>
+        <tr><td>Маркетинговые расходы</td>
+          <td class="numeric">100 000</td><td class="numeric">100 000</td><td class="numeric">100 000</td>
+          <td class="numeric">107 000</td><td class="numeric">132 000</td><td class="numeric">117 000</td>
+        </tr>
+        <tr><td>Строительные, ремонтные</td>
+          <td class="numeric">1 000 000</td><td class="numeric">1 000 000</td><td class="numeric">1 000 000</td>
+          <td class="numeric">1 069 000</td><td class="numeric">1 315 000</td><td class="numeric">1 169 000</td>
+        </tr>
+        <tr><td>Прочие коммерческие</td>
+          <td class="numeric">50 000</td><td class="numeric">50 000</td><td class="numeric">50 000</td>
+          <td class="numeric">53 000</td><td class="numeric">65 000</td><td class="numeric">58 000</td>
+        </tr>
+        <tr class="total-row"><td><strong>Итого коммерческие</strong></td>
+          <td class="numeric">24 092 845</td><td class="numeric">27 142 445</td><td class="numeric">28 972 445</td>
+          <td class="numeric">30 978 000</td><td class="numeric">38 116 000</td><td class="numeric">33 893 000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== Управленческие расходы ========== -->
+  <h2>📌 Детализация управленческих расходов</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Статья</th><th class="numeric">Июль</th><th class="numeric">Август</th><th class="numeric">Сентябрь</th>
+          <th class="numeric">Октябрь</th><th class="numeric">Ноябрь</th><th class="numeric">Декабрь</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Аренда офиса</td>
+          <td class="numeric">390 000</td><td class="numeric">390 000</td><td class="numeric">390 000</td>
+          <td class="numeric">417 000</td><td class="numeric">513 000</td><td class="numeric">456 000</td>
+        </tr>
+        <tr><td>Зарплата офис</td>
+          <td class="numeric">3 800 000</td><td class="numeric">3 800 000</td><td class="numeric">3 800 000</td>
+          <td class="numeric">4 063 000</td><td class="numeric">5 000 000</td><td class="numeric">4 445 000</td>
+        </tr>
+        <tr><td>Отчисления от ФОТ</td>
+          <td class="numeric">8 100 000</td><td class="numeric">8 500 000</td><td class="numeric">8 800 000</td>
+          <td class="numeric">9 409 000</td><td class="numeric">11 577 000</td><td class="numeric">10 293 000</td>
+        </tr>
+        <tr><td>Расходы на ИТ</td>
+          <td class="numeric">1 100 000</td><td class="numeric">1 100 000</td><td class="numeric">1 100 000</td>
+          <td class="numeric">1 176 000</td><td class="numeric">1 447 000</td><td class="numeric">1 286 000</td>
+        </tr>
+        <tr><td>Лицензирование, экспертиза</td>
+          <td class="numeric">100 000</td><td class="numeric">100 000</td><td class="numeric">100 000</td>
+          <td class="numeric">107 000</td><td class="numeric">132 000</td><td class="numeric">117 000</td>
+        </tr>
+        <tr><td>РКО/эквайринг/комиссии</td>
+          <td class="numeric">1 750 000</td><td class="numeric">1 850 000</td><td class="numeric">1 900 000</td>
+          <td class="numeric">2 032 000</td><td class="numeric">2 500 000</td><td class="numeric">2 223 000</td>
+        </tr>
+        <tr><td>Расходы ТМЦ</td>
+          <td class="numeric">300 000</td><td class="numeric">300 000</td><td class="numeric">300 000</td>
+          <td class="numeric">321 000</td><td class="numeric">395 000</td><td class="numeric">351 000</td>
+        </tr>
+        <tr><td>Прочие управленческие</td>
+          <td class="numeric">50 000</td><td class="numeric">50 000</td><td class="numeric">50 000</td>
+          <td class="numeric">53 000</td><td class="numeric">65 000</td><td class="numeric">58 000</td>
+        </tr>
+        <tr class="total-row"><td><strong>Итого управленческие</strong></td>
+          <td class="numeric">15 590 000</td><td class="numeric">16 090 000</td><td class="numeric">16 440 000</td>
+          <td class="numeric">18 585 000</td><td class="numeric">22 865 000</td><td class="numeric">20 336 000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========== Примечания ========== -->
+  <div class="footnote">
+    <strong>📌 Примечания:</strong>
+    <ul style="margin-top: 8px; padding-left: 20px; list-style: disc;">
+      <li>Прогноз построен на основе плановых данных БДР на III квартал 2026 г. (лист «бюджет 3кв») и фактической сезонности IV квартала 2025 г. (коэффициент 1,284).</li>
+      <li>Октябрь–декабрь рассчитаны путём умножения среднемесячных показателей III квартала на коэффициент с последующим распределением по месяцам согласно долям IV квартала 2025 г.</li>
+      <li>В прогнозе не учтены амортизация, проценты и налоги – фокус на операционной деятельности.</li>
+      <li>Все суммы округлены до целых рублей. Детализация статей соответствует регламенту бюджетирования Компании.</li>
+      <li>Ответственные за выполнение показателей: управляющие парками, бренд-шеф, РОП, коммерческий директор (согласно матрице ответственности).</li>
+    </ul>
+  </div>
+
+  <div style="margin-top: 30px; font-size: 13px; color: #64748b; border-top: 1px solid #e9edf2; padding-top: 18px;">
+    Отчёт сформирован на основе данных <span class="badge">БДР УУ 2025-2026.xlsx</span>
+    <span class="badge">OLAP Отчет по продажам</span>
+    <span class="badge">Регламент планирования и контроля</span>
+    <span style="margin-left: 20px;">Дата формирования: 22.07.2026</span>
+  </div>
+
+</div>
+
+</body></html>

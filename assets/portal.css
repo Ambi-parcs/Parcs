@@ -1,0 +1,436 @@
+/* ============================================================
+   АмбиЛенд — единая дизайн-система портала
+   Используется на главной, страницах разделов, заглушках
+   и (через .portal-bar) на страницах отчётов.
+   ============================================================ */
+
+:root{
+  --brand:#0d7a6f;
+  --brand-strong:#0a5f57;
+  --brand-ink:#07423c;
+  --brand-soft:#e2f2ef;
+  --navy:#10243a;
+  --navy-deep:#0b1a2c;
+  --blue:#2b6f9e;
+  --blue-soft:#e3eef8;
+  --violet:#7c3aed;
+  --violet-soft:#efe9fd;
+  --amber:#c77414;
+  --amber-soft:#fdf0dc;
+  --teal:#0d9488;
+  --teal-soft:#ddf3f0;
+  --ink:#1a2733;
+  --ink-soft:#5c6b7a;
+  --line:#e3e8ee;
+  --bg:#f2f5f8;
+  --panel:#ffffff;
+  --radius:14px;
+  --radius-sm:10px;
+  --shadow-sm:0 1px 2px rgba(16,35,54,.06),0 2px 8px rgba(16,35,54,.05);
+  --shadow-md:0 8px 24px rgba(16,35,54,.10);
+  --shadow-lg:0 20px 50px rgba(16,35,54,.18);
+  --font:'Segoe UI',system-ui,-apple-system,Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  font-size:15px;
+  line-height:1.5;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:inline-block;vertical-align:middle}
+a{color:inherit}
+:focus-visible{outline:3px solid rgba(13,122,111,.45);outline-offset:2px;border-radius:6px}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px;width:100%}
+
+/* ---------- Шапка портала ---------- */
+.portal-header{
+  position:relative;
+  background:
+    radial-gradient(1200px 400px at 85% -50%,rgba(18,160,143,.35),transparent 60%),
+    linear-gradient(120deg,var(--brand-strong) 0%,var(--brand) 38%,var(--navy) 100%);
+  color:#fff;
+  padding:38px 0 34px;
+  box-shadow:var(--shadow-md);
+  overflow:hidden;
+}
+.portal-header::after{
+  content:"";
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='60' viewBox='0 0 240 60'%3E%3Cpath d='M0 60 L40 22 L62 44 L84 14 L120 60 Z M120 60 L160 26 L178 46 L196 20 L240 60 Z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;
+  background-position:bottom;
+  background-size:auto 60px;
+  pointer-events:none;
+}
+.portal-header .wrap{position:relative;z-index:1}
+.brand-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand-logo{width:56px;height:56px;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.25);flex-shrink:0}
+.brand-name{font-size:27px;font-weight:800;letter-spacing:.2px;line-height:1.15}
+.brand-sub{font-size:14px;opacity:.88;margin-top:3px}
+.portal-header .meta{margin-top:16px;font-size:13.5px;opacity:.85;max-width:640px}
+
+/* Компактная шапка внутренних страниц */
+.portal-header.slim{padding:24px 0 22px}
+.head-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:relative;z-index:1}
+.head-icon{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.14);backdrop-filter:blur(4px);
+}
+.head-icon svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.head-title{font-size:22px;font-weight:800;line-height:1.2}
+.head-sub{font-size:13px;opacity:.88;margin-top:2px}
+
+.back-link{
+  display:inline-flex;align-items:center;gap:7px;
+  color:#fff;background:rgba(255,255,255,.15);
+  padding:8px 16px;border-radius:24px;text-decoration:none;
+  font-size:13px;font-weight:600;transition:.15s;border:1px solid rgba(255,255,255,.12);
+}
+.back-link:hover{background:rgba(255,255,255,.27)}
+.back-link svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Контент ---------- */
+main{flex:1;padding:32px 0 56px}
+.section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.section-head h2{font-size:19px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:9px}
+.section-head h2 svg{width:20px;height:20px;stroke:var(--brand);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.section-head .hint{font-size:13px;color:var(--ink-soft)}
+
+/* ---------- Карточки разделов (главная) ---------- */
+.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.folder{
+  position:relative;background:var(--panel);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  border:1px solid var(--line);overflow:hidden;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+}
+.folder:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:rgba(13,122,111,.5)}
+.folder-tab{height:6px;width:100%}
+.folder-body{padding:22px 22px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.folder-icon{
+  width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:var(--brand-soft);
+}
+.folder-icon svg{width:27px;height:27px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.folder-name{font-size:17px;font-weight:800;color:var(--ink);line-height:1.3}
+.folder-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.55;flex:1}
+.folder-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.folder-arrow{
+  width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);transition:.18s;flex-shrink:0;
+}
+.folder-arrow svg{width:15px;height:15px;stroke:var(--ink-soft);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.folder:hover .folder-arrow{background:var(--brand);transform:translateX(2px)}
+.folder:hover .folder-arrow svg{stroke:#fff}
+
+.tab-brand{background:linear-gradient(90deg,var(--brand),#12a08f)}
+.tab-blue{background:linear-gradient(90deg,var(--blue),#4a90c4)}
+.tab-violet{background:linear-gradient(90deg,var(--violet),#9b6bf3)}
+.tab-amber{background:linear-gradient(90deg,var(--amber),#e79a3c)}
+.tab-teal{background:linear-gradient(90deg,var(--teal),#2bbbad)}
+
+.icon-brand{background:var(--brand-soft)} .icon-brand svg{stroke:var(--brand-strong)}
+.icon-blue{background:var(--blue-soft)} .icon-blue svg{stroke:var(--blue)}
+.icon-violet{background:var(--violet-soft)} .icon-violet svg{stroke:var(--violet)}
+.icon-amber{background:var(--amber-soft)} .icon-amber svg{stroke:var(--amber)}
+.icon-teal{background:var(--teal-soft)} .icon-teal svg{stroke:var(--teal)}
+
+.badge{
+  display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
+  padding:4px 12px;border-radius:20px;width:fit-content;letter-spacing:.2px;
+}
+.badge svg{width:12px;height:12px;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.badge-ok{background:var(--brand-soft);color:var(--brand-ink)}
+.badge-ok svg{stroke:var(--brand-strong)}
+.badge-soon{background:var(--amber-soft);color:#8a5a10}
+.badge-soon svg{stroke:#b07514}
+
+.folder.disabled{cursor:default}
+.folder.disabled:hover{transform:none;box-shadow:var(--shadow-sm);border-color:var(--line)}
+.folder.disabled:hover .folder-arrow{background:var(--bg);transform:none}
+.folder.disabled:hover .folder-arrow svg{stroke:var(--ink-soft)}
+.folder.disabled .folder-icon,
+.folder.disabled .folder-name,
+.folder.disabled .folder-desc{opacity:.62}
+
+/* ---------- Карточки документов (разделы) ---------- */
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.doc{
+  display:flex;gap:15px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--radius);padding:18px;text-decoration:none;color:inherit;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+  box-shadow:var(--shadow-sm);align-items:flex-start;
+}
+.doc:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(13,122,111,.5)}
+.doc-icon{
+  font-size:22px;line-height:1;flex-shrink:0;width:48px;height:48px;
+  display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--brand-soft);
+}
+.doc-info{flex:1;min-width:0}
+.doc-title{font-weight:700;font-size:15px;margin-bottom:4px;line-height:1.35}
+.doc-desc{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.doc-tag{
+  display:inline-block;font-size:11px;font-weight:700;background:#eef2f6;color:var(--ink-soft);
+  padding:3px 10px;border-radius:12px;margin-top:9px;letter-spacing:.3px;text-transform:uppercase;
+}
+
+.note{
+  margin-top:28px;background:#f7fafc;border-left:4px solid var(--brand);
+  border-radius:10px;padding:15px 18px;font-size:13.5px;color:var(--ink-soft);
+  display:flex;gap:10px;align-items:flex-start;
+}
+.note svg{width:17px;height:17px;flex-shrink:0;margin-top:1px;stroke:var(--brand);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Заглушки «Скоро» ---------- */
+.soon-body{
+  flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;
+}
+.soon-card{
+  background:var(--panel);border-radius:20px;box-shadow:var(--shadow-md);
+  padding:44px 40px;max-width:500px;width:100%;text-align:center;border:1px solid var(--line);
+}
+.soon-icon{
+  width:76px;height:76px;border-radius:20px;margin:0 auto 18px;
+  display:flex;align-items:center;justify-content:center;
+}
+.soon-icon svg{width:38px;height:38px;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.soon-tag{
+  display:inline-block;font-size:12px;font-weight:700;padding:5px 16px;border-radius:20px;
+  margin-bottom:16px;letter-spacing:.4px;text-transform:uppercase;
+}
+.soon-card h1{font-size:23px;margin-bottom:10px;color:var(--ink)}
+.soon-desc{color:var(--ink-soft);line-height:1.6;margin-bottom:22px;font-size:14.5px}
+.soon-box{
+  background:var(--bg);border-radius:12px;padding:14px 16px;font-size:13.5px;
+  color:var(--ink-soft);margin-bottom:26px;display:flex;gap:9px;align-items:center;justify-content:center;
+}
+.soon-box svg{width:16px;height:16px;flex-shrink:0;stroke:var(--amber);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-portal{
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+  background:var(--brand);color:#fff;font-weight:700;padding:12px 26px;
+  border-radius:26px;transition:.15s;font-size:14.5px;box-shadow:0 6px 16px rgba(13,122,111,.3);
+}
+.btn-portal:hover{background:var(--brand-strong);transform:translateY(-1px)}
+.btn-portal svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Подвал ---------- */
+footer{background:var(--panel);border-top:1px solid var(--line);padding:18px 0;color:var(--ink-soft);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+footer .f-brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ink)}
+footer .f-brand img{width:20px;height:20px;border-radius:6px}
+
+/* ---------- Панель навигации для страниц отчётов ---------- */
+.portal-bar{
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  display:flex;align-items:center;gap:12px;
+  height:52px;padding:0 16px;
+  background:rgba(11,26,44,.92);backdrop-filter:blur(8px);
+  color:#fff;font-family:var(--font);
+  box-shadow:0 2px 12px rgba(0,0,0,.25);
+}
+.portal-bar img{width:26px;height:26px;border-radius:7px}
+.portal-bar .pb-title{font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.portal-bar .pb-spacer{flex:1}
+.portal-bar a.pb-back{
+  display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;
+  background:rgba(255,255,255,.14);padding:6px 14px;border-radius:18px;
+  font-size:12.5px;font-weight:600;transition:.15s;white-space:nowrap;
+}
+.portal-bar a.pb-back:hover{background:rgba(255,255,255,.26)}
+.portal-bar a.pb-back svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+body.has-portal-bar{padding-top:52px !important}
+@media print{.portal-bar{display:none !important}body.has-portal-bar{padding-top:0 !important}}
+
+/* ---------- Адаптив ---------- */
+@media(max-width:640px){
+  .portal-header{padding:28px 0 26px}
+  .brand-name{font-size:21px}
+  .brand-logo{width:46px;height:46px;border-radius:13px}
+  .folders{grid-template-columns:1fr}
+  .docs{grid-template-columns:1fr}
+  .folder-body{padding:18px}
+  .head-title{font-size:18px}
+  .head-icon{width:44px;height:44px}
+  .soon-card{padding:34px 24px}
+  .portal-bar .pb-title{display:none}
+}
+
+/* ============================================================
+   Общий вход, роли, модалки, кнопки действий (portal.js)
+   ============================================================ */
+
+/* Кнопки действий в шапке / тулбарах */
+.btn-p{
+  display:inline-flex;align-items:center;gap:7px;border:1px solid transparent;cursor:pointer;
+  padding:9px 16px;border-radius:22px;font-size:13px;font-weight:700;font-family:inherit;
+  transition:.15s;text-decoration:none;white-space:nowrap;
+}
+.btn-p svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn-p.primary{background:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(13,122,111,.28)}
+.btn-p.primary:hover{background:var(--brand-strong);transform:translateY(-1px)}
+.btn-p.blue{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(43,111,158,.28)}
+.btn-p.blue:hover{background:var(--blue-dark);transform:translateY(-1px)}
+.btn-p.ghost{background:var(--panel);color:var(--ink-soft);border-color:var(--line)}
+.btn-p.ghost:hover{color:var(--brand-ink);border-color:var(--brand);background:var(--brand-soft)}
+.btn-p.light{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.15)}
+.btn-p.light:hover{background:rgba(255,255,255,.28)}
+.btn-p.danger{background:var(--bad-soft,#fde3e3);color:#b42323;border-color:#f3c2c2}
+.btn-p.danger:hover{background:#fbd3d3}
+.btn-p.sm{padding:6px 13px;font-size:12px}
+
+/* Номер раздела на главной */
+.folder-num{
+  position:absolute;top:14px;right:18px;font-size:13px;font-weight:800;color:#c3ccd6;
+  letter-spacing:.5px;font-variant-numeric:tabular-nums;transition:.15s;
+}
+.folder:hover .folder-num{color:var(--brand)}
+
+/* Блок входа в шапке главной */
+.portal-auth{margin-top:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.auth-user{
+  display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:7px 8px 7px 15px;color:#fff;
+}
+.auth-user .au-icon{display:flex}
+.auth-user .au-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.auth-user .au-name{font-size:13px;font-weight:700}
+.auth-user .au-role{font-size:11.5px;opacity:.75;font-weight:600}
+.auth-user .au-logout{
+  display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.16);color:#fff;
+  border:0;border-radius:18px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:.15s;
+}
+.auth-user .au-logout:hover{background:rgba(255,255,255,.3)}
+.auth-user .au-logout svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.auth-login-btn{
+  display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--brand-ink);
+  border:0;border-radius:24px;padding:9px 20px;font-size:13.5px;font-weight:800;cursor:pointer;
+  font-family:inherit;transition:.15s;box-shadow:0 6px 18px rgba(0,0,0,.2);
+}
+.auth-login-btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.26)}
+.auth-login-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Модальное окно портала */
+.p-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.p-modal-backdrop{position:absolute;inset:0;background:rgba(11,26,44,.55);backdrop-filter:blur(3px)}
+.p-modal-dialog{
+  position:relative;background:var(--panel);border-radius:18px;width:100%;max-width:520px;
+  max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);
+}
+.p-modal-dialog.wide{max-width:680px}
+.p-modal-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line)}
+.p-modal-header h3{font-size:17px;font-weight:800;color:var(--ink)}
+.p-modal-close{background:none;border:0;font-size:18px;cursor:pointer;color:var(--ink-soft);padding:5px 9px;border-radius:8px;transition:.13s}
+.p-modal-close:hover{background:var(--bg);color:var(--ink)}
+.p-modal-body{padding:22px;overflow-y:auto}
+.p-modal-footer{padding:15px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+
+.p-field{margin-bottom:15px}
+.p-field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:5px;letter-spacing:.2px}
+.p-field input,.p-field select,.p-field textarea{
+  width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:10px;
+  font-size:14px;font-family:inherit;background:var(--panel);color:var(--ink);transition:.15s;
+}
+.p-field input:focus,.p-field select:focus,.p-field textarea:focus{
+  outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft);
+}
+.p-error{color:#b42323;font-size:13px;min-height:18px;font-weight:600}
+.p-hint{font-size:12px;color:var(--ink-soft);margin-top:5px}
+
+/* Чекбоксы прав в «Создать роль» */
+.perm-grid{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.perm-row{
+  display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;
+  padding:9px 13px;transition:.13s;
+}
+.perm-row:hover{border-color:var(--brand);background:var(--brand-soft)}
+.perm-row input{width:16px;height:16px;accent-color:var(--brand);flex-shrink:0}
+.perm-row .pr-name{font-size:13.5px;font-weight:700;color:var(--ink)}
+.perm-row .pr-desc{font-size:11.5px;color:var(--ink-soft);margin-left:auto;text-align:right}
+.perm-section{font-size:11px;font-weight:800;letter-spacing:.8px;color:var(--ink-soft);text-transform:uppercase;margin:14px 0 2px}
+.perm-section:first-child{margin-top:0}
+
+/* Список ролей */
+.role-list{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.role-item{
+  display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:11px 15px;
+}
+.role-item .ri-icon{
+  width:36px;height:36px;border-radius:10px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.role-item .ri-icon svg{width:18px;height:18px;stroke:var(--brand-strong);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.role-item .ri-info{flex:1;min-width:0}
+.role-item .ri-name{font-size:14px;font-weight:800;color:var(--ink)}
+.role-item .ri-meta{font-size:12px;color:var(--ink-soft)}
+.role-item .ri-tag{font-size:10.5px;font-weight:800;background:#eef2f6;color:var(--ink-soft);padding:3px 9px;border-radius:12px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.role-item .ri-tag.full{background:var(--brand-soft);color:var(--brand-ink)}
+.role-item button.ri-del{
+  background:none;border:0;cursor:pointer;padding:7px;border-radius:8px;color:var(--ink-soft);transition:.13s;
+}
+.role-item button.ri-del:hover{background:var(--bad-soft,#fde3e3);color:#b42323}
+.role-item button.ri-del svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+
+/* Кнопки действий в разделах */
+.section-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.add-doc-fab{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--brand);color:#fff;border:0;border-radius:24px;
+  padding:10px 20px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;
+  box-shadow:0 6px 16px rgba(13,122,111,.3);transition:.15s;
+}
+.add-doc-fab:hover{background:var(--brand-strong);transform:translateY(-1px)}
+.add-doc-fab svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* Фильтры по типам документов */
+.type-filters{display:flex;gap:7px;flex-wrap:wrap}
+.type-filter{
+  padding:7px 15px;background:var(--panel);border:1px solid var(--line);border-radius:20px;
+  font-size:12.5px;font-weight:700;color:var(--ink-soft);cursor:pointer;font-family:inherit;transition:.13s;
+}
+.type-filter:hover{border-color:var(--brand);color:var(--brand-ink)}
+.type-filter.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 10px rgba(13,122,111,.3)}
+
+/* Документ из хранилища (не ссылка) */
+.doc.is-file{cursor:pointer}
+.doc-del{
+  align-self:flex-start;background:none;border:0;cursor:pointer;padding:8px;border-radius:9px;
+  color:var(--ink-soft);transition:.13s;flex-shrink:0;
+}
+.doc-del:hover{background:var(--bad-soft,#fde3e3);color:#b42323}
+.doc-del svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+
+/* Тост портала */
+.p-toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(40px);
+  background:var(--navy);color:#fff;padding:13px 24px;border-radius:12px;font-size:13.5px;font-weight:700;
+  opacity:0;transition:.3s;z-index:1200;pointer-events:none;box-shadow:var(--shadow-lg);
+  font-family:var(--font);max-width:90vw;text-align:center;
+}
+.p-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.p-toast.error{background:#b42323}
+
+/* Скелет-заглушка пустого раздела */
+.empty-hint{
+  text-align:center;padding:44px 20px;color:var(--ink-soft);
+  background:var(--panel);border:1px dashed var(--line);border-radius:var(--radius);margin-top:4px;
+}
+.empty-hint svg{width:34px;height:34px;stroke:#b9c4cf;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+.empty-hint .eh-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:5px}
+
+@media(max-width:640px){
+  .p-modal-dialog{border-radius:14px}
+  .p-modal-body{padding:18px}
+  .perm-row .pr-desc{display:none}
+  .folder-num{font-size:12px}
+}

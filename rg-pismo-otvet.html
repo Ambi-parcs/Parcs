@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Письмо-ответ ООО «АмбиЛэнд»</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #e6e9ef;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            font-family: 'Times New Roman', 'Georgia', serif;
+        }
+        .letter {
+            max-width: 1100px;
+            width: 100%;
+            background: #ffffff;
+            padding: 45px 50px 35px 50px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            position: relative;
+            outline: none; /* убираем рамку при редактировании */
+        }
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 2px solid #d4af37;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0.25;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px double #d4af37;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+        }
+        .header-left .company-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a3c5e;
+            letter-spacing: 1px;
+        }
+        .company-legal {
+            font-size: 14px;
+            color: #555;
+            margin-top: 4px;
+        }
+        .company-legal span {
+            display: inline-block;
+            margin-right: 18px;
+        }
+        .header-right {
+            text-align: right;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            background: #f5f7fa;
+            padding: 8px 18px;
+            border-radius: 6px;
+            border-left: 4px solid #d4af37;
+        }
+        .contact-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #444;
+            margin-top: -6px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .contact-bar span {
+            margin-right: 20px;
+        }
+        .doc-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            margin-bottom: 25px;
+            color: #222;
+        }
+        .doc-meta .to-whom {
+            font-weight: 600;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a3c5e;
+            margin: 28px 0 12px 0;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 20px 0 10px 0;
+        }
+        p {
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 12px 0;
+            text-align: justify;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            font-size: 14px;
+        }
+        table th {
+            background: #1a3c5e;
+            color: white;
+            padding: 10px 6px;
+            text-align: center;
+            font-weight: 600;
+        }
+        table td, table th {
+            border: 1px solid #bbb;
+            padding: 8px 10px;
+            vertical-align: middle;
+        }
+        table td:first-child {
+            font-weight: 500;
+            background: #f9fafc;
+        }
+        .highlight-cell {
+            background: #fef9e7 !important;
+            font-weight: 700;
+        }
+        .year-header {
+            background: #eaf2f8;
+            text-align: center;
+            font-weight: 600;
+        }
+        .question-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .question-list li {
+            margin-bottom: 10px;
+            padding-left: 28px;
+            position: relative;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .question-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 4px;
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .signature {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            font-size: 15px;
+        }
+        .signature .left .position {
+            font-weight: 600;
+        }
+        .signature .right .name {
+            font-weight: 700;
+            margin-top: 6px;
+        }
+        .signature .right .stamp {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .footer-note {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .argument-box {
+            background: #f5f7fa;
+            border-left: 4px solid #d4af37;
+            padding: 12px 18px;
+            margin: 16px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            border-radius: 0 6px 6px 0;
+        }
+        .argument-box strong {
+            color: #1a3c5e;
+        }
+        .editable-hint {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            margin-top: 10px;
+            border-top: 1px dashed #ddd;
+            padding-top: 10px;
+        }
+        @media (max-width: 700px) {
+            .letter { padding: 20px; }
+            .header { flex-direction: column; }
+            .header-right { text-align: left; width: 100%; margin-top: 10px; }
+            .doc-meta { flex-direction: column; gap: 6px; }
+            .signature { flex-direction: column; align-items: flex-start; gap: 15px; }
+            table { font-size: 13px; }
+            table td, table th { padding: 6px 5px; }
+        }
+    </style>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/portal-bar.css">
+</head>
+<body>
+<div class="portal-bar">
+  <img src="assets/favicon.svg" alt="АмбиЛенд">
+  <span class="pb-brand">АмбиЛенд</span>
+  <span class="pb-sep"></span>
+  <span class="pb-title">Регламенты и процедуры</span>
+  <span class="pb-spacer"></span>
+  <a class="pb-back" href="reglamenty.html"><svg viewBox="0 0 24 24"><path d="M20 12 H5"/><path d="M11 6 l-6 6 6 6"/></svg>К разделу</a>
+</div>
+<script>document.body.classList.add('has-portal-bar');</script>
+
+<div class="letter" contenteditable="true">
+
+    <!-- ШАПКА -->
+    <div class="header">
+        <div class="header-left">
+            <div class="company-name">ООО «АмбиЛэнд»</div>
+            <div class="company-legal">
+                <span>ИНН 9731133588</span>
+                <span>КПП 772701001</span>
+                <span>ОГРН 1247700294742</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <strong>Юридический адрес:</strong><br>
+            117042, г. Москва, ул. Южнобутовская, д. 101, помещ. 3/1<br>
+            <strong>Фактический адрес:</strong><br>
+            г. Москва, 2-я улица Измайловского зверинца, д. 2, 6 этаж
+        </div>
+    </div>
+
+    <!-- Контактная строка -->
+    <div class="contact-bar">
+        <div>
+            <span><strong>Тел.:</strong> 8 914 704 14 53</span>
+            <span><strong>E-mail:</strong> ceo@ambi.land</span>
+        </div>
+        <div>
+            <span>Контактное лицо: <strong>Мартьянов А.В.</strong></span>
+        </div>
+    </div>
+
+    <div class="doc-meta">
+        <span><strong>Исх. №</strong> 2026-07/21-01</span>
+        <span><strong>от</strong> 21 июля 2026 г.</span>
+        <span class="to-whom"><strong>Руководителю департамента коммерческой недвижимости</strong><br>МФК «Олимпийский»<br>г-ну [Ф.И.О.]</span>
+    </div>
+
+    <p><strong>Уважаемые коллеги!</strong></p>
+
+    <p>Благодарим Вас за коммерческое предложение. Мы внимательно изучили условия и подготовили встречное предложение с <strong>постепенным повышением ставок</strong> в течение первых трёх лет и <strong>долгосрочным сроком аренды</strong>, что позволит нам плавно адаптироваться к новому объекту, а Вам – получить стабильного якорного арендатора на длительный период.</p>
+
+    <!-- АРГУМЕНТАЦИЯ -->
+    <div class="argument-box">
+        <strong>Уважаемые коллеги, мы просим о поэтапном повышении ставок и увеличении срока договора до 10 лет по следующим причинам:</strong><br><br>
+        <strong>1. Рыночная ситуация</strong> – по данным IBC Real Estate, CMWP и CORE.XP, в 2025–2026 гг. наблюдается рекордное падение ввода новых ТЦ (на 91% в 1 кв. 2026 г.), рост вакантности до 10–11% (в новых объектах – до 25–30%) и снижение арендных ставок (уже на 12% с начала 2026 года). Арендодатели вынуждены предлагать скидки до 30%, а 70% арендаторов обращались с просьбами о снижении ставок.<br><br>
+        <strong>2. Финансовые реалии проекта</strong> – по нашей финмодели, при Ваших исходных коммерческих условиях <strong>точка безубыточности составляет ≈70 млн руб. в месяц</strong>, что трудно достижимо в первые годы работы из-за минимальной узнаваемости активити-парка. Постепенное повышение ставок позволит нам пройти стартовый период и обеспечить стабильные арендные платежи в будущем.<br><br>
+        <strong>3. Долгосрочное сотрудничество</strong> – мы предлагаем <strong>срок договора 10 лет</strong>. Это даёт нам возможность инвестировать в уникальную инфраструктуру и маркетинг, а Вам – гарантированного арендатора на десятилетие, что особенно ценно в текущих рыночных условиях.
+    </div>
+
+    <!-- 1. СТАВКИ -->
+    <h2>1. Предложение по ставкам (на 3 года)</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width:30%;">Параметр</th>
+                <th style="width:23%;" class="year-header">Год 1 <span>с даты открытия</span></th>
+                <th style="width:23%;" class="year-header">Год 2</th>
+                <th style="width:24%;" class="year-header">Год 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Постоянная аренда (ПАП), <br>руб./м²/год</td>
+                <td class="highlight-cell">18 000</td>
+                <td class="highlight-cell">20 000</td>
+                <td class="highlight-cell">22 000</td>
+            </tr>
+            <tr>
+                <td>Эксплуатационные услуги, <br>руб./м²/год</td>
+                <td class="highlight-cell">5 000</td>
+                <td class="highlight-cell">6 000</td>
+                <td class="highlight-cell">7 000</td>
+            </tr>
+            <tr>
+                <td>Маркетинговый платёж, <br>руб./м²/год</td>
+                <td class="highlight-cell">1 300</td>
+                <td class="highlight-cell">1 400</td>
+                <td class="highlight-cell">1 600</td>
+            </tr>
+            <tr>
+                <td>Переменная аренда <br>(% с оборота)</td>
+                <td class="highlight-cell">14%</td>
+                <td class="highlight-cell">15%</td>
+                <td class="highlight-cell">16%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="font-size:14px; color:#555; margin-top:8px;">
+        <strong>Индексация с 4-го года:</strong> ежегодно +8% к ставкам 3-го года (ПАП – 22 000, эксплуатация – 7 000, маркетинг – 1 600 руб./м²/год). Переменная часть индексации не подлежит.
+    </div>
+
+    <!-- 2. ПРОЧИЕ УСЛОВИЯ -->
+    <h2>2. Прочие условия аренды</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width:40%;">Параметр</th>
+                <th style="width:60%;">Наше предложение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Срок договора</td>
+                <td><strong>10 лет</strong> с автоматической пролонгацией при письменном согласии сторон</td>
+            </tr>
+            <tr>
+                <td>Уведомление о расторжении</td>
+                <td><strong>не менее чем за 3 месяца</strong></td>
+            </tr>
+            <tr>
+                <td>Обеспечительный платёж (депозит)</td>
+                <td><strong>1 месяц</strong> при подписании договора, <strong>2-й месяц</strong> – по итогам работы 1-го квартала</td>
+            </tr>
+            <tr>
+                <td>Коммунальные услуги</td>
+                <td>по показаниям приборов учёта +15% (просим уточнить перечень услуг)</td>
+            </tr>
+            <tr>
+                <td>Состояние помещения</td>
+                <td><em>Shell and Core</em> – принимаем</td>
+            </tr>
+            <tr>
+                <td>Противопожарные системы</td>
+                <td>см. раздел 3.4 ниже</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 3. ВОПРОСЫ -->
+    <h2>3. Вопросы, требующие разъяснения</h2>
+
+    <h3>3.1. Маркетинговый платёж</h3>
+    <p>Просим предоставить <strong>детальный перечень услуг и мероприятий</strong>, входящих в маркетинговый платёж (1 300 / 1 400 / 1 600 руб./м²/год). Нам важно понимать:</p>
+    <ul class="question-list">
+        <li>какие рекламные и промо-акции проводятся за счёт данного платежа;</li>
+        <li>каков бюджет на маркетинг в годовом выражении;</li>
+        <li>предусмотрен ли отчёт о фактическом использовании средств.</li>
+    </ul>
+
+    <h3>3.2. Welcome-пакет</h3>
+    <p>Интересует, <strong>предусмотрен ли Welcome-пакет</strong> для новых арендаторов. Если да, просим направить его описание с указанием перечня услуг/преференций и их стоимости (если такая предусмотрена).</p>
+
+    <h3>3.3. Плата за координацию подготовительных работ</h3>
+    <p>В коммерческом предложении указана плата за координацию в размере <strong>1 650 руб./м²</strong>. Просим разъяснить:</p>
+    <ul class="question-list">
+        <li><strong>какие именно работы</strong> входят в данную плату (просим предоставить смету или перечень);</li>
+        <li>является ли данная услуга обязательной или мы можем провести координацию своими силами (с последующим согласованием);</li>
+        <li>каков порядок и сроки согласования проектной документации.</li>
+    </ul>
+
+    <h3>3.4. Противопожарные системы (проектирование и монтаж)</h3>
+    <p>Мы принимаем условие о том, что проектирование и монтаж противопожарных систем выполняются силами Арендодателя за счёт Арендатора. При этом считаем необходимым зафиксировать следующие принципы:</p>
+    <ul class="question-list">
+        <li><strong>Состав проектной документации:</strong> в обязательном порядке в проекте должны быть разделы <strong>«Ведомость объёмов работ»</strong> и <strong>«Ведомость материалов»</strong> с указанием количества, марок и цен. Эти документы создаются на этапе проектирования и предоставляются нам на согласование до начала монтажа.</li>
+        <li><strong>Сметы</strong> на монтаж и закупку материалов предоставляются <strong>после утверждения проекта</strong>, но до начала производства работ по монтажу.</li>
+        <li><strong>Цена:</strong> стоимость работ и материалов должна быть <strong>не выше среднерыночной</strong> по Москве на аналогичные системы и объёмы.</li>
+        <li><strong>Право на независимую оценку:</strong> мы оставляем за собой право привлечь стороннюю организацию для проверки сметы. В случае если стоимость по смете превышает рыночную более чем на <strong>15%</strong>, мы имеем право инициировать обсуждение с Арендодателем с целью корректировки сметы до обоснованного уровня.</li>
+        <li><strong>Специальные Технические Условия (СТУ):</strong> в случае, если для проектирования и монтажа противопожарных систем потребуется разработка и получение СТУ, данная обязанность возлагается на Арендодателя (как собственника здания), а все сопутствующие расходы включаются в смету и согласовываются с нами.</li>
+    </ul>
+
+    <!-- 4. ЗАКЛЮЧЕНИЕ -->
+    <h2>4. Заключение</h2>
+    <p>Рассчитываем на конструктивный диалог и готовы к оперативному согласованию всех условий. Просим направить ответ по указанным вопросам и подтверждение наших встречных условий в течение <strong>10 рабочих дней</strong>.</p>
+    <p>Контактное лицо: <strong>Мартьянов А.В.</strong>, генеральный директор, тел. 8 914 704 14 53, e-mail: ceo@ambi.land.</p>
+
+    <div class="signature">
+        <div class="left">
+            <span class="position">Генеральный директор</span>
+            <span style="margin-top: 30px;">____________________</span>
+        </div>
+        <div class="right">
+            <div style="font-size: 15px;">Мартьянов А.В.</div>
+            <div class="stamp">М.П.</div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        ООО «АмбиЛэнд» · ИНН 9731133588 · ОГРН 1247700294742 · г. Москва, 2-я ул. Измайловского зверинца, д. 2, 6 этаж
+    </div>
+
+    <div class="editable-hint">
+        ✏️ Все данные в этом письме можно редактировать прямо в браузере – просто кликните по любому тексту и измените его. Для сохранения используйте копирование или печать.
+    </div>
+
+</div>
+
+</body></html>
