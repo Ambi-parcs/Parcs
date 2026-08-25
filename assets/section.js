@@ -400,7 +400,7 @@
       wrap.appendChild(badge);
 
       // Кнопка ввода GitHub-токена (только админ, только если токен не задан)
-      if (Portal.isAdmin() && typeof GH !== 'undefined' && !GH.hasToken()) {
+      if (isAdmin() && typeof GH !== 'undefined' && !GH.hasToken()) {
         const tokBtn = document.createElement('button');
         tokBtn.className = 'btn-p light sm';
         tokBtn.innerHTML = Portal.icon('check') + ' GitHub токен';
