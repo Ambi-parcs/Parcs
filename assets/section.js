@@ -398,6 +398,23 @@
         : 'GitHub не настроен — документы сохраняются только в этом браузере';
       badge.innerHTML = Portal.icon(useGH ? 'check' : 'lock') + (useGH ? ' GitHub' : ' Офлайн');
       wrap.appendChild(badge);
+
+      // Кнопка ввода GitHub-токена (только админ, только если токен не задан)
+      if (Portal.isAdmin() && typeof GH !== 'undefined' && !GH.hasToken()) {
+        const tokBtn = document.createElement('button');
+        tokBtn.className = 'btn-p light sm';
+        tokBtn.innerHTML = Portal.icon('check') + ' GitHub токен';
+        tokBtn.title = 'Ввести токен для автосохранения в репозиторий';
+        tokBtn.addEventListener('click', () => {
+          const t = prompt('Вставьте GitHub Personal Access Token (ghp_...):', '');
+          if (t && t.trim().startsWith('ghp_')) {
+            GH.setToken(t.trim());
+          } else if (t) {
+            Portal.toast('Токен должен начинаться с ghp_');
+          }
+        });
+        wrap.appendChild(tokBtn);
+      }
     } else if (sess) {
       const hint = document.createElement('span');
       hint.className = 'auth-viewonly';
