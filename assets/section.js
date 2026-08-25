@@ -309,21 +309,19 @@
   }
 
   async function loadDocs() {
-    useGH = GH.ready;
-    if (useGH) {
+    useGH = GH.ready; // режим записи (нужен токен)
+    if (GH.readReady) {
+      // чтение опубликованных документов — без токена, для всех
       try {
         const reg = await ghLoadRegistry();
         ghDocs = reg.list.filter(d => d && d.section === sectionId);
       } catch (e) {
         console.warn('[section] GitHub недоступен, локальный режим:', e.message);
         useGH = false;
+        ghDocs = [];
       }
     }
-    if (!useGH) {
-      localDocs = (await dbBySection(sectionId)).sort((a, b) => b.ts - a.ts);
-    } else {
-      localDocs = [];
-    }
+    localDocs = (await dbBySection(sectionId)).sort((a, b) => b.ts - a.ts);
     await renderAll();
     const authWrap = document.getElementById('toolbarAuth');
     if (authWrap) renderAuthArea(authWrap);

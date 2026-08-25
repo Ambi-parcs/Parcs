@@ -5,17 +5,20 @@ const GH = (() => {
   // Токен: из GH_CONFIG, или из localStorage (вводится один раз админом)
   const token = cfg.token !== 'GITHUB_TOKEN_HERE' ? cfg.token : (localStorage.getItem('gh_token') || '');
   const ready = !!(cfg.owner && cfg.repo && token);
+  // Чтение публичного репозитория токена не требует
+  const readReady = !!(cfg.owner && cfg.repo);
   const base = `${API}/repos/${cfg.owner}/${cfg.repo}`;
   const branch = cfg.branch || 'main';
 
   async function req(method, url, body) {
+    const headers = {
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
     const r = await fetch(url, {
       method,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/vnd.github+json',
-        'Content-Type': 'application/json'
-      },
+      headers,
       body: body ? JSON.stringify(body) : undefined
     });
     if (!r.ok) {
@@ -77,5 +80,5 @@ const GH = (() => {
     return !!token;
   }
 
-  return { ready, base, branch, readJSON, writeFile, deleteFile, getFile, fileToU8, test, u8ToB64, setToken, hasToken };
+  return { ready, readReady, base, branch, readJSON, writeFile, deleteFile, getFile, fileToU8, test, u8ToB64, setToken, hasToken };
 })();

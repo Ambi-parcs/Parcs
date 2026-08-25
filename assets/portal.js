@@ -78,16 +78,18 @@ const Portal = (() => {
   async function loadRolesGH() {
     const r = await GH.readJSON(ROLES_PATH);
     if (!r) {
-      // первый запуск — заливаем роли по умолчанию
+      // первый запуск — заливаем роли по умолчанию (нужен токен)
       const def = defaultRoles();
-      await GH.writeFile(ROLES_PATH, JSON.stringify(def, null, 2), 'Роли по умолчанию');
+      if (GH.ready) {
+        await GH.writeFile(ROLES_PATH, JSON.stringify(def, null, 2), 'Роли по умолчанию');
+      }
       return { list: def, sha: null };
     }
     return { list: r.json, sha: r.sha };
   }
 
   async function rolesAsync() {
-    if (useGH()) {
+    if (useGH() || (typeof GH !== 'undefined' && GH.readReady)) {
       try {
         const { list } = await loadRolesGH();
         _rolesCache = list;
