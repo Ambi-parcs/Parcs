@@ -35,6 +35,13 @@ const Portal = (() => {
   /* ---------- Локальный запасной режим ---------- */
   function defaultRoles() {
     const full = fullPerms();
+    // Права управляющих парков (роли из раздела 1 «Контроль»):
+    // смотреть могут все разделы, изменять — только свой раздел контроля.
+    const mgr = {
+      'view.kontrol': true, 'manage.kontrol': true,
+      'view.budget': true, 'view.analitika': true,
+      'view.obuchenie': true, 'view.motivatsia': true, 'view.reglamenty': true,
+    };
     return [
       { id: 'admin', login: 'admin', pwdHash: hashPwd('0987'), name: 'Администратор',
         note: 'Полный доступ ко всем разделам и настройкам', builtin: true, perms: full },
@@ -42,6 +49,19 @@ const Portal = (() => {
         note: 'Полный доступ', builtin: true, perms: full },
       { id: 'cfo', login: 'cfo', pwdHash: hashPwd('cfo123'), name: 'Финансовый директор',
         note: 'Полный доступ', builtin: true, perms: full },
+      { id: 'art', login: 'art', pwdHash: hashPwd('art234'), name: 'Арт-директор',
+        note: 'Полный доступ', builtin: true, perms: full },
+      // Роли из раздела 1 «Контроль» (те же логины и пароли)
+      { id: 'director', login: 'director', pwdHash: hashPwd('0987'), name: 'Генеральный директор',
+        note: 'Полный доступ (раздел 1)', builtin: true, perms: full },
+      { id: 'mgr_horosho', login: 'horosho', pwdHash: hashPwd('1234'), name: 'Управляющий парка «Хорошо»',
+        note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
+      { id: 'mgr_columbus', login: 'columbus', pwdHash: hashPwd('2345'), name: 'Управляющий парка «Колумбус»',
+        note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
+      { id: 'mgr_vegas', login: 'vegas', pwdHash: hashPwd('3456'), name: 'Управляющий парка «Вегас»',
+        note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
+      { id: 'mgr_okeania', login: 'okeania', pwdHash: hashPwd('4567'), name: 'Управляющий парка «Океания»',
+        note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
     ];
   }
 
