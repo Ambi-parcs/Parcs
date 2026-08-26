@@ -93,6 +93,15 @@
 <link rel="stylesheet" href="assets/portal-bar.css">
 </head>
 <body>
+<script>
+/* Раздел доступен только после входа на портал — иначе возврат на главную. */
+(function(){
+  try {
+    if (!JSON.parse(localStorage.getItem('ambi_portal_session_v1') || 'null')) { location.replace('index.html'); }
+  } catch(e) { location.replace('index.html'); }
+})();
+</script>
+
 <div class="portal-bar">
   <img src="assets/favicon.svg" alt="АмбиЛенд">
   <span class="pb-brand">АмбиЛенд</span>
