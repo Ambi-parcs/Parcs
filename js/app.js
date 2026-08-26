@@ -61,6 +61,7 @@ const App = (() => {
     await DB.open();
     await Seed.run(); // наполнить демо-данными, если пусто
     await migrateFilesFromContracts(); // перенести PDF-договоры в новое хранилище (v6)
+    await clearWorksOnce(); // разовая очистка реестра работ (по запросу руководства)
 
     // Если уже есть сессия — показать приложение
     if (Auth.current()) showApp();
@@ -846,6 +847,17 @@ const App = (() => {
   }
 
   // Одноразовая миграция: PDF-договоры из contractFiles → files (тег «Договор»)
+  // Разовая очистка реестра работ и связанных договоров (по запросу руководства).
+  // Срабатывает один раз на каждый браузер (флаг в localStorage).
+  async function clearWorksOnce() {
+    const FLAG = 'ambi_works_cleared_v1';
+    if (localStorage.getItem(FLAG)) return;
+    await DB.clear('works');
+    await DB.clear('contracts');
+    await DB.clear('contractFiles');
+    localStorage.setItem(FLAG, '1');
+  }
+
   async function migrateFilesFromContracts() {
     if (localStorage.getItem(MIGRATION_FLAG)) return;
     try {
