@@ -89,6 +89,11 @@ const DB = (() => {
     return req2promise(_tx(store, 'readwrite').delete(id));
   }
 
+  async function clear(store) {
+    await ensureOpen();
+    return req2promise(_tx(store, 'readwrite').clear());
+  }
+
   async function clearAll() {
     await ensureOpen();
     const names = Object.keys(STORES);
@@ -180,7 +185,7 @@ const DB = (() => {
 
   return {
     STORES, open, ensureOpen, uid,
-    getAll, getByKey, put, bulkPut, remove, clearAll, getByIndex,
+    getAll, getByKey, put, bulkPut, remove, clear, clearAll, getByIndex,
     saveFile, getFile, getFilesByContract, deleteFile,
     saveFileRecord, getFileRecord, getAllFiles, updateFileRecord, deleteFileRecord,
   };
