@@ -71,6 +71,16 @@ window.GH_CONFIG = {
   token: 'GITHUB_TOKEN_HERE'
 };
 </script>
+<script>
+/* Раздел доступен только после входа на портал — иначе возврат на главную. */
+(function(){
+  try {
+    if (!JSON.parse(localStorage.getItem('ambi_portal_session_v1') || 'null')) {
+      location.replace('index.html');
+    }
+  } catch(e) { location.replace('index.html'); }
+})();
+</script>
 <script src="assets/github.js"></script>
 <script src="assets/portal.js"></script>
 <script src="assets/section.js"></script>
