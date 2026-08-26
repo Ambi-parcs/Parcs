@@ -3326,8 +3326,11 @@ function renderParkMonth(park, month, container, isApproved) {
                     }
                     // Сохраняем данные
                     saveData();
-                    // Обновляем сводную, год, квартал, неделю
-                    syncWeekToMonth();
+                    // Обновляем сводную, год, квартал, неделю.
+                    // syncWeekToMonth() здесь не вызываем: иначе только что
+                    // введённый вручную факт доходов перезаписался бы суммой
+                    // недель (там обычно нули) — из-за этого значение
+                    // «исчезало» при перезагрузке страницы.
                     syncQuarterFromMonth();
                     renderMonthSummary(month);
                     renderYear();
@@ -4638,8 +4641,9 @@ function applyUserRole(user) {
 
 function logout() {
     localStorage.removeItem('ambiland_user');
+    localStorage.removeItem('ambi_portal_session_v1');
     currentUser = null;
-    location.reload();
+    location.href = 'index.html';
 }
 
 function updateUI() {
@@ -5054,6 +5058,10 @@ populateSelects();
 const defaultMonth = ACTIVE_MONTHS.includes(currentMonth) ? currentMonth : ACTIVE_MONTHS[0];
 document.getElementById('monthSelect').value = defaultMonth;
 document.getElementById('founderMonthSelect').value = defaultMonth;
+
+// Раздел доступен только после входа на портале — иначе возврат на главную.
+const portalSess = localStorage.getItem('ambi_portal_session_v1');
+if (!portalSess) { location.replace('index.html'); }
 
 const savedUser = localStorage.getItem('ambiland_user');
 if (savedUser) {
