@@ -107,7 +107,7 @@
       }
       // 2. Обновляем реестр
       const reg = await ghLoadRegistry();
-      const list = reg.list.filter(d => d.id !== doc.id);
+      const list = reg.list.filter(d => d.id !== doc.id || d.hidden);
       await GH.writeFile(REGISTRY_PATH, JSON.stringify(list, null, 2), 'Реестр: удалён «' + doc.title + '» (' + sectionId + ')', reg.sha);
     });
   }
@@ -173,7 +173,79 @@
   let localDocs = [];
   let useGH = false;
 
+  /* ---------- Скрытые (удалённые) статические карточки ----------
+     Встроенные карточки раздела (зашиты в HTML) нельзя удалить из
+     репозитория отдельным коммитом — поэтому при «удалении» карточка
+     помечается скрытой в реестре (поле hidden: true) и пропадает у всех
+     посетителей. Восстановить можно, отредактировав docs/registry.json
+     вручную (hidden: false) либо через администратора репозитория. */
+  let hiddenStatic = [];
+
+  async function ghHideStatic(idx, title) {
+    return ghEnqueue(async () => {
+      const reg = await ghLoadRegistry();
+      const list = reg.list.filter(d => !(d && d.section === sectionId && d.staticIndex === idx));
+      list.push({
+        id: 'static_' + sectionId + '_' + idx,
+        section: sectionId,
+        staticIndex: idx,
+        hidden: true,
+        title: title,
+        ts: Date.now(),
+      });
+      await GH.writeFile(REGISTRY_PATH, JSON.stringify(list, null, 2), 'Реестр: скрыта карточка «' + title + '» (' + sectionId + ')', reg.sha);
+    });
+  }
+
   /* ---------- Рендер ---------- */
+  function applyStaticHidden() {
+    staticDocs.forEach((card, idx) => {
+      card.style.display = hiddenStatic.includes(idx) ? 'none' : '';
+    });
+  }
+
+  function attachStaticDel() {
+    staticDocs.forEach((card, idx) => {
+      if (card.querySelector('.doc-del')) return;
+      const btn = document.createElement('button');
+      btn.className = 'doc-del';
+      btn.title = 'Удалить карточку';
+      btn.innerHTML = Portal.icon('trash');
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const title = (card.querySelector('.doc-title') || {}).textContent || 'карточка';
+        if (!confirm(`Удалить «${title}» из раздела для всех?\n\nКарточка исчезнет из списка, но сам файл страницы останется в репозитории.`)) return;
+        btn.disabled = true;
+        try {
+          if (useGH) {
+            await ghHideStatic(idx, title);
+            if (!hiddenStatic.includes(idx)) hiddenStatic.push(idx);
+            card.style.display = 'none';
+            applyFilters();
+            Portal.toast('Карточка скрыта для всех (обновление ~1 мин)');
+          } else {
+            card.style.display = 'none';
+            applyFilters();
+            markDirty();
+            Portal.toast('Карточка скрыта в этом браузере. Для скрытия у всех настройте GitHub токен.', true);
+          }
+        } catch (err) {
+          btn.disabled = false;
+          Portal.toast('Не удалось удалить: ' + err.message, true);
+        }
+      });
+      card.appendChild(btn);
+    });
+  }
+
+  function detachStaticDel() {
+    staticDocs.forEach((card) => {
+      const b = card.querySelector('.doc-del');
+      if (b) b.remove();
+    });
+  }
+
   function applyFilters() {
     const q = query.trim().toLowerCase();
     let visible = 0;
@@ -183,7 +255,10 @@
       const text = card.textContent.toLowerCase();
       const typeOk = activeType === 'all' || type === activeType;
       const qOk = !q || text.includes(q);
-      const show = typeOk && qOk;
+      // Скрытые администратором статические карточки не показываем никогда
+      const sIdx = staticDocs.indexOf(card);
+      const isHidden = sIdx !== -1 && hiddenStatic.includes(sIdx);
+      const show = !isHidden && typeOk && qOk;
       card.style.display = show ? '' : 'none';
       if (show) visible++;
     });
@@ -314,7 +389,10 @@
       // чтение опубликованных документов — без токена, для всех
       try {
         const reg = await ghLoadRegistry();
-        ghDocs = reg.list.filter(d => d && d.section === sectionId);
+        const mine = (reg.list || []).filter(d => d && d.section === sectionId);
+        ghDocs = mine.filter(d => !d.hidden);
+        hiddenStatic = mine.filter(d => d.hidden).map(d => d.staticIndex);
+        applyStaticHidden();
       } catch (e) {
         console.warn('[section] GitHub недоступен, локальный режим:', e.message);
         useGH = false;
@@ -372,6 +450,7 @@
     const sess = Portal.session();
 
     if (canManage()) {
+      attachStaticDel();
       const add = document.createElement('button');
       add.className = 'add-doc-fab';
       add.style.marginLeft = '0';
@@ -397,6 +476,32 @@
       badge.innerHTML = Portal.icon(useGH ? 'check' : 'lock') + (useGH ? ' GitHub' : ' Офлайн');
       wrap.appendChild(badge);
 
+      // Кнопка восстановления скрытых карточек (если есть)
+      if (hiddenStatic.length) {
+        const rb = document.createElement('button');
+        rb.className = 'btn-p light sm';
+        rb.innerHTML = Portal.icon('plus') + ' Скрыто: ' + hiddenStatic.length;
+        rb.title = 'Показать скрытые карточки раздела';
+        rb.addEventListener('click', async () => {
+          if (!confirm('Восстановить скрытые карточки раздела (' + hiddenStatic.length + ' шт.) для всех?')) return;
+          try {
+            await ghEnqueue(async () => {
+              const reg = await ghLoadRegistry();
+              const list = reg.list.filter(d => !(d && d.section === sectionId && d.hidden));
+              await GH.writeFile(REGISTRY_PATH, JSON.stringify(list, null, 2), 'Реестр: восстановлены скрытые карточки (' + sectionId + ')', reg.sha);
+            });
+            hiddenStatic = [];
+            applyStaticHidden();
+            applyFilters();
+            Portal.toast('Карточки восстановлены');
+            renderAuthArea(document.getElementById('toolbarAuth'));
+          } catch (err) {
+            Portal.toast('Не удалось: ' + err.message, true);
+          }
+        });
+        wrap.appendChild(rb);
+      }
+
       // Кнопка ввода GitHub-токена (только админ, только если токен не задан)
       if (isAdmin() && typeof GH !== 'undefined' && !GH.hasToken()) {
         const tokBtn = document.createElement('button');
@@ -413,11 +518,14 @@
         });
         wrap.appendChild(tokBtn);
       }
-    } else if (sess) {
-      const hint = document.createElement('span');
-      hint.className = 'auth-viewonly';
-      hint.innerHTML = Portal.icon('lock') + ' Только просмотр — документы добавляет и удаляет администратор';
-      wrap.appendChild(hint);
+    } else {
+      detachStaticDel();
+      if (sess) {
+        const hint = document.createElement('span');
+        hint.className = 'auth-viewonly';
+        hint.innerHTML = Portal.icon('lock') + ' Только просмотр — документы добавляет и удаляет администратор';
+        wrap.appendChild(hint);
+      }
     }
 
     if (sess) {
