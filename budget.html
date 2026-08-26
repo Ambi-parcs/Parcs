@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бюджетирование – АмбиЛенд (июль–декабрь 2026)</title>
+    <title>Бюджетирование – АмбиЛенд (сентябрь–декабрь 2026)</title>
     <style>
         /* ============================================================
            Бюджетирование — АмбиЛенд · редизайн 2026
@@ -342,7 +342,7 @@
     <div id="quarter" class="tab-content">
         <h2>Квартальный план-факт (млн руб.)</h2>
         <div class="controls">
-            <label>Квартал: <select id="quarterSelect"><option value="2">3-й (июл-сен)</option><option value="3">4-й (окт-дек)</option></select></label>
+            <label>Квартал: <select id="quarterSelect"><option value="3">4-й (окт-дек)</option></select></label>
             <label>Парк: <select id="quarterParkSelect"><option value="all">Все парки</option><option value="Коламбус">Коламбус</option><option value="Вегас">Вегас</option><option value="Океания">Океания</option><option value="Хорошо!">Хорошо!</option></select></label>
             <button class="btn btn-secondary" id="saveQuarterBtn">💾 Сохранить квартал</button>
             <button class="btn btn-warning" id="approveQuarterBtn">✅ Утвердить (Ген.Дир)</button>
@@ -356,7 +356,7 @@
     <div id="month" class="tab-content">
         <h2>Месячный бюджет (тыс. руб.)</h2>
         <div class="controls">
-            <label>Месяц: <select id="monthSelect"><option value="6">Июль</option><option value="7">Август</option><option value="8">Сентябрь</option><option value="9">Октябрь</option><option value="10">Ноябрь</option><option value="11">Декабрь</option></select></label>
+            <label>Месяц: <select id="monthSelect"><option value="8">Сентябрь</option><option value="9">Октябрь</option><option value="10">Ноябрь</option><option value="11">Декабрь</option></select></label>
             <button class="btn btn-success" id="addParkBtn">➕ Добавить парк</button>
             <button class="btn btn-secondary" id="saveMonthBtn">💾 Сохранить месяц</button>
             <button class="btn btn-warning hidden" id="approveMonthBtn">✅ Утвердить (Ген.Дир)</button>
@@ -365,8 +365,6 @@
             <button class="btn send-btn hidden" id="sendMonthBtn">📤 Send (рассылка планов)</button>
             <button class="btn btn-info hidden" id="copyMonthBtn">📋 Скопировать отчёт</button>
             <button class="btn clear-btn hidden" id="clearMonthBtn">🗑️ Очистить все данные</button>
-            <button class="btn btn-outline" id="applyAugustPlanBtn" title="Загрузить план августа 2026 из файла «Доходы август 26.xlsx» (млн руб, на всю сеть)">📥 Загрузить план августа</button>
-            <button class="btn btn-warning" id="unlockJulyFactBtn" title="Снять блокировку факта за июль, чтобы заполнить его">🔓 Разблокировать факт июля</button>
         </div>
         <div id="monthParkTabs" class="sub-tabs"><button class="sub-tab active" data-park="Коламбус">Коламбус</button><button class="sub-tab" data-park="Вегас">Вегас</button><button class="sub-tab" data-park="Океания">Океания</button><button class="sub-tab" data-park="Хорошо!">Хорошо!</button><button class="btn btn-info">📊 Сводная</button></div>
         <div id="monthParkContents"><div class="sub-content month-park-content active" id="monthPark_Коламбус"><h3>Доходы за Август</h3><table class="month-park-table"><thead><tr><th class="left">Статья</th><th>План (мес)</th><th>Факт</th><th>Абс</th><th>Отн</th></tr></thead><tbody><tr class="group-toggle-row collapsed" data-group-scope="month" data-group-name="Коламбус__rev__Игровая зона"><td class="left"><span class="group-arrow">▼</span><strong>Игровая зона</strong></td>
@@ -1390,7 +1388,7 @@
     <div id="founder" class="tab-content active">
         <h2>📈 Отчёт для учредителя</h2>
         <div class="controls">
-            <label>Месяц: <select id="founderMonthSelect"><option value="6">Июль</option><option value="7">Август</option><option value="8">Сентябрь</option><option value="9">Октябрь</option><option value="10">Ноябрь</option><option value="11">Декабрь</option></select></label>
+            <label>Месяц: <select id="founderMonthSelect"><option value="8">Сентябрь</option><option value="9">Октябрь</option><option value="10">Ноябрь</option><option value="11">Декабрь</option></select></label>
             <button class="btn btn-success" id="sendFounderBtn">📧 Отправить учредителю</button>
             <button class="btn btn-info" id="copyFounderBtn">📋 Скопировать отчёт</button>
         </div>
@@ -1962,8 +1960,8 @@ const EXPENSE_SUB_TO_ARTICLE = {
     'Командировочные расходы': 'Командировочные расходы',
     'Прочие коммерческие расходы': 'Прочие коммерческие расходы'
 };
-const ACTIVE_MONTHS = [6,7,8,9,10,11];
-const ACTIVE_QUARTERS = [2,3];
+const ACTIVE_MONTHS = [8,9,10,11];
+const ACTIVE_QUARTERS = [3];
 const PARK_PASSWORDS = {
     'Коламбус': '2345',
     'Вегас': '3456',
@@ -2000,23 +1998,21 @@ function getDefaultAnnualPlan() {
     ANNUAL_ARTICLES.forEach(art => {
         p[art] = Array(12).fill(0);
     });
-    // заполним прогнозными значениями из исходной версии
+    // заполним прогнозными значениями (период планирования: сентябрь–декабрь)
     const PLAN_FROM_FORECAST = {
-        // План августа (индекс 7) обновлён по «Доходы август 26.xlsx».
-        // Остальные месяцы — прежние прогнозные значения.
-        'Игровая зона': [0,0,0,0,0,0, 44, 56.299, 53, 56.496, 61.632, 68.052],
-        'Ресторан': [0,0,0,0,0,0, 19, 18.188, 24, 24.396, 28.248, 30.816],
-        'Банкеты': [0,0,0,0,0,0, 12, 27, 17, 15.408, 19.26, 21.828],
-        'Мерчендайзинг': [0,0,0,0,0,0, 0, 0.19, 0,0,0,0],
-        'Прочие услуги': [0,0,0,0,0,0, 0, 1.413, 0,0,0,0],
-        'Прямые затраты': [0,0,0,0,0,0, 1.05, 1.45, 1.7, 1.3482, 1.8618, 2.1828],
-        'ФОТ': [0,0,0,0,0,0, 19.5, 20.4, 21.4, 25.038, 26.1936, 27.4776],
-        'Страховые взносы и НДФЛ': [0,0,0,0,0,0, 8.1, 8.5, 8.8, 10.4004, 10.914, 11.2992],
-        'Административные, ИТ, банковские и прочие': [0,0,0,0,0,0, 3.3, 3.4, 3.45, 4.2372, 4.3656, 4.4298],
-        'Аренда и коммунальные': [0,0,0,0,0,0, 17.781845, 19.831445, 21.661445, 22.831889, 25.463575, 27.813295],
-        'Обслуживание парков': [0,0,0,0,0,0, 2.785, 2.785, 2.785, 3.57594, 3.57594, 3.57594],
-        'Расходные материалы парков и праздников': [0,0,0,0,0,0, 1.5, 1.5, 1.5, 1.926, 1.926, 1.926],
-        'Технические и ремонтные работы': [0,0,0,0,0,0, 0.3, 0.3, 0.3, 0.3852, 0.3852, 0.3852],
+        'Игровая зона': [0,0,0,0,0,0, 0, 0, 53, 56.496, 61.632, 68.052],
+        'Ресторан': [0,0,0,0,0,0, 0, 0, 24, 24.396, 28.248, 30.816],
+        'Банкеты': [0,0,0,0,0,0, 0, 0, 17, 15.408, 19.26, 21.828],
+        'Мерчендайзинг': [0,0,0,0,0,0, 0, 0, 0,0,0,0],
+        'Прочие услуги': [0,0,0,0,0,0, 0, 0, 0,0,0,0],
+        'Прямые затраты': [0,0,0,0,0,0, 0, 0, 1.7, 1.3482, 1.8618, 2.1828],
+        'ФОТ': [0,0,0,0,0,0, 0, 0, 21.4, 25.038, 26.1936, 27.4776],
+        'Страховые взносы и НДФЛ': [0,0,0,0,0,0, 0, 0, 8.8, 10.4004, 10.914, 11.2992],
+        'Административные, ИТ, банковские и прочие': [0,0,0,0,0,0, 0, 0, 3.45, 4.2372, 4.3656, 4.4298],
+        'Аренда и коммунальные': [0,0,0,0,0,0, 0, 0, 21.661445, 22.831889, 25.463575, 27.813295],
+        'Обслуживание парков': [0,0,0,0,0,0, 0, 0, 2.785, 3.57594, 3.57594, 3.57594],
+        'Расходные материалы парков и праздников': [0,0,0,0,0,0, 0, 0, 1.5, 1.926, 1.926, 1.926],
+        'Технические и ремонтные работы': [0,0,0,0,0,0, 0, 0, 0.3, 0.3852, 0.3852, 0.3852],
         'Себестоимость ресторана': [0,0,0,0,0,0, 0,0,0,0,0,0],
         'Затраты на сотрудников': [0,0,0,0,0,0, 0,0,0,0,0,0],
         'Маркетинговые расходы': [0,0,0,0,0,0, 0,0,0,0,0,0],
@@ -2063,11 +2059,36 @@ function initData() {
     saveData();
 }
 
+// Одноразовая миграция: июль и август выведены из периода планирования
+// (июль–декабрь → сентябрь–декабрь). Удаляем их данные из сохранённого
+// объекта, чтобы они не тянулись дальше ни в localStorage, ни в облаке.
+function dropJulAugData() {
+    if (data.julAugRemoved) return;
+    const oldMonths = [6, 7];
+    if (data.annualPlan) {
+        Object.keys(data.annualPlan).forEach(art => {
+            oldMonths.forEach(m => { data.annualPlan[art][m] = 0; });
+        });
+    }
+    data.parks.forEach(p => {
+        oldMonths.forEach(m => {
+            if (data.monthData[p]) delete data.monthData[p][m];
+            if (data.weekData[p]) delete data.weekData[p][m];
+            if (data.savedMonth[p]) delete data.savedMonth[p][m];
+        });
+    });
+    if (data.quarterData && data.quarterData[2]) delete data.quarterData[2]; // квартал Q3 с июлём–августом
+    if (data.isMonthApproved) oldMonths.forEach(m => { delete data.isMonthApproved[m]; });
+    if (data.isQuarterApproved) delete data.isQuarterApproved[2];
+    data.julAugRemoved = true;
+}
+
 function loadData() {
     const saved = localStorage.getItem('ambiland_budget_v7');
     if (saved) {
         try {
             data = JSON.parse(saved);
+            dropJulAugData();
             if (!data.parks) data.parks = ['Коламбус', 'Вегас', 'Океания', 'Хорошо!'];
             if (!data.annualPlan) data.annualPlan = getDefaultAnnualPlan();
             if (!data.quarterData) data.quarterData = {};
@@ -2360,7 +2381,37 @@ async function loadCloudData() {
             return;
         }
         if (row && row.payload) {
-            localStorage.setItem('ambiland_budget_v7', JSON.stringify(row.payload));
+            let payload = row.payload;
+            if (!payload.julAugRemoved) {
+                // Облачные данные ещё старого формата (с июлём и августом) —
+                // мигрируем их на месте и отсылаем обратно, чтобы все
+                // компьютеры получили очищенную версию.
+                const tmp = localStorage.getItem('ambiland_budget_v7');
+                localStorage.setItem('ambiland_budget_v7', JSON.stringify(payload));
+                data = payload;
+                dropJulAugData();
+                data.parks.forEach(p => {
+                    ACTIVE_MONTHS.forEach(m => {
+                        if (!data.monthData[p][m]) {
+                            data.monthData[p][m] = { revenue: [], expenses: [] };
+                            initMonthStructureForParkMonth(p, m);
+                        } else {
+                            repairParkMonthStructure(p, m);
+                        }
+                        if (!data.weekData[p][m]) {
+                            data.weekData[p][m] = {};
+                            WEEK_ARTICLES.forEach(art => { data.weekData[p][m][art] = [0,0,0,0]; });
+                        }
+                    });
+                });
+                initQuarterData();
+                syncWeekToMonth();
+                syncQuarterFromMonth();
+                payload = data;
+                if (tmp !== null) { /* локальную копию перезапишем ниже мигрированной версией */ }
+                saveDataToCloud();
+            }
+            localStorage.setItem('ambiland_budget_v7', JSON.stringify(payload));
             setCloudStatus('ok', 'Данные загружены из облака');
         }
     } catch (e) {
@@ -2757,110 +2808,6 @@ function fillMonthlyFromAnnual() {
     saveData();
 }
 
-// ============================================================
-//  ИМПОРТ ПЛАНА АВГУСТА + РАЗБЛОКИРОВКА ФАКТА ИЮЛЯ
-//  План августа (по паркам × статьям × подстатьям) взял из «Доходы август 26.xlsx».
-//  Значения в ТЫСЯЧАХ рублей (формат monthData[park][month].revenue[].sub[].plan).
-//  Обновляется ТОЛЬКО август (и флаг блокировки июля), остальные месяцы не трогаются.
-// ============================================================
-const AUGUST_PLAN_PARKS = {
-    "Коламбус": {
-        "Игровая зона": { "Билеты в парк": 31000, "SkyRider": 2500, "Услуги няни": 29 },
-        "Ресторан": { "Свободная посадка": 3500, "Банкетное питание и напитки": 4658, "Бар": 0, "Торты": 0 },
-        "Банкеты": { "Шоу, анимация и мастер-классы": 0, "Оформление и пиньяты": 3106, "Аниматоры, ведущие и артисты": 0 },
-        "Мерчендайзинг": { "Товары и игрушки": 100 },
-        "Прочие услуги": { "Комиссия за услуги фотографирования": 300, "Аренда партнёрского оборудования": 0, "Иные партнёрские услуги": 0 }
-    },
-    "Вегас": {
-        "Игровая зона": { "Билеты в парк": 9000, "SkyRider": 0, "Услуги няни": 20 },
-        "Ресторан": { "Свободная посадка": 1500, "Банкетное питание и напитки": 3777, "Бар": 0, "Торты": 0 },
-        "Банкеты": { "Шоу, анимация и мастер-классы": 0, "Оформление и пиньяты": 2518, "Аниматоры, ведущие и артисты": 0 },
-        "Мерчендайзинг": { "Товары и игрушки": 30 },
-        "Прочие услуги": { "Комиссия за услуги фотографирования": 600, "Аренда партнёрского оборудования": 0, "Иные партнёрские услуги": 0 }
-    },
-    "Океания": {
-        "Игровая зона": { "Билеты в парк": 13574, "SkyRider": 0, "Услуги няни": 566 },
-        "Ресторан": { "Свободная посадка": 0, "Банкетное питание и напитки": 0, "Бар": 0, "Торты": 0 },
-        "Банкеты": { "Шоу, анимация и мастер-классы": 0, "Оформление и пиньяты": 1980, "Аниматоры, ведущие и артисты": 0 },
-        "Мерчендайзинг": { "Товары и игрушки": 30 },
-        "Прочие услуги": { "Комиссия за услуги фотографирования": 0, "Аренда партнёрского оборудования": 0, "Иные партнёрские услуги": 50 }
-    },
-    "Хорошо!": {
-        "Игровая зона": { "Билеты в парк": 4803, "SkyRider": 0, "Услуги няни": 30 },
-        "Ресторан": { "Свободная посадка": 1309, "Банкетное питание и напитки": 3443, "Бар": 0, "Торты": 0 },
-        "Банкеты": { "Шоу, анимация и мастер-классы": 0, "Оформление и пиньяты": 2296, "Аниматоры, ведущие и артисты": 0 },
-        "Мерчендайзинг": { "Товары и игрушки": 30 },
-        "Прочие услуги": { "Комиссия за услуги фотографирования": 248, "Аренда партнёрского оборудования": 0, "Иные партнёрские услуги": 0 }
-    }
-};
-
-function applyAugustPlan() {
-    if (data.isYearApproved) {
-        if (!confirm('Годовой план утверждён. Снять утверждение и загрузить новый план августа?')) return;
-        data.isYearApproved = false;
-        ACTIVE_QUARTERS.forEach(q => { data.isQuarterApproved[q] = false; });
-    }
-    const m = 7; // август (0-indexed)
-    // Записываем план августа напрямую в monthData[park][7].revenue[].sub[].plan
-    // — точно по паркам и подстатьям, без равного деления.
-    data.parks.forEach(park => {
-        const md = data.monthData[park] && data.monthData[park][m];
-        if (!md || !md.revenue) return;
-        const planForPark = AUGUST_PLAN_PARKS[park];
-        if (!planForPark) return;
-        md.revenue.forEach(item => {
-            const subPlan = planForPark[item.article];
-            if (!subPlan) return;
-            item.sub.forEach(sub => {
-                if (subPlan[sub.name] !== undefined) {
-                    sub.plan = subPlan[sub.name];
-                    sub.manualPlan = true;   // защита от авто-пересчёта из «Год»
-                }
-            });
-        });
-    });
-    // Пересчитываем годовой план августа (annualPlan[art][7]) как сумму по паркам —
-    // чтобы вкладки «Год»/«Квартал» показывали согласованный итог (в млн руб).
-    REVENUE_ARTICLES.forEach(art => {
-        let totalK = 0;
-        data.parks.forEach(park => {
-            const md = data.monthData[park] && data.monthData[park][m];
-            const item = md && md.revenue.find(r => r.article === art);
-            if (item) totalK += item.sub.reduce((s, sub) => s + Number(sub.plan), 0);
-        });
-        if (data.annualPlan[art]) data.annualPlan[art][m] = totalK / 1000; // тыс → млн
-    });
-    syncWeekToMonth();
-    syncQuarterFromMonth();
-    saveData();
-    // Перерисовываем все вкладки, чтобы увидеть новый план
-    if (typeof renderYear === 'function') renderYear();
-    if (typeof renderQuarter === 'function') renderQuarter();
-    if (typeof renderMonth === 'function') renderMonth();
-    if (typeof renderWeek === 'function') renderWeek();
-    if (typeof renderFounder === 'function') renderFounder();
-}
-
-function unlockJulyFact() {
-    const m = 6; // июль = индекс 6 (0-indexed)
-    let needRender = false;
-    if (data.isMonthApproved[m]) {
-        data.isMonthApproved[m] = false;
-        needRender = true;
-    }
-    // Снимаем флаг «сохранён», который блокирует поля факта в renderParkMonth (disabledFact = isSaved)
-    data.parks.forEach(p => {
-        if (data.savedMonth[p] && data.savedMonth[p][m]) {
-            data.savedMonth[p][m] = false;
-            needRender = true;
-        }
-    });
-    saveData();
-    if (needRender) {
-        if (typeof renderMonth === 'function') renderMonth();
-    }
-    return needRender;
-}
 
 // ---------- Рендеринг квартала ----------
 function renderQuarter() {
@@ -2890,7 +2837,7 @@ function renderQuarter() {
     const getQPlan = (m, art) => (data.quarterData[quarter]?.[m]?.[art]?.plan ?? 0) * planScale;
 
     const start = quarter * 3;
-    const monthNames = ['июл','авг','сен','окт','ноя','дек'].slice(start-6, start-3);
+    const monthNames = [MONTHS[start], MONTHS[start+1], MONTHS[start+2]];
     let html = `<table><thead><tr><th class="left">Статья</th>`;
     for (let m = 0; m < 3; m++) {
         html += `<th colspan="4">${monthNames[m]}</th>`;
@@ -3635,13 +3582,10 @@ function renderParkWeek(park, container) {
     const md = data.monthData[park];
     if (!md) return;
 
-    let monthIndices = [];
-    for (let m = 6; m <= 11; m++) {
-        if (m >= currentMonth - 1 && m <= currentMonth + 1) monthIndices.push(m);
-    }
-    if (monthIndices.length === 0) monthIndices = [currentMonth];
-    if (currentMonth < 6) monthIndices = [6,7];
-    if (currentMonth > 11) monthIndices = [10,11];
+    let monthIndices = ACTIVE_MONTHS.filter(m => m >= currentMonth - 1 && m <= currentMonth + 1);
+    if (monthIndices.length === 0) monthIndices = [ACTIVE_MONTHS[0]];
+    if (currentMonth < ACTIVE_MONTHS[0]) monthIndices = ACTIVE_MONTHS.slice(0, 2);
+    if (currentMonth > ACTIVE_MONTHS[ACTIVE_MONTHS.length - 1]) monthIndices = ACTIVE_MONTHS.slice(-2);
 
     container.innerHTML = '';
     const header = document.createElement('div');
@@ -4881,22 +4825,6 @@ document.getElementById('copyMonthBtn').addEventListener('click', copyMonthlyPla
 // Кнопка очистки
 document.getElementById('clearMonthBtn').addEventListener('click', clearMonthData);
 
-// Импорт плана августа + разблокировка факта июля
-document.getElementById('applyAugustPlanBtn').addEventListener('click', function() {
-    applyAugustPlan();
-    // Переключаем вкладку «Месяц» на август, чтобы сразу увидеть загруженный план
-    const sel = document.getElementById('monthSelect');
-    if (sel) sel.value = '7';
-    if (typeof renderMonth === 'function') renderMonth();
-    alert('План августа загружен по паркам:\n• Коламбус — 45,2 млн\n• Вегас — 17,4 млн\n• Океания — 16,2 млн\n• Хорошо — 12,2 млн\nИтого по сети ≈ 91,0 млн руб.\n\nПереключились на вкладку «Месяц → Август».');
-});
-document.getElementById('unlockJulyFactBtn').addEventListener('click', function() {
-    const changed = unlockJulyFact();
-    const sel = document.getElementById('monthSelect');
-    if (sel) sel.value = '6';
-    if (typeof renderMonth === 'function') renderMonth();
-    alert(changed ? 'Факт июля разблокирован. Переключились на вкладку «Месяц → Июль» — поля факта теперь доступны для ввода.' : 'Факт июля уже был доступен для редактирования. Переключились на «Месяц → Июль».');
-});
 
 // Остальные кнопки
 document.getElementById('saveYearBtn').addEventListener('click', function() { saveWithStatus(); });
@@ -5122,8 +5050,8 @@ document.getElementById('founderMonthSelect').innerHTML = ACTIVE_MONTHS.map(m =>
 populateSelects();
 
 // 3) Выбор месяца по умолчанию: текущий, если он в периоде планирования,
-//    иначе — первый активный месяц (Июль).
-const defaultMonth = (currentMonth >= 6 && currentMonth <= 11) ? currentMonth : 6;
+//    иначе — первый активный месяц (Сентябрь).
+const defaultMonth = ACTIVE_MONTHS.includes(currentMonth) ? currentMonth : ACTIVE_MONTHS[0];
 document.getElementById('monthSelect').value = defaultMonth;
 document.getElementById('founderMonthSelect').value = defaultMonth;
 
