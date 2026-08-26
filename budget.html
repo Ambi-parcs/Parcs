@@ -1888,9 +1888,10 @@
     </div>
     </div>
 
-    <div class="footer">Данные сохраняются в браузере. Все поля доступны для редактирования.</div>
+    <div class="footer">Данные сохраняются в облачной базе и доступны с любого компьютера.</div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ========================================================================
 //  ПОЛНЫЙ JS-КОД СО ВСЕМИ ТАБЛИЦАМИ, РОЛЯМИ, УТВЕРЖДЕНИЕМ И МГНОВЕННЫМ СУММИРОВАНИЕМ
@@ -2314,8 +2315,132 @@ function syncQuarterFromMonth() {
     });
 }
 
+// ========================================================================
+//  ОБЛАЧНОЕ ХРАНИЛИЩЕ (Supabase) — данные доступны с любого компьютера
+// ========================================================================
+// ВСТАВЬТЕ сюда значения из вашего проекта Supabase:
+// Project Settings → API → Project URL и anon public key
+const SUPABASE_URL = 'https://dinyzjnluupaeyyasxtl.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_V6w3_dIkRPq86AuvUzw9sw_wBLRk9GA';
+const CLOUD_TABLE = 'budget_storage';
+const CLOUD_ROW_ID = 1;
+
+let supabaseClient = null;
+let cloudSaveTimer = null;
+
+function isCloudConfigured() {
+    return SUPABASE_URL.indexOf('http') === 0 && SUPABASE_ANON_KEY.indexOf('sb_') === 0;
+}
+
+function initSupabase() {
+    if (!isCloudConfigured()) {
+        console.warn('Supabase не настроен: данные сохраняются только в этом браузере.');
+        return;
+    }
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (e) {
+        console.warn('Не удалось подключиться к Supabase:', e);
+    }
+}
+
+// Загружает данные из облака. Если в облаке есть сохранённые данные —
+// они записываются в localStorage, и дальше обычный loadData() их подхватит.
+async function loadCloudData() {
+    if (!supabaseClient) return;
+    try {
+        const { data: row, error } = await supabaseClient
+            .from(CLOUD_TABLE)
+            .select('payload')
+            .eq('id', CLOUD_ROW_ID)
+            .maybeSingle();
+        if (error) {
+            console.warn('Ошибка чтения из облака:', error.message);
+            setCloudStatus('error', 'Облако недоступно — работаем с локальными данными');
+            return;
+        }
+        if (row && row.payload) {
+            localStorage.setItem('ambiland_budget_v7', JSON.stringify(row.payload));
+            setCloudStatus('ok', 'Данные загружены из облака');
+        }
+    } catch (e) {
+        console.warn('Облако недоступно:', e);
+        setCloudStatus('error', 'Облако недоступно — работаем с локальными данными');
+    }
+}
+
+// Сохраняет текущие данные в облако. Возвращает true при успехе.
+async function saveDataToCloud() {
+    if (!supabaseClient) return false;
+    try {
+        const { error } = await supabaseClient
+            .from(CLOUD_TABLE)
+            .upsert({ id: CLOUD_ROW_ID, payload: data, updated_at: new Date().toISOString() });
+        if (error) {
+            console.warn('Ошибка записи в облако:', error.message);
+            setCloudStatus('error', 'Ошибка сохранения в облако');
+            return false;
+        }
+        setCloudStatus('ok', 'Сохранено в облаке · ' + new Date().toLocaleTimeString('ru-RU'));
+        return true;
+    } catch (e) {
+        console.warn('Облако недоступно:', e);
+        setCloudStatus('error', 'Ошибка сохранения в облако');
+        return false;
+    }
+}
+
+// Автосохранение в облако с задержкой, чтобы не слать запрос на каждое нажатие клавиши
+function scheduleCloudSave() {
+    if (!supabaseClient) return;
+    clearTimeout(cloudSaveTimer);
+    cloudSaveTimer = setTimeout(function() { saveDataToCloud(); }, 800);
+}
+
+// Явное сохранение по кнопке: сначала локально, затем в облако, с понятным сообщением
+async function saveWithStatus() {
+    saveData();
+    if (!supabaseClient) {
+        alert('Данные сохранены только в этом браузере.\nОблачное хранилище не настроено (нужно вставить SUPABASE_URL и ключ в код).');
+        return;
+    }
+    setCloudStatus('saving', 'Сохранение в облако…');
+    clearTimeout(cloudSaveTimer);
+    const ok = await saveDataToCloud();
+    if (ok) {
+        alert('Данные сохранены в облако. Они будут доступны с любого компьютера.');
+    } else {
+        alert('Не удалось сохранить в облако. Данные сохранены локально в этом браузере, попробуйте ещё раз.');
+    }
+}
+
+// Маленький индикатор состояния облака в правом нижнем углу
+function setCloudStatus(state, text) {
+    let badge = document.getElementById('cloudStatusBadge');
+    if (!badge) {
+        badge = document.createElement('div');
+        badge.id = 'cloudStatusBadge';
+        badge.style.cssText = 'position:fixed; right:12px; bottom:12px; z-index:9999; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600; box-shadow:0 2px 8px rgba(0,0,0,0.25); transition:opacity 0.3s;';
+        document.body.appendChild(badge);
+    }
+    const styles = {
+        ok:     { bg: '#28a745', icon: '☁️ ' },
+        saving: { bg: '#f0ad4e', icon: '⏳ ' },
+        error:  { bg: '#dc3545', icon: '⚠️ ' }
+    };
+    const s = styles[state] || styles.ok;
+    badge.style.background = s.bg;
+    badge.style.color = '#fff';
+    badge.textContent = s.icon + text;
+    badge.style.opacity = '1';
+    if (state === 'ok') {
+        setTimeout(function() { badge.style.opacity = '0.35'; }, 4000);
+    }
+}
+
 function saveData() {
     localStorage.setItem('ambiland_budget_v7', JSON.stringify(data));
+    scheduleCloudSave();
 }
 
 // ---------- Вспомогательные функции ----------
@@ -4774,10 +4899,10 @@ document.getElementById('unlockJulyFactBtn').addEventListener('click', function(
 });
 
 // Остальные кнопки
-document.getElementById('saveYearBtn').addEventListener('click', function() { saveData(); alert('Данные сохранены.'); });
-document.getElementById('saveQuarterBtn').addEventListener('click', function() { saveData(); alert('Данные сохранены.'); });
-document.getElementById('saveMonthBtn').addEventListener('click', function() { saveData(); alert('Данные сохранены.'); });
-document.getElementById('saveAllWeekData').addEventListener('click', function() { saveData(); alert('Все данные сохранены.'); });
+document.getElementById('saveYearBtn').addEventListener('click', function() { saveWithStatus(); });
+document.getElementById('saveQuarterBtn').addEventListener('click', function() { saveWithStatus(); });
+document.getElementById('saveMonthBtn').addEventListener('click', function() { saveWithStatus(); });
+document.getElementById('saveAllWeekData').addEventListener('click', function() { saveWithStatus(); });
 
 // ============================================================
 //  ЭКСПОРТ / ИМПОРТ ДАННЫХ (передача между компьютерами ролей)
@@ -4976,7 +5101,13 @@ const now = new Date();
 const currentMonth = now.getMonth();
 const currentDay = now.getDate();
 
-loadData();
+(async function initApp() {
+    // Сначала подключаемся к облаку и, если там есть данные, забираем их —
+    // так данные, введённые на другом компьютере, появятся и здесь.
+    initSupabase();
+    await loadCloudData();
+
+    loadData();
 
 // ВАЖНО: порядок инициализации. Сначала наполняем селекты опциями, затем
 // выставляем выбранное значение, и только потом перерисовываем вкладки.
@@ -5014,6 +5145,7 @@ if (savedUser) {
 } else {
     showLogin();
 }
+})();
 </script>
 
 
