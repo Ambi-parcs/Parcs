@@ -18,6 +18,15 @@
     </style>
 </head>
 <body>
+<script>
+/* Раздел доступен только после входа на портал — иначе возврат на главную. */
+(function(){
+  try {
+    if (!JSON.parse(localStorage.getItem('ambi_portal_session_v1') || 'null')) { location.replace('../../index.html'); }
+  } catch(e) { location.replace('../../index.html'); }
+})();
+</script>
+
 <div class="container">
     <h1>ОБУЧАЮЩИЙ МАТЕРИАЛ ДЛЯ МЕНЕДЖЕРА РЕСТОРАНА АКТИВИТИ-ПАРКА</h1>
     <p><b>Цель:</b> Обеспечить эффективное управление рестораном в составе активити-парка, ориентированное на высокий сервис, безопасность и финансовый результат.</p>
