@@ -67,5 +67,119 @@
       "view.reglamenty": true,
       "manage.reglamenty": true
     }
+  },
+  {
+    "id": "art",
+    "login": "art",
+    "pwdHash": "85b84b6f",
+    "name": "Арт-директор",
+    "note": "Полный доступ",
+    "builtin": true,
+    "perms": {
+      "roles.create": true,
+      "view.kontrol": true,
+      "manage.kontrol": true,
+      "view.budget": true,
+      "manage.budget": true,
+      "view.analitika": true,
+      "manage.analitika": true,
+      "view.obuchenie": true,
+      "manage.obuchenie": true,
+      "view.motivatsia": true,
+      "manage.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.reglamenty": true
+    }
+  },
+  {
+    "id": "director",
+    "login": "director",
+    "pwdHash": "ea46519b",
+    "name": "Генеральный директор",
+    "note": "Полный доступ (раздел 1)",
+    "builtin": true,
+    "perms": {
+      "roles.create": true,
+      "view.kontrol": true,
+      "manage.kontrol": true,
+      "view.budget": true,
+      "manage.budget": true,
+      "view.analitika": true,
+      "manage.analitika": true,
+      "view.obuchenie": true,
+      "manage.obuchenie": true,
+      "view.motivatsia": true,
+      "manage.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.reglamenty": true
+    }
+  },
+  {
+    "id": "mgr_horosho",
+    "login": "horosho",
+    "pwdHash": "fdc422fd",
+    "name": "Управляющий парка «Хорошо»",
+    "note": "Раздел 1: управление, остальные — просмотр",
+    "builtin": true,
+    "perms": {
+      "view.kontrol": true,
+      "view.budget": true,
+      "view.analitika": true,
+      "view.obuchenie": true,
+      "view.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.kontrol": true
+    }
+  },
+  {
+    "id": "mgr_columbus",
+    "login": "columbus",
+    "pwdHash": "2ebddfa5",
+    "name": "Управляющий парка «Колумбус»",
+    "note": "Раздел 1: управление, остальные — просмотр",
+    "builtin": true,
+    "perms": {
+      "view.kontrol": true,
+      "view.budget": true,
+      "view.analitika": true,
+      "view.obuchenie": true,
+      "view.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.kontrol": true
+    }
+  },
+  {
+    "id": "mgr_vegas",
+    "login": "vegas",
+    "pwdHash": "576de059",
+    "name": "Управляющий парка «Вегас»",
+    "note": "Раздел 1: управление, остальные — просмотр",
+    "builtin": true,
+    "perms": {
+      "view.kontrol": true,
+      "view.budget": true,
+      "view.analitika": true,
+      "view.obuchenie": true,
+      "view.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.kontrol": true
+    }
+  },
+  {
+    "id": "mgr_okeania",
+    "login": "okeania",
+    "pwdHash": "9c56b251",
+    "name": "Управляющий парка «Океания»",
+    "note": "Раздел 1: управление, остальные — просмотр",
+    "builtin": true,
+    "perms": {
+      "view.kontrol": true,
+      "view.budget": true,
+      "view.analitika": true,
+      "view.obuchenie": true,
+      "view.motivatsia": true,
+      "view.reglamenty": true,
+      "manage.kontrol": true
+    }
   }
 ]
