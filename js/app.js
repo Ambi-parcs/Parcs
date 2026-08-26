@@ -491,11 +491,14 @@ const App = (() => {
     setActiveNav(null);
 
     $('#viewTitle').textContent = park.name;
-    // Кнопки: директор может редактировать парк, очищать работы и создавать работу
-    const editBtn = Auth.isDirector()
-      ? `<button class="btn btn-ghost btn-sm" onclick="App.editPark('${park.id}')">✎ Редактировать парк</button>
-         <button class="btn btn-ghost btn-sm" onclick="App.clearParkWorks('${park.id}')">🧹 Очистить от работ</button>` : '';
-    $('#viewActions').innerHTML = `${editBtn}<button class="btn btn-primary btn-sm" onclick="App.openNewWork()">＋ Работа</button>`;
+    // Кнопки: редактировать парк может директор или управляющий этого парка,
+    // очистка работ — только директор
+    const canEdit = canEditPark(park);
+    const editBtn = canEdit
+      ? `<button class="btn btn-ghost btn-sm" onclick="App.editPark('${park.id}')">✎ Редактировать парк</button>` : '';
+    const clearBtn = Auth.isDirector()
+      ? `<button class="btn btn-ghost btn-sm" onclick="App.clearParkWorks('${park.id}')">🧹 Очистить от работ</button>` : '';
+    $('#viewActions').innerHTML = `${editBtn}${clearBtn}<button class="btn btn-primary btn-sm" onclick="App.openNewWork()">＋ Работа</button>`;
 
     const works = (await DB.getByIndex('works', 'parkId', parkId));
     const docs = await DB.getByIndex('documents', 'parkId', parkId);
@@ -524,7 +527,7 @@ const App = (() => {
     let html = `<div class="tabs">${tabs.map(([key, label, badge]) =>
       `<div class="tab ${activeTab===key?'active':''}" onclick="location.hash='#/park/${parkId}/${key}'">${label}${badge?`<span class="tab-badge">${badge}</span>`:''}</div>`).join('')}</div>`;
 
-    if (activeTab === 'info') html += parkInfoTab(park);
+    if (activeTab === 'info') html += parkInfoTab(park, _parkInfoEditing === parkId);
     else if (activeTab === 'board') html += await parkWorksTab(works, parkId);
     else if (activeTab === 'equipment') html += equipmentTab(eq_, parkId);
     else if (activeTab === 'premises') html += premisesTab(pm_, parkId);
@@ -534,41 +537,130 @@ const App = (() => {
     $('#view').innerHTML = html;
   }
 
-  // Вкладка «Общие сведения» — карточка-описание парка
-  function parkInfoTab(park) {
-    const attrs = (park.attractions || []).map(a => `<span class="chip">${escapeHtml(a)}</span>`).join('');
+  // Права на редактирование общих данных парка:
+  // директор — любой парк, управляющий — только свой парк
+  function canEditPark(park) {
+    if (Auth.isDirector()) return true;
+    const s = Auth.current();
+    return !!(s && s.role === 'manager' && s.parkId === park.id);
+  }
+
+  let _parkInfoEditing = null;
+  async function editParkInfo(parkId) {
+    const park = await DB.getByKey('parks', parkId);
+    if (!park || !canEditPark(park)) { toast('Нет прав на редактирование', true); return; }
+    _parkInfoEditing = parkId;
+    route();
+  }
+  function cancelParkInfoEdit() { _parkInfoEditing = null; route(); }
+
+  // Поля общих данных парка: [ключ, подпись, тип]
+  const PARK_INFO_FIELDS = [
+    ['name', 'Название парка', 'text'],
+    ['mall', 'ТРЦ / торговый центр', 'text'],
+    ['city', 'Город', 'text'],
+    ['address', 'Адрес', 'text'],
+    ['metro', 'Метро', 'text'],
+    ['floor', 'Этаж', 'text'],
+    ['area', 'Площадь, м²', 'number'],
+    ['opened', 'Год открытия', 'number'],
+    ['hours', 'Часы работы', 'text'],
+    ['managerName', 'Управляющий (ФИО)', 'text'],
+    ['phone', 'Телефон', 'text'],
+    ['email', 'Email', 'text'],
+    ['site', 'Сайт', 'text'],
+  ];
+
+  // Вкладка «Общие сведения» — таблица; директор и управляющий парка могут редактировать
+  function parkInfoTab(park, editMode = false) {
+    const canEdit = canEditPark(park);
+    const headBtns = canEdit
+      ? (editMode
+        ? `<button class="btn btn-ghost btn-sm" onclick="App.cancelParkInfoEdit()">Отмена</button>
+           <button class="btn btn-primary btn-sm" onclick="App.saveParkInfo('${park.id}')">💾 Сохранить</button>`
+        : `<button class="btn btn-primary btn-sm" onclick="App.editParkInfo('${park.id}')">✎ Редактировать</button>`)
+      : '';
+
+    if (editMode && canEdit) {
+      const rows = PARK_INFO_FIELDS.map(([key, label, type]) =>
+        `<tr><td class="pi-label">${label}</td>
+           <td><input class="pi-input" id="pi_${key}" type="${type}" value="${escapeAttr(park[key] ?? '')}"></td></tr>`).join('');
+      const attrStr = (park.attractions || []).join('\n');
+      return `<div class="park-info">
+        <div class="park-info-header">
+          <div><h3>Общие данные — редактирование</h3>
+          <div class="park-info-sub">Заполните или исправьте данные и нажмите «Сохранить»</div></div>
+          <div style="display:flex;gap:8px">${headBtns}</div>
+        </div>
+        <table class="table info-table"><tbody>
+          ${rows}
+          <tr><td class="pi-label">Ресторан</td>
+            <td><select class="pi-input" id="pi_hasRestaurant">
+              <option value="true" ${park.hasRestaurant ? 'selected' : ''}>Есть</option>
+              <option value="false" ${!park.hasRestaurant ? 'selected' : ''}>Нет</option>
+            </select></td></tr>
+          <tr><td class="pi-label">Бренд ресторана</td>
+            <td><input class="pi-input" id="pi_restaurantBrand" value="${escapeAttr(park.restaurantBrand || '')}"></td></tr>
+          <tr><td class="pi-label">Аттракционы и зоны<br><span class="help">по одному на строку</span></td>
+            <td><textarea class="pi-input" id="pi_attractions" rows="4">${escapeHtml(attrStr)}</textarea></td></tr>
+          <tr><td class="pi-label">Описание</td>
+            <td><textarea class="pi-input" id="pi_description" rows="3">${escapeHtml(park.description || '')}</textarea></td></tr>
+        </tbody></table>
+      </div>`;
+    }
+
+    const attrs = (park.attractions || []).map(x => `<span class="chip">${escapeHtml(x)}</span>`).join('');
+    const val = (v, suffix) => (v === null || v === undefined || v === '') ? '<span class="pi-empty">— не заполнено —</span>' : escapeHtml(String(v)) + (suffix || '');
+    const rows = PARK_INFO_FIELDS.map(([key, label]) =>
+      `<tr><td class="pi-label">${label}</td>
+         <td>${val(key === 'area' && park[key] ? park[key] : park[key], key === 'area' && park[key] ? ' м²' : '')}</td></tr>`).join('');
     return `<div class="park-info">
       <div class="park-info-header">
         <div>
           <h3>${escapeHtml(park.name)}</h3>
-          ${park.mall ? `<div class="park-info-sub">${escapeHtml(park.mall)}${park.city?', '+escapeHtml(park.city):''}</div>` : ''}
-          ${park.description ? `<p class="park-info-desc">${escapeHtml(park.description)}</p>` : ''}
+          <div class="park-info-sub">${escapeHtml(park.mall || '')}${park.city ? ', ' + escapeHtml(park.city) : ''}</div>
         </div>
-        ${park.hasRestaurant ? `<span class="park-badge">ресторан ${escapeHtml(park.restaurantBrand||'')}</span>` : `<span class="park-badge gray">без ресторана</span>`}
+        <div style="display:flex;gap:8px;align-items:center">
+          ${park.hasRestaurant ? `<span class="park-badge">ресторан ${escapeHtml(park.restaurantBrand || '')}</span>` : `<span class="park-badge gray">без ресторана</span>`}
+          ${headBtns}
+        </div>
       </div>
-      <div class="kv-grid">
-        ${infoRow('📍 Адрес', park.address)}
-        ${infoRow('🚇 Метро', park.metro)}
-        ${infoRow('🏢 Этаж', park.floor)}
-        ${infoRow('📐 Площадь', park.area ? park.area+' м²' : null)}
-        ${infoRow('🕐 Часы работы', park.hours)}
-        ${infoRow('📅 Открыт с', park.opened)}
-        ${infoRow('👤 Управляющий', park.managerName)}
-        ${infoRow('📞 Телефон', park.phone)}
-        ${infoRow('✉️ Email', park.email)}
-        ${infoRow('🌐 Сайт', park.site)}
-      </div>
+      <table class="table info-table"><tbody>
+        ${rows}
+        <tr><td class="pi-label">Ресторан</td>
+          <td>${park.hasRestaurant ? 'Есть' + (park.restaurantBrand ? ' (' + escapeHtml(park.restaurantBrand) + ')' : '') : 'Нет'}</td></tr>
+        ${park.description ? `<tr><td class="pi-label">Описание</td><td>${escapeHtml(park.description)}</td></tr>` : ''}
+      </tbody></table>
       ${attrs ? `<div class="section-title">🎢 Аттракционы и зоны</div><div class="chips">${attrs}</div>` : ''}
     </div>`;
   }
-  function infoRow(icon, val) {
-    return val ? `<div class="kv-item"><span class="kv-icon">${icon}</span><span class="kv-key"></span><span class="kv-val">${escapeHtml(String(val))}</span></div>` : '';
+
+  // Сохранение общих данных из таблицы
+  async function saveParkInfo(parkId) {
+    const park = await DB.getByKey('parks', parkId);
+    if (!park || !canEditPark(park)) { toast('Нет прав на редактирование', true); return; }
+    const g = (id) => document.getElementById(id);
+    const name = g('pi_name').value.trim();
+    if (!name) { toast('Название парка не может быть пустым', true); return; }
+    PARK_INFO_FIELDS.forEach(([key, , type]) => {
+      const v = g('pi_' + key).value.trim();
+      park[key] = type === 'number' ? (+v || null) : v;
+    });
+    park.hasRestaurant = g('pi_hasRestaurant').value === 'true';
+    park.restaurantBrand = g('pi_restaurantBrand').value.trim();
+    park.attractions = g('pi_attractions').value.split('\n').map(s => s.trim()).filter(Boolean);
+    park.description = g('pi_description').value.trim();
+    await DB.put('parks', park);
+    _parkInfoEditing = null;
+    toast('Общие данные сохранены');
+    route();
   }
 
   // ============ СОЗДАНИЕ / РЕДАКТИРОВАНИЕ ПАРКА ============
   function editPark(id) {
     DB.getByKey('parks', id).then(park => {
       if (!park) return;
+      if (!canEditPark(park)) { toast('Нет прав на редактирование', true); return; }
       openParkForm('Редактирование парка', park);
     });
   }
@@ -618,7 +710,7 @@ const App = (() => {
       <div class="field"><label>Описание</label><textarea id="pk_description" rows="3">${escapeHtml(p.description||'')}</textarea></div>`;
 
     const footer = `
-      ${p.id ? `<button class="btn btn-danger" onclick="App.deletePark('${p.id}')">🗑 Удалить парк</button>`:''}
+      ${p.id && Auth.isDirector() ? `<button class="btn btn-danger" onclick="App.deletePark('${p.id}')">🗑 Удалить парк</button>`:''}
       <button class="btn btn-ghost" onclick="App.closeModalFn()">Отмена</button>
       <button class="btn btn-primary" onclick="App.savePark('${p.id||''}')">Сохранить</button>`;
     openModal(title, body, footer, true);
@@ -1462,6 +1554,7 @@ const App = (() => {
     exportBackup, importBackup, resetDemo, closeModalFn: closeModal,
     calcCriteria, workOpts,
     editPark, openNewPark, savePark, deletePark, clearParkWorks,
+    canEditPark, editParkInfo, saveParkInfo, cancelParkInfoEdit,
   };
 })();
 
