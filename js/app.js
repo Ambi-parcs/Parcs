@@ -502,13 +502,16 @@ const App = (() => {
 
     const works = (await DB.getByIndex('works', 'parkId', parkId));
     const docs = await DB.getByIndex('documents', 'parkId', parkId);
-    const eq_ = await DB.getByIndex('equipment', 'parkId', parkId);
+    let eq_ = await DB.getByIndex('equipment', 'parkId', parkId);
     const pm_ = await DB.getByIndex('premises', 'parkId', parkId);
     const jr_ = await DB.getByIndex('journals', 'parkId', parkId);
 
+    // Синхронизация: список оборудования = список аттракционов и зон из «Общих данных»
+    eq_ = await syncEquipment(park, eq_);
+
     // Подсчёт «плохих» для бейджей
     const docBad = docs.filter(d => isDocExpired(d)).length;
-    const eqBad = eq_.filter(e => e.status === 'trouble').length;
+    const eqBad = eq_.filter(e => e.status === 'repair' || e.status === 'in_repair').length;
     const pmBad = pm_.filter(p => p.status === 'bad').length;
     const jrBad = jr_.filter(j => j.status === 'bad').length;
 
@@ -529,7 +532,7 @@ const App = (() => {
 
     if (activeTab === 'info') html += parkInfoTab(park, _parkInfoEditing === parkId);
     else if (activeTab === 'board') html += await parkWorksTab(works, parkId);
-    else if (activeTab === 'equipment') html += equipmentTab(eq_, parkId);
+    else if (activeTab === 'equipment') html += equipmentTab(eq_, parkId, canEditPark(park));
     else if (activeTab === 'premises') html += premisesTab(pm_, parkId);
     else if (activeTab === 'documents') html += documentsTab(docs, parkId);
     else if (activeTab === 'journals') html += journalsTab(jr_, parkId);
@@ -815,16 +818,71 @@ const App = (() => {
     return html + `</div>`;
   }
 
-  function equipmentTab(items, parkId) {
-    if (!items.length) return emptyState('Оборудование не добавлено');
-    const condLabel = { 5:'Отличное', 4:'Хорошее', 3:'Среднее', 2:'Плохое', 1:'Аварийное' };
-    const statusLabel = { ok:'Работает', service:'На обслуживании', trouble:'Проблема', broken:'Сломано' };
-    const statusCls = { ok:'status-ok', service:'status-warn', trouble:'status-bad', broken:'status-bad' };
-    return `<table class="table"><thead><tr><th>Оборудование</th><th>Состояние</th><th>Статус</th></tr></thead><tbody>
-      ${items.map(e => `<tr><td>${escapeHtml(e.name)}</td>
-        <td>${condLabel[e.condition]||e.condition} (${e.condition}/5)</td>
-        <td><span class="status-pill ${statusCls[e.status]||''}">${statusLabel[e.status]||e.status}</span></td></tr>`).join('')}
-    </tbody></table>`;
+  // Статусы оборудования (аттракционов и зон)
+  const EQ_STATUS = {
+    ok:        { label: 'Работает',           cls: 'status-ok' },
+    repair:    { label: 'Требует ремонта',    cls: 'status-bad' },
+    in_repair: { label: 'В процессе ремонта', cls: 'status-warn' },
+  };
+  // Миграция старых статусов демо-данных в новые
+  const EQ_STATUS_LEGACY = { service: 'in_repair', trouble: 'repair', broken: 'repair' };
+  function eqStatus(e) { return EQ_STATUS[e.status] ? e.status : (EQ_STATUS_LEGACY[e.status] || 'ok'); }
+
+  // Синхронизация оборудования с перечнем «Аттракционы и зоны» из общих данных:
+  // новые позиции добавляются со статусом «Работает», убранные из перечня — удаляются
+  async function syncEquipment(park, items) {
+    const names = (park.attractions || []).map(s => s.trim()).filter(Boolean);
+    let changed = false;
+    // удалить позиции, которых больше нет в перечне
+    for (const e of items.filter(e => !names.includes(e.name))) {
+      await DB.remove('equipment', e.id);
+      changed = true;
+    }
+    let list = items.filter(e => names.includes(e.name));
+    // добавить новые позиции из перечня
+    for (const n of names) {
+      const existing = list.filter(e => e.name === n);
+      if (existing.length) {
+        // дубликаты одной позиции (из старых данных) — удаляем лишние
+        for (const dup of existing.slice(1)) { await DB.remove('equipment', dup.id); changed = true; }
+        if (existing.length > 1) list = list.filter(e => e.name !== n || e.id === existing[0].id);
+        continue;
+      }
+      const rec = { id: DB.uid(), parkId: park.id, name: n, status: 'ok' };
+      await DB.put('equipment', rec);
+      list.push(rec);
+      changed = true;
+    }
+    // сохранить порядок перечня
+    list.sort((x, y) => names.indexOf(x.name) - names.indexOf(y.name));
+    return list;
+  }
+
+  function equipmentTab(items, parkId, canEdit) {
+    if (!items.length) return emptyState('Перечень пуст — добавьте аттракционы и зоны во вкладке «Общие»');
+    const rows = items.map(e => {
+      const st = eqStatus(e);
+      const statusCell = canEdit
+        ? `<select class="pi-input eq-status" data-id="${e.id}" onchange="App.saveEquipmentStatus('${e.id}', this.value)">
+            ${Object.entries(EQ_STATUS).map(([k, v]) => `<option value="${k}" ${k === st ? 'selected' : ''}>${v.label}</option>`).join('')}
+          </select>`
+        : `<span class="status-pill ${EQ_STATUS[st].cls}">${EQ_STATUS[st].label}</span>`;
+      return `<tr><td><b>${escapeHtml(e.name)}</b></td><td>${statusCell}</td></tr>`;
+    }).join('');
+    const head = canEdit
+      ? `<div class="help" style="margin:0 0 10px">Список формируется из перечня «Аттракционы и зоны» во вкладке «Общие». Меняйте статус прямо в таблице — сохранение сразу.</div>` : '';
+    return head + `<table class="table"><thead><tr><th>Оборудование / зона</th><th style="width:230px">Состояние</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
+
+  async function saveEquipmentStatus(id, status) {
+    const e = await DB.getByKey('equipment', id);
+    if (!e) return;
+    const park = await DB.getByKey('parks', e.parkId);
+    if (!park || !canEditPark(park)) { toast('Нет прав на изменение', true); return; }
+    e.status = status;
+    await DB.put('equipment', e);
+    toast('Статус обновлён: ' + (EQ_STATUS[status] || {}).label);
+    route(); // перерисовать бейджи вкладок
   }
 
   function premisesTab(items) {
@@ -1557,7 +1615,7 @@ const App = (() => {
     exportBackup, importBackup, resetDemo, closeModalFn: closeModal,
     calcCriteria, workOpts,
     editPark, openNewPark, savePark, deletePark, clearParkWorks,
-    canEditPark, editParkInfo, saveParkInfo, cancelParkInfoEdit,
+    canEditPark, editParkInfo, saveParkInfo, cancelParkInfoEdit, saveEquipmentStatus,
   };
 })();
 
