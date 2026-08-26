@@ -562,7 +562,8 @@ const App = (() => {
     ['address', 'Адрес', 'text'],
     ['metro', 'Метро', 'text'],
     ['floor', 'Этаж', 'text'],
-    ['area', 'Площадь, м²', 'number'],
+    ['area', 'Площадь парка, м²', 'number'],
+    ['restaurantArea', 'Площадь ресторана, м²', 'number'],
     ['opened', 'Год открытия', 'number'],
     ['hours', 'Часы работы', 'text'],
     ['managerName', 'Управляющий (ФИО)', 'text'],
@@ -613,7 +614,7 @@ const App = (() => {
     const val = (v, suffix) => (v === null || v === undefined || v === '') ? '<span class="pi-empty">— не заполнено —</span>' : escapeHtml(String(v)) + (suffix || '');
     const rows = PARK_INFO_FIELDS.map(([key, label]) =>
       `<tr><td class="pi-label">${label}</td>
-         <td>${val(key === 'area' && park[key] ? park[key] : park[key], key === 'area' && park[key] ? ' м²' : '')}</td></tr>`).join('');
+         <td>${val(park[key], (key === 'area' || key === 'restaurantArea') && park[key] ? ' м²' : '')}</td></tr>`).join('');
     return `<div class="park-info">
       <div class="park-info-header">
         <div>
@@ -685,7 +686,8 @@ const App = (() => {
       </div>
       <div class="row">
         <div class="field"><label>Этаж</label><input id="pk_floor" value="${escapeAttr(p.floor||'')}"></div>
-        <div class="field"><label>Площадь, м²</label><input id="pk_area" type="number" value="${p.area||''}"></div>
+        <div class="field"><label>Площадь парка, м²</label><input id="pk_area" type="number" value="${p.area||''}"></div>
+        <div class="field"><label>Площадь ресторана, м²</label><input id="pk_restaurantArea" type="number" value="${p.restaurantArea||''}"></div>
         <div class="field"><label>Год открытия</label><input id="pk_opened" type="number" value="${p.opened||''}"></div>
       </div>
       <div class="row">
@@ -729,6 +731,7 @@ const App = (() => {
       metro: $('#pk_metro').value.trim(),
       floor: $('#pk_floor').value.trim(),
       area: +$('#pk_area').value || null,
+      restaurantArea: +$('#pk_restaurantArea').value || null,
       opened: +$('#pk_opened').value || null,
       hours: $('#pk_hours').value.trim(),
       managerName: $('#pk_managerName').value.trim(),
