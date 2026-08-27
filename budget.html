@@ -3995,9 +3995,15 @@ function buildMonthlyPlansReportHtml(month, onlyRevenue) {
             REVENUE_ARTICLES.forEach(art => {
                 const revItem = md.revenue.find(r => r.article === art);
                 if (!revItem) return;
+                // сначала развёрнуто по подстатьям
+                revItem.sub.forEach(sub => {
+                    const subPlan = Number(sub.plan) || 0;
+                    parkTotal += subPlan;
+                    t += `<tr><td style="padding-left:32px; color:#555;">${art} — ${sub.name}</td><td>${fmt(subPlan)}</td></tr>`;
+                });
+                // затем итог по статье
                 const plan = revItem.sub.reduce((s, sub) => s + Number(sub.plan), 0);
-                parkTotal += plan;
-                t += `<tr><td style="padding-left:20px;">${art}</td><td>${fmt(plan)}</td></tr>`;
+                t += `<tr style="background:#f2f6fa; font-weight:bold;"><td style="padding-left:20px;">${art}</td><td>${fmt(plan)}</td></tr>`;
             });
             t += `<tr style="background:#e9eff5; font-weight:bold;"><td>Итого доходы по парку</td><td>${fmt(parkTotal)}</td></tr>`;
             grand += parkTotal;
@@ -4197,20 +4203,21 @@ async function sendMonthlyPlans() {
     managerRecipients = [...new Set(managerRecipients)];
     const commonRecipients = [...new Set(COMMON_EMAILS)];
 
-    const subject = encodeURIComponent(`Планы на ${MONTHS[month]}`);
+    const subjectManagers = encodeURIComponent(`Плановые доходы на ${MONTHS[month]} 2026`);
+    const subjectCommon = encodeURIComponent(`Планы на ${MONTHS[month]} 2026 (доходы и расходы)`);
     const bodyText = `Таблица с планами скопирована в буфер обмена.\nВставьте её сюда сочетанием Ctrl+V (или Cmd+V на Mac) перед отправкой письма.`;
 
     // Управляющим парков отправляем только доходы; общий список получает полный отчёт
     const tableHtml = buildMonthlyPlansReportHtml(month, true);
     await copyReportToClipboard(tableHtml, 'sendMonthBtn');
-    window.location.href = `mailto:${managerRecipients.join(',')}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+    window.location.href = `mailto:${managerRecipients.join(',')}?subject=${subjectManagers}&body=${encodeURIComponent(bodyText)}`;
 
     // Полный отчёт (доходы + расходы) — отдельным письмом на общие адреса
     if (commonRecipients.length) {
         const fullTableHtml = buildMonthlyPlansReportHtml(month, false);
         await copyReportToClipboard(fullTableHtml, 'sendMonthBtn');
         setTimeout(() => {
-            window.location.href = `mailto:${commonRecipients.join(',')}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+            window.location.href = `mailto:${commonRecipients.join(',')}?subject=${subjectCommon}&body=${encodeURIComponent(bodyText)}`;
         }, 600);
     }
 }
