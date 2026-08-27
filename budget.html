@@ -3978,48 +3978,71 @@ function copyFounderReport() {
 
 
 // ---------- Кнопка Send (рассылка планов) ----------
-function buildMonthlyPlansReportHtml(month) {
-    let tableHtml = `<h3>Плановые показатели на ${MONTHS[month]}</h3>`;
-    tableHtml += `<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; font-family: Arial, sans-serif; font-size:12px;">`;
-    tableHtml += `<tr><th style="background:#1a3c5e; color:white;">Парк / Статья</th><th>План (тыс. руб.)</th></tr>`;
+function buildMonthlyPlansReportHtml(month, onlyRevenue) {
+    const tableStyle = 'border-collapse:collapse; font-family: Arial, sans-serif; font-size:12px;';
+    let html = `<h3>Плановые показатели на ${MONTHS[month]}</h3>`;
 
-    let grandTotalPlan = 0;
-
-    data.parks.forEach(park => {
-        const md = data.monthData[park][month];
-        if (!md) return;
-        tableHtml += `<tr style="background:#dceae5; font-weight:bold;"><td colspan="2">🏰 ${park}</td></tr>`;
-        let parkTotalPlan = 0;
-
-        REVENUE_ARTICLES.forEach(art => {
-            const revItem = md.revenue.find(r => r.article === art);
-            if (!revItem) return;
-            const plan = revItem.sub.reduce((s, sub) => s + Number(sub.plan), 0);
-            parkTotalPlan += plan;
-            tableHtml += `<tr><td style="padding-left:20px;">${art}</td><td>${fmt(plan)}</td></tr>`;
-        });
-
-        EXPENSE_ARTICLES.forEach(art => {
-            let plan = 0;
-            md.expenses.forEach(block => {
-                block.articles.forEach(a => {
-                    const map = EXPENSE_SUB_TO_ARTICLE;
-                    if (map[a.name] === art) {
-                        plan += Number(a.plan) || 0;
-                    }
-                });
+    const revTable = () => {
+        let t = `<h4 style="margin:12px 0 4px;">ДОХОДЫ (план)</h4>`;
+        t += `<table border="1" cellpadding="5" cellspacing="0" style="${tableStyle}">`;
+        t += `<tr><th style="background:#1a3c5e; color:white;">Парк / Статья</th><th>План (тыс. руб.)</th></tr>`;
+        let grand = 0;
+        data.parks.forEach(park => {
+            const md = data.monthData[park][month];
+            if (!md) return;
+            t += `<tr style="background:#dceae5; font-weight:bold;"><td colspan="2">🏰 ${park}</td></tr>`;
+            let parkTotal = 0;
+            REVENUE_ARTICLES.forEach(art => {
+                const revItem = md.revenue.find(r => r.article === art);
+                if (!revItem) return;
+                const plan = revItem.sub.reduce((s, sub) => s + Number(sub.plan), 0);
+                parkTotal += plan;
+                t += `<tr><td style="padding-left:20px;">${art}</td><td>${fmt(plan)}</td></tr>`;
             });
-            parkTotalPlan += plan;
-            tableHtml += `<tr><td style="padding-left:20px;">${art}</td><td>${fmt(plan)}</td></tr>`;
+            t += `<tr style="background:#e9eff5; font-weight:bold;"><td>Итого доходы по парку</td><td>${fmt(parkTotal)}</td></tr>`;
+            grand += parkTotal;
         });
+        t += `<tr style="background:#c9dbe9; font-weight:bold;"><td>ИТОГО ДОХОДЫ ПО ВСЕМ ПАРКАМ</td><td>${fmt(grand)}</td></tr>`;
+        t += `</table>`;
+        return t;
+    };
 
-        tableHtml += `<tr style="background:#e9eff5; font-weight:bold;"><td>Итого по парку</td><td>${fmt(parkTotalPlan)}</td></tr>`;
-        grandTotalPlan += parkTotalPlan;
-    });
+    const expTable = () => {
+        let t = `<h4 style="margin:12px 0 4px;">РАСХОДЫ (план)</h4>`;
+        t += `<table border="1" cellpadding="5" cellspacing="0" style="${tableStyle}">`;
+        t += `<tr><th style="background:#1a3c5e; color:white;">Парк / Статья</th><th>План (тыс. руб.)</th></tr>`;
+        let grand = 0;
+        data.parks.forEach(park => {
+            const md = data.monthData[park][month];
+            if (!md) return;
+            t += `<tr style="background:#dceae5; font-weight:bold;"><td colspan="2">🏰 ${park}</td></tr>`;
+            let parkTotal = 0;
+            EXPENSE_ARTICLES.forEach(art => {
+                let plan = 0;
+                md.expenses.forEach(block => {
+                    block.articles.forEach(a => {
+                        const map = EXPENSE_SUB_TO_ARTICLE;
+                        if (map[a.name] === art) {
+                            plan += Number(a.plan) || 0;
+                        }
+                    });
+                });
+                parkTotal += plan;
+                t += `<tr><td style="padding-left:20px;">${art}</td><td>${fmt(plan)}</td></tr>`;
+            });
+            t += `<tr style="background:#e9eff5; font-weight:bold;"><td>Итого расходы по парку</td><td>${fmt(parkTotal)}</td></tr>`;
+            grand += parkTotal;
+        });
+        t += `<tr style="background:#c9dbe9; font-weight:bold;"><td>ИТОГО РАСХОДЫ ПО ВСЕМ ПАРКАМ</td><td>${fmt(grand)}</td></tr>`;
+        t += `</table>`;
+        return t;
+    };
 
-    tableHtml += `<tr style="background:#c9dbe9; font-weight:bold;"><td>СВОДНЫЙ ИТОГ ПО ВСЕМ ПАРКАМ</td><td>${fmt(grandTotalPlan)}</td></tr>`;
-    tableHtml += `</table>`;
-    return tableHtml;
+    html += revTable();
+    if (!onlyRevenue) {
+        html += expTable();
+    }
+    return html;
 }
 
 // ---------- Отправка утверждённых планов (год / квартал) ----------
@@ -4165,30 +4188,31 @@ async function sendMonthlyPlans() {
         return;
     }
 
-    let recipients = [];
+    let managerRecipients = [];
     data.parks.forEach(park => {
         if (PARK_EMAILS[park]) {
-            PARK_EMAILS[park].forEach(email => recipients.push(email));
+            PARK_EMAILS[park].forEach(email => managerRecipients.push(email));
         }
     });
-    COMMON_EMAILS.forEach(email => recipients.push(email));
-    recipients = [...new Set(recipients)];
+    managerRecipients = [...new Set(managerRecipients)];
+    const commonRecipients = [...new Set(COMMON_EMAILS)];
 
-    const tableHtml = buildMonthlyPlansReportHtml(month);
     const subject = encodeURIComponent(`Планы на ${MONTHS[month]}`);
+    const bodyText = `Таблица с планами скопирована в буфер обмена.\nВставьте её сюда сочетанием Ctrl+V (или Cmd+V на Mac) перед отправкой письма.`;
 
-    // Та же причина, что и в "Отправить учредителю": mailto не рендерит HTML
-    // в теле письма, поэтому копируем таблицу в буфер обмена (text/html) и
-    // просим вставить её в письмо, вместо того чтобы засовывать сырую
-    // разметку прямо в mailto-ссылку.
+    // Управляющим парков отправляем только доходы; общий список получает полный отчёт
+    const tableHtml = buildMonthlyPlansReportHtml(month, true);
     await copyReportToClipboard(tableHtml, 'sendMonthBtn');
+    window.location.href = `mailto:${managerRecipients.join(',')}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
 
-    const body = encodeURIComponent(
-        `Таблица с планами скопирована в буфер обмена.\nВставьте её сюда сочетанием Ctrl+V (или Cmd+V на Mac) перед отправкой письма.`
-    );
-
-    const mailtoLink = `mailto:${recipients.join(',')}?subject=${subject}&body=${body}`;
-    window.location.href = mailtoLink;
+    // Полный отчёт (доходы + расходы) — отдельным письмом на общие адреса
+    if (commonRecipients.length) {
+        const fullTableHtml = buildMonthlyPlansReportHtml(month, false);
+        await copyReportToClipboard(fullTableHtml, 'sendMonthBtn');
+        setTimeout(() => {
+            window.location.href = `mailto:${commonRecipients.join(',')}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+        }, 600);
+    }
 }
 
 // Копирование сводки планов в буфер обмена — запасной вариант на случай,
