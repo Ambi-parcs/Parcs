@@ -310,6 +310,11 @@ window.GH_CONFIG = {
   }
 
   renderAuth();
+
+  // Если попали сюда с защищённой страницы без входа (?login=1) — сразу показать форму входа
+  if (location.search.indexOf('login=1') !== -1 && !Portal.session()) {
+    setTimeout(() => Portal.openLoginModal(() => { history.replaceState(null, '', 'index.html'); renderAuth(); }), 300);
+  }
 })();
 </script>
 
