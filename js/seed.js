@@ -42,11 +42,11 @@ const Seed = (() => {
     const m1 = DB.uid(), m2 = DB.uid(), m3 = DB.uid(), m4 = DB.uid();
 
     const users = [
-      { id: directorId, login:'director', pwdHash: Auth.hashPwd('0987'), role:'director', name:'Генеральный директор' },
-      { id: m1, login:'horosho',  pwdHash: Auth.hashPwd('1234'), role:'manager', name:'Управляющий парка «Хорошо»',  parkId:p1 },
-      { id: m2, login:'columbus', pwdHash: Auth.hashPwd('2345'), role:'manager', name:'Управляющий парка «Колумбус»', parkId:p2 },
-      { id: m3, login:'vegas',    pwdHash: Auth.hashPwd('3456'), role:'manager', name:'Управляющий парка «Вегас»',    parkId:p3 },
-      { id: m4, login:'okeania',  pwdHash: Auth.hashPwd('4567'), role:'manager', name:'Управляющий парка «Океания»',  parkId:p4 },
+      { id: directorId, login:'director', pwdHash: Auth.hashPwd('Ambi2024'), role:'director', name:'Генеральный директор' },
+      { id: m1, login:'horosho',  pwdHash: Auth.hashPwd('Ambi2024'), role:'manager', name:'Управляющий парка «Хорошо»',  parkId:p1 },
+      { id: m2, login:'columbus', pwdHash: Auth.hashPwd('Ambi2024'), role:'manager', name:'Управляющий парка «Колумбус»', parkId:p2 },
+      { id: m3, login:'vegas',    pwdHash: Auth.hashPwd('Ambi2024'), role:'manager', name:'Управляющий парка «Вегас»',    parkId:p3 },
+      { id: m4, login:'okeania',  pwdHash: Auth.hashPwd('Ambi2024'), role:'manager', name:'Управляющий парка «Океания»',  parkId:p4 },
     ];
 
     // Общие контакты сети Амбиленд
