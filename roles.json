@@ -2,7 +2,7 @@
   {
     "id": "admin",
     "login": "admin",
-    "pwdHash": "ea46519b",
+    "pwdHash": "6a6c55fa",
     "name": "Администратор",
     "note": "Полный доступ ко всем разделам и настройкам",
     "builtin": true,
@@ -25,7 +25,7 @@
   {
     "id": "cmo",
     "login": "cmo",
-    "pwdHash": "f34f2642",
+    "pwdHash": "6a6c55fa",
     "name": "Коммерческий директор",
     "note": "Полный доступ",
     "builtin": true,
@@ -48,7 +48,7 @@
   {
     "id": "cfo",
     "login": "cfo",
-    "pwdHash": "39961c27",
+    "pwdHash": "6a6c55fa",
     "name": "Финансовый директор",
     "note": "Полный доступ",
     "builtin": true,
@@ -71,7 +71,7 @@
   {
     "id": "art",
     "login": "art",
-    "pwdHash": "85b84b6f",
+    "pwdHash": "6a6c55fa",
     "name": "Арт-директор",
     "note": "Полный доступ",
     "builtin": true,
@@ -94,7 +94,7 @@
   {
     "id": "director",
     "login": "director",
-    "pwdHash": "ea46519b",
+    "pwdHash": "6a6c55fa",
     "name": "Генеральный директор",
     "note": "Полный доступ (раздел 1)",
     "builtin": true,
@@ -117,7 +117,7 @@
   {
     "id": "mgr_horosho",
     "login": "horosho",
-    "pwdHash": "fdc422fd",
+    "pwdHash": "6a6c55fa",
     "name": "Управляющий парка «Хорошо»",
     "note": "Раздел 1: управление, остальные — просмотр",
     "builtin": true,
@@ -134,7 +134,7 @@
   {
     "id": "mgr_columbus",
     "login": "columbus",
-    "pwdHash": "2ebddfa5",
+    "pwdHash": "6a6c55fa",
     "name": "Управляющий парка «Колумбус»",
     "note": "Раздел 1: управление, остальные — просмотр",
     "builtin": true,
@@ -151,7 +151,7 @@
   {
     "id": "mgr_vegas",
     "login": "vegas",
-    "pwdHash": "576de059",
+    "pwdHash": "6a6c55fa",
     "name": "Управляющий парка «Вегас»",
     "note": "Раздел 1: управление, остальные — просмотр",
     "builtin": true,
@@ -168,7 +168,7 @@
   {
     "id": "mgr_okeania",
     "login": "okeania",
-    "pwdHash": "9c56b251",
+    "pwdHash": "6a6c55fa",
     "name": "Управляющий парка «Океания»",
     "note": "Раздел 1: управление, остальные — просмотр",
     "builtin": true,
