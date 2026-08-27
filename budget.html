@@ -284,6 +284,7 @@
             <option value="director">Генеральный директор</option>
             <option value="cmo">Коммерческий директор</option>
             <option value="cfo">Финансовый директор</option>
+            <option value="art">Арт-директор</option>
             <option value="manager">Менеджер парка</option>
         </select>
         <div id="parkSelectWrap" style="display:none;">
@@ -1965,16 +1966,19 @@ const EXPENSE_SUB_TO_ARTICLE = {
 };
 const ACTIVE_MONTHS = [8,9,10,11];
 const ACTIVE_QUARTERS = [3];
+// Единый пароль для всех ролей портала и раздела 2
+const UNIFIED_PASSWORD = 'Ambi2024';
 const PARK_PASSWORDS = {
-    'Коламбус': '2345',
-    'Вегас': '3456',
-    'Океания': '4567',
-    'Хорошо!': '1234'
+    'Коламбус': UNIFIED_PASSWORD,
+    'Вегас': UNIFIED_PASSWORD,
+    'Океания': UNIFIED_PASSWORD,
+    'Хорошо!': UNIFIED_PASSWORD
 };
-const ADMIN_PASSWORD = '0987';
-const DIRECTOR_PASSWORD = '9999';
-const CMO_PASSWORD = 'cmo123';
-const CFO_PASSWORD = 'cfo123';
+const ADMIN_PASSWORD = UNIFIED_PASSWORD;
+const DIRECTOR_PASSWORD = UNIFIED_PASSWORD;
+const CMO_PASSWORD = UNIFIED_PASSWORD;
+const CFO_PASSWORD = UNIFIED_PASSWORD;
+const ART_PASSWORD = UNIFIED_PASSWORD;
 
 // Адреса для рассылки
 const PARK_EMAILS = {
@@ -4822,11 +4826,12 @@ function updateUI() {
     const isDirector = currentUser && currentUser.role === 'director';
     const isCmo = currentUser && currentUser.role === 'cmo';
     const isCfo = currentUser && currentUser.role === 'cfo';
+    const isArt = currentUser && currentUser.role === 'art';
     const isManager = currentUser && currentUser.role === 'manager';
 
     // Видимость вкладок
-    document.getElementById('tabYear').style.display = (isAdmin || isDirector || isCmo || isCfo) ? '' : 'none';
-    document.getElementById('tabQuarter').style.display = (isAdmin || isDirector || isCmo || isCfo) ? '' : 'none';
+    document.getElementById('tabYear').style.display = (isAdmin || isDirector || isCmo || isCfo || isArt) ? '' : 'none';
+    document.getElementById('tabQuarter').style.display = (isAdmin || isDirector || isCmo || isCfo || isArt) ? '' : 'none';
     document.getElementById('tabFounder').style.display = (isAdmin || isDirector) ? '' : 'none'; // только админ и гендир
 
     // Кнопки утверждения
@@ -4914,6 +4919,11 @@ document.getElementById('loginBtn').addEventListener('click', function() {
         }
     } else if (role === 'cfo') {
         if (password !== CFO_PASSWORD) {
+            document.getElementById('loginError').style.display = 'block';
+            return;
+        }
+    } else if (role === 'art') {
+        if (password !== ART_PASSWORD) {
             document.getElementById('loginError').style.display = 'block';
             return;
         }
