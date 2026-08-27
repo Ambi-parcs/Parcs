@@ -534,8 +534,8 @@ const App = (() => {
     else if (activeTab === 'board') html += await parkWorksTab(works, parkId);
     else if (activeTab === 'equipment') html += equipmentTab(eq_, parkId, canEditPark(park));
     else if (activeTab === 'premises') html += premisesTab(pm_, parkId);
-    else if (activeTab === 'documents') html += documentsTab(docs, parkId);
-    else if (activeTab === 'journals') html += journalsTab(jr_, parkId);
+    else if (activeTab === 'documents') html += documentsTab(docs, parkId, canEditPark(park));
+    else if (activeTab === 'journals') html += journalsTab(jr_, parkId, canEditPark(park));
 
     $('#view').innerHTML = html;
   }
@@ -896,25 +896,134 @@ const App = (() => {
     </tbody></table>`;
   }
 
-  function documentsTab(items) {
-    if (!items.length) return emptyState('Документы не добавлены');
+  function documentsTab(items, parkId, canEdit) {
+    const addBtn = canEdit
+      ? `<div style="margin-bottom:10px"><button class="btn btn-primary btn-sm" onclick="App.openDocumentForm('${parkId}','')">＋ Добавить документ</button></div>` : '';
+    if (!items.length) return addBtn + emptyState('Документы не добавлены');
     const cls = { ok:'status-ok', warn:'status-warn', bad:'status-bad' };
-    return `<table class="table"><thead><tr><th>Документ</th><th>Действует до</th><th>Статус</th></tr></thead><tbody>
-      ${items.map(d => { const s = docStatus(d); return `<tr><td><b>${escapeHtml(d.name)}</b></td>
-        <td>${fmtDate(d.validTo)}</td>
-        <td><span class="status-pill ${cls[s]}">${docStatusLabel(d, s)}</span></td></tr>`; }).join('')}
-    </tbody></table>`;
+    const rows = items.map(d => { const s = docStatus(d); return `<tr><td><b>${escapeHtml(d.name)}</b></td>
+      <td>${fmtDate(d.validTo)}</td>
+      <td><span class="status-pill ${cls[s]}">${docStatusLabel(d, s)}</span></td>
+      ${canEdit ? `<td style="width:80px;text-align:right;white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" title="Редактировать" onclick="App.openDocumentForm('${parkId}','${d.id}')">✎</button>
+        <button class="btn btn-ghost btn-sm" title="Удалить" onclick="App.deleteDocument('${d.id}')">🗑</button></td>` : ''}
+      </tr>`; }).join('');
+    return addBtn + `<table class="table"><thead><tr><th>Документ</th><th>Действует до</th><th>Статус</th>${canEdit ? '<th></th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
   }
 
-  function journalsTab(items) {
-    if (!items.length) return emptyState('Журналы не добавлены');
+  // Форма документа (добавление/редактирование) — директор или управляющий парка
+  function openDocumentForm(parkId, id) {
+    (async () => {
+      const park = await DB.getByKey('parks', parkId);
+      if (!park || !canEditPark(park)) { toast('Нет прав на редактирование', true); return; }
+      const d = id ? await DB.getByKey('documents', id) : null;
+      const body = `<div class="field"><label>Название документа *</label>
+          <input id="dc_name" value="${escapeAttr(d?.name || '')}" placeholder="Например: Пожарная декларация"></div>
+        <div class="field"><label>Действует до</label>
+          <input id="dc_validTo" type="date" value="${d?.validTo || ''}"></div>`;
+      const footer = `<button class="btn btn-ghost" onclick="App.closeModalFn()">Отмена</button>
+        <button class="btn btn-primary" onclick="App.saveDocument('${parkId}','${id || ''}')">Сохранить</button>`;
+      openModal(id ? 'Редактирование документа' : 'Новый документ', body, footer);
+    })();
+  }
+
+  async function saveDocument(parkId, id) {
+    const park = await DB.getByKey('parks', parkId);
+    if (!park || !canEditPark(park)) { toast('Нет прав на редактирование', true); return; }
+    const name = $('#dc_name').value.trim();
+    if (!name) { toast('Введите название документа', true); return; }
+    const existing = id ? (await DB.getByKey('documents', id)) : null;
+    await DB.put('documents', {
+      ...(existing || {}),
+      id: id || undefined,
+      parkId,
+      name,
+      validTo: $('#dc_validTo').value || null,
+      issued: existing?.issued || today(),
+    });
+    closeModal();
+    toast(id ? 'Документ обновлён' : 'Документ добавлен');
+    route();
+  }
+
+  async function deleteDocument(id) {
+    const d = await DB.getByKey('documents', id);
+    if (!d) return;
+    const park = await DB.getByKey('parks', d.parkId);
+    if (!park || !canEditPark(park)) { toast('Нет прав на удаление', true); return; }
+    if (!confirm(`Удалить документ «${d.name}»?`)) return;
+    await DB.remove('documents', id);
+    toast('Документ удалён');
+    route();
+  }
+
+  const JRN_STATUS = { ok:'Актуален', warn:'Проверить', bad:'Просрочен' };
+
+  function journalsTab(items, parkId, canEdit) {
+    const addBtn = canEdit
+      ? `<div style="margin-bottom:10px"><button class="btn btn-primary btn-sm" onclick="App.openJournalForm('${parkId}','')">＋ Добавить журнал</button></div>` : '';
+    if (!items.length) return addBtn + emptyState('Журналы не добавлены');
     const cls = { ok:'status-ok', warn:'status-warn', bad:'status-bad' };
-    const lbl = { ok:'Актуален', warn:'Проверить', bad:'Просрочен' };
-    return `<table class="table"><thead><tr><th>Журнал</th><th>Статус</th><th>Последняя запись</th></tr></thead><tbody>
-      ${items.map(j => `<tr><td><b>${escapeHtml(j.name)}</b></td>
-        <td><span class="status-pill ${cls[j.status]||''}">${lbl[j.status]||j.status}</span></td>
-        <td>${fmtDate(j.lastEntry)}</td></tr>`).join('')}
-    </tbody></table>`;
+    const rows = items.map(j => `<tr><td><b>${escapeHtml(j.name)}</b></td>
+      <td><span class="status-pill ${cls[j.status]||''}">${JRN_STATUS[j.status]||j.status}</span></td>
+      <td>${fmtDate(j.lastEntry)}</td>
+      ${canEdit ? `<td style="width:80px;text-align:right;white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" title="Редактировать" onclick="App.openJournalForm('${parkId}','${j.id}')">✎</button>
+        <button class="btn btn-ghost btn-sm" title="Удалить" onclick="App.deleteJournal('${j.id}')">🗑</button></td>` : ''}
+      </tr>`).join('');
+    return addBtn + `<table class="table"><thead><tr><th>Журнал</th><th>Статус</th><th>Последняя запись</th>${canEdit ? '<th></th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
+  }
+
+  // Форма журнала (добавление/редактирование) — директор или управляющий парка
+  function openJournalForm(parkId, id) {
+    (async () => {
+      const park = await DB.getByKey('parks', parkId);
+      if (!park || !canEditPark(park)) { toast('Нет прав на редактирование', true); return; }
+      const j = id ? await DB.getByKey('journals', id) : null;
+      const body = `<div class="field"><label>Название журнала *</label>
+          <input id="jr_name" value="${escapeAttr(j?.name || '')}" placeholder="Например: Журнал инструктажа по ТБ"></div>
+        <div class="row">
+          <div class="field"><label>Статус</label>
+            <select id="jr_status">
+              ${Object.entries(JRN_STATUS).map(([k, v]) => `<option value="${k}" ${j?.status === k ? 'selected' : ''}>${v}</option>`).join('')}
+            </select></div>
+          <div class="field"><label>Дата последней записи</label>
+            <input id="jr_lastEntry" type="date" value="${j?.lastEntry || ''}"></div>
+        </div>`;
+      const footer = `<button class="btn btn-ghost" onclick="App.closeModalFn()">Отмена</button>
+        <button class="btn btn-primary" onclick="App.saveJournal('${parkId}','${id || ''}')">Сохранить</button>`;
+      openModal(id ? 'Редактирование журнала' : 'Новый журнал', body, footer);
+    })();
+  }
+
+  async function saveJournal(parkId, id) {
+    const park = await DB.getByKey('parks', parkId);
+    if (!park || !canEditPark(park)) { toast('Нет прав на редактирование', true); return; }
+    const name = $('#jr_name').value.trim();
+    if (!name) { toast('Введите название журнала', true); return; }
+    const existing = id ? (await DB.getByKey('journals', id)) : null;
+    await DB.put('journals', {
+      ...(existing || {}),
+      id: id || undefined,
+      parkId,
+      name,
+      status: $('#jr_status').value,
+      lastEntry: $('#jr_lastEntry').value || null,
+    });
+    closeModal();
+    toast(id ? 'Журнал обновлён' : 'Журнал добавлен');
+    route();
+  }
+
+  async function deleteJournal(id) {
+    const j = await DB.getByKey('journals', id);
+    if (!j) return;
+    const park = await DB.getByKey('parks', j.parkId);
+    if (!park || !canEditPark(park)) { toast('Нет прав на удаление', true); return; }
+    if (!confirm(`Удалить журнал «${j.name}»?`)) return;
+    await DB.remove('journals', id);
+    toast('Журнал удалён');
+    route();
   }
 
   function isDocExpired(d) {
@@ -1616,6 +1725,7 @@ const App = (() => {
     calcCriteria, workOpts,
     editPark, openNewPark, savePark, deletePark, clearParkWorks,
     canEditPark, editParkInfo, saveParkInfo, cancelParkInfoEdit, saveEquipmentStatus,
+    openDocumentForm, saveDocument, deleteDocument, openJournalForm, saveJournal, deleteJournal,
   };
 })();
 
