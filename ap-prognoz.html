@@ -131,8 +131,8 @@
 /* Раздел доступен только после входа на портал — иначе возврат на главную. */
 (function(){
   try {
-    if (!JSON.parse(localStorage.getItem('ambi_portal_session_v1') || 'null')) { location.replace('index.html'); }
-  } catch(e) { location.replace('index.html'); }
+    if (!JSON.parse(localStorage.getItem('ambi_portal_session_v1') || 'null')) { location.replace('index.html?login=1'); }
+  } catch(e) { location.replace('index.html?login=1'); }
 })();
 </script>
 
