@@ -4207,19 +4207,25 @@ async function sendMonthlyPlans() {
     const subjectCommon = encodeURIComponent(`Планы на ${MONTHS[month]} 2026 (доходы и расходы)`);
     const bodyText = `Таблица с планами скопирована в буфер обмена.\nВставьте её сюда сочетанием Ctrl+V (или Cmd+V на Mac) перед отправкой письма.`;
 
-    // Управляющим парков отправляем только доходы; общий список получает полный отчёт
+    // Шаг 1. Управляющим — ТОЛЬКО доходы. Копируем в буфер и открываем письмо.
     const tableHtml = buildMonthlyPlansReportHtml(month, true);
     await copyReportToClipboard(tableHtml, 'sendMonthBtn');
     window.location.href = `mailto:${managerRecipients.join(',')}?subject=${subjectManagers}&body=${encodeURIComponent(bodyText)}`;
 
-    // Полный отчёт (доходы + расходы) — отдельным письмом на общие адреса
-    if (commonRecipients.length) {
-        const fullTableHtml = buildMonthlyPlansReportHtml(month, false);
-        await copyReportToClipboard(fullTableHtml, 'sendMonthBtn');
-        setTimeout(() => {
-            window.location.href = `mailto:${commonRecipients.join(',')}?subject=${subjectCommon}&body=${encodeURIComponent(bodyText)}`;
-        }, 600);
-    }
+    // Шаг 2. Полный отчёт на общие адреса — ТОЛЬКО после того, как пользователь
+    // вставил доходы в первое письмо и подтвердил. Иначе буфер обмена
+    // перезапишется расходами раньше, чем он успеет нажать Ctrl+V.
+    if (!commonRecipients.length) return;
+    const goNext = confirm(
+        'Письмо управляющим открыто, таблица ДОХОДОВ скопирована в буфер обмена.\n\n' +
+        '1. Вставьте её в письмо сочетанием Ctrl+V (или Cmd+V на Mac).\n' +
+        '2. Затем нажмите ОК — скопируется полный отчёт и откроется письмо руководству.\n\n' +
+        'Нажмите «Отмена», если письмо руководству сейчас не нужно.'
+    );
+    if (!goNext) return;
+    const fullTableHtml = buildMonthlyPlansReportHtml(month, false);
+    await copyReportToClipboard(fullTableHtml, 'sendMonthBtn');
+    window.location.href = `mailto:${commonRecipients.join(',')}?subject=${subjectCommon}&body=${encodeURIComponent(bodyText)}`;
 }
 
 // Копирование сводки планов в буфер обмена — запасной вариант на случай,
