@@ -42,25 +42,27 @@ const Portal = (() => {
       'view.budget': true, 'view.analitika': true,
       'view.obuchenie': true, 'view.motivatsia': true, 'view.reglamenty': true,
     };
+    // Единый пароль для всех ролей портала: Ambi2024
+    const P = hashPwd('Ambi2024');
     return [
-      { id: 'admin', login: 'admin', pwdHash: hashPwd('0987'), name: 'Администратор',
+      { id: 'admin', login: 'admin', pwdHash: P, name: 'Администратор',
         note: 'Полный доступ ко всем разделам и настройкам', builtin: true, perms: full },
-      { id: 'cmo', login: 'cmo', pwdHash: hashPwd('cmo123'), name: 'Коммерческий директор',
+      { id: 'director', login: 'director', pwdHash: P, name: 'Генеральный директор',
         note: 'Полный доступ', builtin: true, perms: full },
-      { id: 'cfo', login: 'cfo', pwdHash: hashPwd('cfo123'), name: 'Финансовый директор',
+      { id: 'cmo', login: 'cmo', pwdHash: P, name: 'Коммерческий директор',
         note: 'Полный доступ', builtin: true, perms: full },
-      { id: 'art', login: 'art', pwdHash: hashPwd('art234'), name: 'Арт-директор',
+      { id: 'cfo', login: 'cfo', pwdHash: P, name: 'Финансовый директор',
         note: 'Полный доступ', builtin: true, perms: full },
-      // Роли из раздела 1 «Контроль» (те же логины и пароли)
-      { id: 'director', login: 'director', pwdHash: hashPwd('0987'), name: 'Генеральный директор',
-        note: 'Полный доступ (раздел 1)', builtin: true, perms: full },
-      { id: 'mgr_horosho', login: 'horosho', pwdHash: hashPwd('1234'), name: 'Управляющий парка «Хорошо»',
+      { id: 'art', login: 'art', pwdHash: P, name: 'Арт-директор',
+        note: 'Полный доступ', builtin: true, perms: full },
+      // Управляющие парков (участники разделов 1 и 2)
+      { id: 'mgr_horosho', login: 'horosho', pwdHash: P, name: 'Управляющий парка «Хорошо»',
         note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
-      { id: 'mgr_columbus', login: 'columbus', pwdHash: hashPwd('2345'), name: 'Управляющий парка «Колумбус»',
+      { id: 'mgr_columbus', login: 'columbus', pwdHash: P, name: 'Управляющий парка «Колумбус»',
         note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
-      { id: 'mgr_vegas', login: 'vegas', pwdHash: hashPwd('3456'), name: 'Управляющий парка «Вегас»',
+      { id: 'mgr_vegas', login: 'vegas', pwdHash: P, name: 'Управляющий парка «Вегас»',
         note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
-      { id: 'mgr_okeania', login: 'okeania', pwdHash: hashPwd('4567'), name: 'Управляющий парка «Океания»',
+      { id: 'mgr_okeania', login: 'okeania', pwdHash: P, name: 'Управляющий парка «Океания»',
         note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
     ];
   }
