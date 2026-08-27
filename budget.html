@@ -364,6 +364,7 @@
             <button class="btn btn-warning hidden" id="approveMonthBtn">✅ Утвердить (Ген.Дир)</button>
             <button class="btn btn-danger" id="unapproveMonthBtn">❌ Снять утверждение</button>
             <span id="monthApprovedStatus" style="font-weight:bold; color:#28a745;">✅ Утверждён гендиректором</span>
+            <button class="btn btn-success hidden" id="sendMonthPlanBtn" title="Отправить утверждённый месячный бюджет ген.директору по e-mail">📧 Отправить план</button>
             <button class="btn send-btn hidden" id="sendMonthBtn">📤 Send (рассылка планов)</button>
             <button class="btn btn-info hidden" id="copyMonthBtn">📋 Скопировать отчёт</button>
             <button class="btn clear-btn hidden" id="clearMonthBtn">🗑️ Очистить все данные</button>
@@ -4134,6 +4135,24 @@ async function sendQuarterPlan() {
     await sendPlanEmail(buildQuarterPlanSummaryHtml(quarter), `Утверждённый бюджет на ${quarter + 1}-й квартал 2026`, ['ceo@ambi.land'], 'sendQuarterBtn');
 }
 
+async function sendMonthPlan() {
+    const month = parseInt(document.getElementById('monthSelect').value);
+    if (!ACTIVE_MONTHS.includes(month)) {
+        alert('Выберите корректный месяц.');
+        return;
+    }
+    if (!data.isMonthApproved[month]) {
+        alert('Месячный бюджет не утверждён гендиректором. Сначала утвердите.');
+        return;
+    }
+    await sendPlanEmail(
+        buildMonthlyPlansReportHtml(month),
+        `Утверждённый месячный бюджет на ${MONTHS[month]} 2026`,
+        ['ceo@ambi.land'],
+        'sendMonthPlanBtn'
+    );
+}
+
 async function sendMonthlyPlans() {
     const month = parseInt(document.getElementById('monthSelect').value);
     if (!ACTIVE_MONTHS.includes(month)) {
@@ -4784,6 +4803,7 @@ function updateUI() {
     // Кнопки отправки планов по e-mail — ген.директор и админ
     document.getElementById('sendYearBtn').classList.toggle('hidden', !(isDirector || isAdmin));
     document.getElementById('sendQuarterBtn').classList.toggle('hidden', !(isDirector || isAdmin));
+    document.getElementById('sendMonthPlanBtn').classList.toggle('hidden', !(isDirector || isAdmin));
 
     // Кнопка Send – для коммерческого директора и администратора
     const isCmoOrAdmin = isAdmin || isCmo;
@@ -4945,6 +4965,7 @@ document.getElementById('unapproveMonthBtn').addEventListener('click', function(
 
 // Кнопка Send
 document.getElementById('sendMonthBtn').addEventListener('click', sendMonthlyPlans);
+document.getElementById('sendMonthPlanBtn').addEventListener('click', sendMonthPlan);
 document.getElementById('copyMonthBtn').addEventListener('click', copyMonthlyPlansReport);
 
 // Кнопка очистки
