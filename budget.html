@@ -5061,7 +5061,7 @@ document.getElementById('founderMonthSelect').value = defaultMonth;
 
 // Раздел доступен только после входа на портале — иначе возврат на главную.
 const portalSess = localStorage.getItem('ambi_portal_session_v1');
-if (!portalSess) { location.replace('index.html'); }
+if (!portalSess) { location.replace('index.html?login=1'); }
 
 const savedUser = localStorage.getItem('ambiland_user');
 if (savedUser) {
