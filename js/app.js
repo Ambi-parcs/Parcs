@@ -62,7 +62,7 @@ const App = (() => {
     await Seed.run(); // наполнить демо-данными, если пусто
     await migrateFilesFromContracts(); // перенести PDF-договоры в новое хранилище (v6)
     await clearWorksOnce(); // разовая очистка реестра работ (по запросу руководства)
-    await unifyPasswordsOnce(); // единый пароль Ambi2024 для всех пользователей
+    await restorePasswordsOnce(); // персональные пароли (men2345 / men4567 для Колумбуса и Океании)
 
     // Если уже есть сессия — показать приложение
     if (Auth.current()) showApp();
@@ -1121,15 +1121,27 @@ const App = (() => {
     localStorage.setItem(FLAG, '1');
   }
 
-  // Единый пароль портала (Ambi2024) для всех пользователей раздела 1.
-  // Разовая миграция: обновляет хэши у существующих записей в IndexedDB.
-  async function unifyPasswordsOnce() {
-    const FLAG = 'ambi_pwd_unified_v1';
+  // Индивидуальные пароли пользователей раздела 1.
+  // Разовая миграция v2: восстанавливает персональные пароли у существующих записей
+  // (после временного единого пароля) и обновляет доступ управляющих
+  // «Колумбус» (men2345) и «Океания» (men4567).
+  async function restorePasswordsOnce() {
+    const FLAG = 'ambi_pwd_restored_v2';
     if (localStorage.getItem(FLAG)) return;
-    const H = Auth.hashPwd('Ambi2024');
+    const MAP = {
+      director: '0987',
+      horosho: '1234',
+      columbus: 'men2345',
+      vegas: '3456',
+      okeania: 'men4567',
+    };
     const users = await DB.getAll('users');
     for (const u of users) {
-      if (u.pwdHash !== H) { u.pwdHash = H; await DB.put('users', u); }
+      const pw = MAP[(u.login || '').toLowerCase()];
+      if (pw && u.pwdHash !== Auth.hashPwd(pw)) {
+        u.pwdHash = Auth.hashPwd(pw);
+        await DB.put('users', u);
+      }
     }
     localStorage.setItem(FLAG, '1');
   }
