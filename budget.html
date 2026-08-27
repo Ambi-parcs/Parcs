@@ -326,6 +326,7 @@
             <button class="btn btn-secondary" id="saveYearBtn">💾 Сохранить год</button>
             <button class="btn btn-warning" id="approveYearBtn">✅ Утвердить (Ген.Дир)</button>
             <button class="btn btn-danger hidden" id="unapproveYearBtn">❌ Снять утверждение</button>
+            <button class="btn btn-success" id="sendYearBtn" title="Отправить утверждённый годовой бюджет по e-mail">📧 Отправить план</button>
             <span id="yearApprovedStatus" style="font-weight:bold; color:#28a745;"></span>
         </div>
         <div class="kpi-grid" id="yearKpi">
@@ -347,6 +348,7 @@
             <button class="btn btn-secondary" id="saveQuarterBtn">💾 Сохранить квартал</button>
             <button class="btn btn-warning" id="approveQuarterBtn">✅ Утвердить (Ген.Дир)</button>
             <button class="btn btn-danger hidden" id="unapproveQuarterBtn">❌ Снять утверждение</button>
+            <button class="btn btn-success" id="sendQuarterBtn" title="Отправить утверждённый квартальный бюджет по e-mail">📧 Отправить план</button>
             <span id="quarterApprovedStatus" style="font-weight:bold; color:#28a745;"></span>
         </div>
         <div id="quarterContent" class="table-wrap"><table><thead><tr><th class="left">Статья</th><th colspan="4">июл</th><th colspan="4">авг</th><th colspan="4">сен</th><th colspan="4">Итого за квартал</th></tr><tr><th class="left">Статья</th><th>План</th><th>Факт</th><th>Абс</th><th>Отн</th><th>План</th><th>Факт</th><th>Абс</th><th>Отн</th><th>План</th><th>Факт</th><th>Абс</th><th>Отн</th><th>План</th><th>Факт</th><th>Абс</th><th>Отн</th></tr></thead><tbody><tr class="group"><td colspan="17">ДОХОДЫ</td></tr><tr><td class="left">Игровая зона</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Игровая зона" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="61.522" data-q="2" data-m="1" data-art="Игровая зона" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-61,5</td><td class="negative">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="53" data-q="2" data-m="2" data-art="Игровая зона" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-53,0</td><td class="negative">-100.0%</td><td>114,5</td><td>0,0</td><td class="negative">-114,5</td><td class="negative">-100.0%</td></tr><tr><td class="left">Ресторан</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Ресторан" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="18.187" data-q="2" data-m="1" data-art="Ресторан" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-18,2</td><td class="negative">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="24" data-q="2" data-m="2" data-art="Ресторан" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-24,0</td><td class="negative">-100.0%</td><td>42,2</td><td>0,0</td><td class="negative">-42,2</td><td class="negative">-100.0%</td></tr><tr><td class="left">Банкеты</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Банкеты" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="9.9" data-q="2" data-m="1" data-art="Банкеты" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-9,9</td><td class="negative">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="17" data-q="2" data-m="2" data-art="Банкеты" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-17,0</td><td class="negative">-100.0%</td><td>26,9</td><td>0,0</td><td class="negative">-26,9</td><td class="negative">-100.0%</td></tr><tr><td class="left">Мерчендайзинг</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Мерчендайзинг" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0.19" data-q="2" data-m="1" data-art="Мерчендайзинг" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-0,2</td><td class="negative">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="2" data-art="Мерчендайзинг" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,2</td><td>0,0</td><td class="negative">-0,2</td><td class="negative">-100.0%</td></tr><tr><td class="left">Прочие услуги</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Прочие услуги" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="1.198" data-q="2" data-m="1" data-art="Прочие услуги" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="negative">-1,2</td><td class="negative">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="2" data-art="Прочие услуги" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>1,2</td><td>0,0</td><td class="negative">-1,2</td><td class="negative">-100.0%</td></tr><tr class="total"><td class="left">Итого доходов</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>91,0</td><td>0,0</td><td class="negative">-91,0</td><td class="negative">-100.0%</td><td>94,0</td><td>0,0</td><td class="negative">-94,0</td><td class="negative">-100.0%</td><td>185,0</td><td>0,0</td><td class="negative">-185,0</td><td class="negative">-100.0%</td></tr><tr class="group"><td colspan="17">РАСХОДЫ (сводно)</td></tr><tr class="group-toggle-row expense-group-header collapsed" data-group-scope="quarter" data-group-name="Прямые расходы"><td class="left"><span class="group-arrow">▼</span><strong>Прямые расходы</strong></td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>1,5</td><td>0,0</td><td class="positive">-1,5</td><td class="positive">-100.0%</td><td>1,7</td><td>0,0</td><td class="positive">-1,7</td><td class="positive">-100.0%</td><td>3,2</td><td>0,0</td><td class="positive">-3,2</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Прямые расходы"><td class="left" style="padding-left:24px;">— Себестоимость ресторана</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Себестоимость ресторана" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="1" data-art="Себестоимость ресторана" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="2" data-art="Себестоимость ресторана" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Прямые расходы"><td class="left" style="padding-left:24px;">— Прямые затраты</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Прямые затраты" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="1.45" data-q="2" data-m="1" data-art="Прямые затраты" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-1,5</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="1.7" data-q="2" data-m="2" data-art="Прямые затраты" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-1,7</td><td class="positive">-100.0%</td><td>3,2</td><td>0,0</td><td class="positive">-3,2</td><td class="positive">-100.0%</td></tr><tr class="group-toggle-row expense-group-header collapsed" data-group-scope="quarter" data-group-name="Расходы на персонал"><td class="left"><span class="group-arrow">▼</span><strong>Расходы на персонал</strong></td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>28,9</td><td>0,0</td><td class="positive">-28,9</td><td class="positive">-100.0%</td><td>30,2</td><td>0,0</td><td class="positive">-30,2</td><td class="positive">-100.0%</td><td>59,1</td><td>0,0</td><td class="positive">-59,1</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Расходы на персонал"><td class="left" style="padding-left:24px;">— ФОТ</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="ФОТ" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="20.4" data-q="2" data-m="1" data-art="ФОТ" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-20,4</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="21.4" data-q="2" data-m="2" data-art="ФОТ" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-21,4</td><td class="positive">-100.0%</td><td>41,8</td><td>0,0</td><td class="positive">-41,8</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Расходы на персонал"><td class="left" style="padding-left:24px;">— Страховые взносы и НДФЛ</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Страховые взносы и НДФЛ" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="8.5" data-q="2" data-m="1" data-art="Страховые взносы и НДФЛ" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-8,5</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="8.8" data-q="2" data-m="2" data-art="Страховые взносы и НДФЛ" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-8,8</td><td class="positive">-100.0%</td><td>17,3</td><td>0,0</td><td class="positive">-17,3</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Расходы на персонал"><td class="left" style="padding-left:24px;">— Затраты на сотрудников</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Затраты на сотрудников" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="1" data-art="Затраты на сотрудников" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="2" data-art="Затраты на сотрудников" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td></tr><tr class="group-toggle-row expense-group-header collapsed" data-group-scope="quarter" data-group-name="Административные и управленческие"><td class="left"><span class="group-arrow">▼</span><strong>Административные и управленческие</strong></td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>3,4</td><td>0,0</td><td class="positive">-3,4</td><td class="positive">-100.0%</td><td>3,5</td><td>0,0</td><td class="positive">-3,5</td><td class="positive">-100.0%</td><td>6,9</td><td>0,0</td><td class="positive">-6,9</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Административные и управленческие"><td class="left" style="padding-left:24px;">— Административные, ИТ, банковские и прочие</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Административные, ИТ, банковские и прочие" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="3.4" data-q="2" data-m="1" data-art="Административные, ИТ, банковские и прочие" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-3,4</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="3.45" data-q="2" data-m="2" data-art="Административные, ИТ, банковские и прочие" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-3,5</td><td class="positive">-100.0%</td><td>6,9</td><td>0,0</td><td class="positive">-6,9</td><td class="positive">-100.0%</td></tr><tr class="group-toggle-row expense-group-header collapsed" data-group-scope="quarter" data-group-name="Аренда и содержание парков"><td class="left"><span class="group-arrow">▼</span><strong>Аренда и содержание парков</strong></td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>24,4</td><td>0,0</td><td class="positive">-24,4</td><td class="positive">-100.0%</td><td>26,2</td><td>0,0</td><td class="positive">-26,2</td><td class="positive">-100.0%</td><td>50,7</td><td>0,0</td><td class="positive">-50,7</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Аренда и содержание парков"><td class="left" style="padding-left:24px;">— Аренда и коммунальные</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Аренда и коммунальные" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="19.831445" data-q="2" data-m="1" data-art="Аренда и коммунальные" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-19,8</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="21.661445" data-q="2" data-m="2" data-art="Аренда и коммунальные" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-21,7</td><td class="positive">-100.0%</td><td>41,5</td><td>0,0</td><td class="positive">-41,5</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Аренда и содержание парков"><td class="left" style="padding-left:24px;">— Обслуживание парков</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Обслуживание парков" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="2.785" data-q="2" data-m="1" data-art="Обслуживание парков" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-2,8</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="2.785" data-q="2" data-m="2" data-art="Обслуживание парков" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-2,8</td><td class="positive">-100.0%</td><td>5,6</td><td>0,0</td><td class="positive">-5,6</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Аренда и содержание парков"><td class="left" style="padding-left:24px;">— Расходные материалы парков и праздников</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Расходные материалы парков и праздников" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="1.5" data-q="2" data-m="1" data-art="Расходные материалы парков и праздников" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-1,5</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="1.5" data-q="2" data-m="2" data-art="Расходные материалы парков и праздников" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-1,5</td><td class="positive">-100.0%</td><td>3,0</td><td>0,0</td><td class="positive">-3,0</td><td class="positive">-100.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Аренда и содержание парков"><td class="left" style="padding-left:24px;">— Технические и ремонтные работы</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Технические и ремонтные работы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0.3" data-q="2" data-m="1" data-art="Технические и ремонтные работы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-0,3</td><td class="positive">-100.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0.3" data-q="2" data-m="2" data-art="Технические и ремонтные работы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">-0,3</td><td class="positive">-100.0%</td><td>0,6</td><td>0,0</td><td class="positive">-0,6</td><td class="positive">-100.0%</td></tr><tr class="group-toggle-row expense-group-header collapsed" data-group-scope="quarter" data-group-name="Коммерческие расходы"><td class="left"><span class="group-arrow">▼</span><strong>Коммерческие расходы</strong></td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Коммерческие расходы"><td class="left" style="padding-left:24px;">— Маркетинговые расходы</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Маркетинговые расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="1" data-art="Маркетинговые расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="2" data-art="Маркетинговые расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Коммерческие расходы"><td class="left" style="padding-left:24px;">— Командировочные расходы</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Командировочные расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="1" data-art="Командировочные расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="2" data-art="Командировочные расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td></tr><tr class="expense-sub-row sub-row-hidden" data-group-scope="quarter" data-group-name="Коммерческие расходы"><td class="left" style="padding-left:24px;">— Прочие коммерческие расходы</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="0" data-art="Прочие коммерческие расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="1" data-art="Прочие коммерческие расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td><input class="cell editable-cell" type="number" step="0.001" value="0" data-q="2" data-m="2" data-art="Прочие коммерческие расходы" data-type="plan" style="width:70px;" disabled=""></td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td></tr><tr class="total"><td class="left">Итого расходов</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>58,2</td><td>0,0</td><td class="positive">-58,2</td><td class="positive">-100.0%</td><td>61,6</td><td>0,0</td><td class="positive">-61,6</td><td class="positive">-100.0%</td><td>119,8</td><td>0,0</td><td class="positive">-119,8</td><td class="positive">-100.0%</td></tr><tr class="total"><td class="left">Операционная прибыль</td><td>0,0</td><td>0,0</td><td class="positive">0,0</td><td class="positive">0.0%</td><td>32,8</td><td>0,0</td><td class="negative">-32,8</td><td class="negative">-100.0%</td><td>32,4</td><td>0,0</td><td class="negative">-32,4</td><td class="negative">-100.0%</td><td>65,2</td><td>0,0</td><td class="negative">-65,2</td><td class="negative">-100.0%</td></tr></tbody></table></div>
@@ -4019,6 +4021,119 @@ function buildMonthlyPlansReportHtml(month) {
     return tableHtml;
 }
 
+// ---------- Отправка утверждённых планов (год / квартал) ----------
+// Сводка по годовому плану: выручка, расходы, операционная прибыль по месяцам (млн руб.)
+function buildYearPlanSummaryHtml() {
+    const months = ACTIVE_MONTHS;
+    let html = `<h3>Годовой операционный бюджет (план, млн руб., сентябрь–декабрь 2026)</h3>`;
+    html += `<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; font-family: Arial, sans-serif; font-size:12px;">`;
+    html += `<tr><th style="background:#1a3c5e; color:white;">Показатель</th>${months.map(m => `<th>${MONTHS[m]}</th>`).join('')}<th>Итого</th></tr>`;
+    const rows = [
+        ['Выручка (план)', REVENUE_ARTICLES],
+        ['Расходы (план)', EXPENSE_ARTICLES],
+    ];
+    const sums = {};
+    rows.forEach(([label, arts]) => {
+        sums[label] = [];
+        html += `<tr><td style="font-weight:bold;">${label}</td>`;
+        let total = 0;
+        months.forEach(m => {
+            let v = 0;
+            arts.forEach(a => { v += Number((data.annualPlan[a] || [])[m]) || 0; });
+            sums[label].push(v);
+            total += v;
+            html += `<td>${fmt1(v)}</td>`;
+        });
+        sums[label].push(total);
+        html += `<td style="font-weight:bold;">${fmt1(total)}</td></tr>`;
+    });
+    // Операционная прибыль = выручка - расходы
+    html += `<tr style="background:#e9eff5; font-weight:bold;"><td>Операционная прибыль (план)</td>`;
+    months.forEach((m, idx) => {
+        const op = sums['Выручка (план)'][idx] - sums['Расходы (план)'][idx];
+        html += `<td>${fmt1(op)}</td>`;
+    });
+    html += `<td>${fmt1(sums['Выручка (план)'].at(-1) - sums['Расходы (план)'].at(-1))}</td></tr>`;
+    html += `</table>`;
+    return html;
+}
+
+// Сводка по квартальному плану: помесячно по статьям (тыс. руб.)
+function buildQuarterPlanSummaryHtml(quarter) {
+    const start = quarter * 3;
+    const months = [start, start + 1, start + 2].filter(m => ACTIVE_MONTHS.includes(m));
+    let html = `<h3>Бюджет на ${quarter + 1}-й квартал 2026 (план, тыс. руб.)</h3>`;
+    html += `<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; font-family: Arial, sans-serif; font-size:12px;">`;
+    html += `<tr><th style="background:#1a3c5e; color:white;">Статья</th>${months.map(m => `<th>${MONTHS[m]}</th>`).join('')}<th>Итого</th></tr>`;
+    let grandRev = 0, grandExp = 0;
+    const section = (title, arts) => {
+        html += `<tr style="background:#dceae5; font-weight:bold;"><td colspan="${months.length + 2}">${title}</td></tr>`;
+        let secTotal = 0;
+        arts.forEach(art => {
+            html += `<tr><td style="padding-left:16px;">${art}</td>`;
+            let rowTotal = 0;
+            months.forEach(m => {
+                const v = Number(data.quarterData[quarter]?.[m]?.[art]?.plan) || 0;
+                rowTotal += v;
+                html += `<td>${fmt(v)}</td>`;
+            });
+            secTotal += rowTotal;
+            html += `<td style="font-weight:bold;">${fmt(rowTotal)}</td></tr>`;
+        });
+        html += `<tr style="background:#e9eff5; font-weight:bold;"><td>Итого: ${title.toLowerCase()}</td>`;
+        months.forEach((m, i) => {
+            let v = 0;
+            arts.forEach(art => { v += Number(data.quarterData[quarter]?.[m]?.[art]?.plan) || 0; });
+            html += `<td>${fmt(v)}</td>`;
+        });
+        html += `<td>${fmt(secTotal)}</td></tr>`;
+        return secTotal;
+    };
+    grandRev = section('ДОХОДЫ', REVENUE_ARTICLES);
+    grandExp = section('РАСХОДЫ', EXPENSE_ARTICLES);
+    html += `<tr style="background:#c9dbe9; font-weight:bold;"><td>ОПЕРАЦИОННАЯ ПРИБЫЛЬ (план)</td>${months.map(() => '').join('') && months.map(m => {
+        let rv = 0, ev = 0;
+        REVENUE_ARTICLES.forEach(art => { rv += Number(data.quarterData[quarter]?.[m]?.[art]?.plan) || 0; });
+        EXPENSE_ARTICLES.forEach(art => { ev += Number(data.quarterData[quarter]?.[m]?.[art]?.plan) || 0; });
+        return `<td>${fmt(rv - ev)}</td>`;
+    }).join('')}<td>${fmt(grandRev - grandExp)}</td></tr>`;
+    html += `</table>`;
+    return html;
+}
+
+// Общая отправка: копируем таблицу в буфер (text/html) и открываем письмо на указанных адресатов
+async function sendPlanEmail(tableHtml, subjectText, recipients, btnId) {
+    await copyReportToClipboard(tableHtml, btnId);
+    const subject = encodeURIComponent(subjectText);
+    const body = encodeURIComponent(
+        `Таблица с планом скопирована в буфер обмена.\nВставьте её сюда сочетанием Ctrl+V (или Cmd+V на Mac) перед отправкой письма.`
+    );
+    window.location.href = `mailto:${[...new Set(recipients)].join(',')}?subject=${subject}&body=${body}`;
+}
+
+// Ген.директор утвердил годовой план → отправка (по умолчанию на ceo@ambi.land)
+async function sendYearPlan() {
+    if (!data.isYearApproved) {
+        alert('Годовой бюджет ещё не утверждён гендиректором.');
+        return;
+    }
+    await sendPlanEmail(buildYearPlanSummaryHtml(), 'Утверждённый годовой бюджет 2026 (сентябрь–декабрь)', ['ceo@ambi.land'], 'sendYearBtn');
+}
+
+// Ген.директор утвердил квартальный план → отправка (по умолчанию на ceo@ambi.land)
+async function sendQuarterPlan() {
+    const quarter = parseInt(document.getElementById('quarterSelect').value);
+    if (!ACTIVE_QUARTERS.includes(quarter)) {
+        alert('Выберите корректный квартал.');
+        return;
+    }
+    if (!data.isQuarterApproved[quarter]) {
+        alert('Квартальный бюджет ещё не утверждён гендиректором.');
+        return;
+    }
+    await sendPlanEmail(buildQuarterPlanSummaryHtml(quarter), `Утверждённый бюджет на ${quarter + 1}-й квартал 2026`, ['ceo@ambi.land'], 'sendQuarterBtn');
+}
+
 async function sendMonthlyPlans() {
     const month = parseInt(document.getElementById('monthSelect').value);
     if (!ACTIVE_MONTHS.includes(month)) {
@@ -4666,6 +4781,10 @@ function updateUI() {
     document.getElementById('approveMonthBtn').classList.toggle('hidden', !isDirector);
     document.getElementById('unapproveMonthBtn').classList.toggle('hidden', !isAdmin);
 
+    // Кнопки отправки планов по e-mail — ген.директор и админ
+    document.getElementById('sendYearBtn').classList.toggle('hidden', !(isDirector || isAdmin));
+    document.getElementById('sendQuarterBtn').classList.toggle('hidden', !(isDirector || isAdmin));
+
     // Кнопка Send – для коммерческого директора и администратора
     const isCmoOrAdmin = isAdmin || isCmo;
     document.getElementById('sendMonthBtn').classList.toggle('hidden', !isCmoOrAdmin);
@@ -4775,6 +4894,7 @@ document.getElementById('approveYearBtn').addEventListener('click', function() {
         alert('Годовой бюджет утверждён.');
     }
 });
+document.getElementById('sendYearBtn').addEventListener('click', sendYearPlan);
 document.getElementById('unapproveYearBtn').addEventListener('click', function() {
     if (currentUser && currentUser.role === 'admin') {
         data.isYearApproved = false;
@@ -4784,6 +4904,7 @@ document.getElementById('unapproveYearBtn').addEventListener('click', function()
     }
 });
 
+document.getElementById('sendQuarterBtn').addEventListener('click', sendQuarterPlan);
 document.getElementById('approveQuarterBtn').addEventListener('click', function() {
     if (currentUser && currentUser.role === 'director') {
         const q = parseInt(document.getElementById('quarterSelect').value);
