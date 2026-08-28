@@ -26,5 +26,13 @@
     "hidden": true,
     "title": "Прогноз доходов и расходов",
     "ts": 1787931178322
+  },
+  {
+    "id": "static_analitika_1",
+    "section": "analitika",
+    "staticIndex": 1,
+    "hidden": true,
+    "title": "Прогноз доходов и расходов по паркам",
+    "ts": 1787931214448
   }
 ]
