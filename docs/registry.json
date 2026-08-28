@@ -44,5 +44,13 @@
     "url": "docs/reglamenty/mtd44r18-ежедневный-регламент-открытия-и-закрытия-активити-парка.html",
     "size": 18555,
     "ts": 1787931299416
+  },
+  {
+    "id": "static_reglamenty_1",
+    "section": "reglamenty",
+    "staticIndex": 1,
+    "hidden": true,
+    "title": "Письмо-ответ ООО «АмбиЛэнд»",
+    "ts": 1787931376496
   }
 ]
