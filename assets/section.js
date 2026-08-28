@@ -173,6 +173,16 @@
   let localDocs = [];
   let useGH = false;
 
+  /* ---------- Ввод GitHub-токена (общий для кнопки и удаления) ---------- */
+  function promptToken(hint) {
+    const t = prompt((hint ? hint + '\n\n' : '') + 'Вставьте GitHub Personal Access Token (ghp_...):', '');
+    if (t && t.trim().startsWith('ghp_')) {
+      GH.setToken(t.trim());
+    } else if (t) {
+      Portal.toast('Токен должен начинаться с ghp_');
+    }
+  }
+
   /* ---------- Скрытые (удалённые) статические карточки ----------
      Встроенные карточки раздела (зашиты в HTML) нельзя удалить из
      репозитория отдельным коммитом — поэтому при «удалении» карточка
@@ -294,6 +304,13 @@
         e.preventDefault();
         e.stopPropagation();
         if (!confirm(`Удалить документ «${doc.title}» для всех?`)) return;
+        // Удаление из репозитория требует действующий токен: без него GitHub
+        // молча отвечает «Not Found», и администратор не понимает, что случилось.
+        if (!GH.ready) {
+          Portal.toast('Для удаления нужен действующий GitHub-токен', true);
+          promptToken('Удаление опубликованного документа невозможно: GitHub-токен не задан или недействителен.');
+          return;
+        }
         del.disabled = true;
         try {
           await ghDeleteDoc(doc);
@@ -399,6 +416,9 @@
         ghDocs = [];
       }
     }
+    // Токен мог быть отвергнут GitHub (401) прямо при чтении реестра —
+    // перепроверяем режим, чтобы бейдж и кнопки отражали реальное состояние
+    useGH = GH.ready;
     localDocs = (await dbBySection(sectionId)).sort((a, b) => b.ts - a.ts);
     await renderAll();
     const authWrap = document.getElementById('toolbarAuth');
@@ -508,14 +528,7 @@
         tokBtn.className = 'btn-p light sm';
         tokBtn.innerHTML = Portal.icon('check') + ' GitHub токен';
         tokBtn.title = 'Ввести токен для автосохранения в репозиторий';
-        tokBtn.addEventListener('click', () => {
-          const t = prompt('Вставьте GitHub Personal Access Token (ghp_...):', '');
-          if (t && t.trim().startsWith('ghp_')) {
-            GH.setToken(t.trim());
-          } else if (t) {
-            Portal.toast('Токен должен начинаться с ghp_');
-          }
-        });
+        tokBtn.addEventListener('click', () => promptToken());
         wrap.appendChild(tokBtn);
       }
     } else {
