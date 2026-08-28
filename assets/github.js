@@ -57,7 +57,22 @@ const GH = (() => {
   }
 
   async function readJSON(path) {
-    const f = await getFile(path);
+    let f;
+    try {
+      f = await getFile(path);
+    } catch (e) {
+      // Анонимное чтение упёрлось в лимит API (60 запросов/час на IP) —
+      // читаем файл напрямую с GitHub Pages: без лимитов и токена.
+      // Обновляется Pages при пересборке (~1 мин после коммита), поэтому
+      // для посетителей это эквивалентно API. sha у такого чтения нет —
+      // результат годен только для чтения, записи идут через API с токеном.
+      if (!hasToken() && /403|429|rate limit/i.test(e.message)) {
+        const root = location.href.replace(/[^/]*$/, '');
+        const r = await fetch(root + path);
+        if (r.ok) return { json: await r.json(), sha: null };
+      }
+      throw e;
+    }
     if (!f) return null;
     const u8 = Uint8Array.from(atob(f.content.replace(/\n/g, '')), c => c.charCodeAt(0));
     return { json: JSON.parse(new TextDecoder('utf-8').decode(u8)), sha: f.sha };
