@@ -18,5 +18,15 @@
     "url": "docs/obuchenie/mt9tud59-обучающий-материал-менеджер-ресторана-активити-парка.html",
     "size": 13371,
     "ts": 1787732620152
+  },
+  {
+    "id": "gh_6a91a97d",
+    "section": "obuchenie",
+    "title": "ТЕСТ проверки удаления",
+    "desc": "временный документ, будет удалён проверкой",
+    "name": "test-proverka-udaleniya.html",
+    "url": "docs/obuchenie/6a91a97d-test-proverka-udaleniya.html",
+    "size": 33,
+    "ts": 1787931005000
   }
 ]
