@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/Admin/Downloads/deepseek_html_20260622_895601.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Чек-лист менеджера ресторана – Активити-парк</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #f5f7fa; color: #1a1a1a; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 25px 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #2c3e50; padding-bottom: 8px; }
+        .info { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+        .info label { font-weight: bold; margin-right: 4px; }
+        .info input, .info textarea { padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        th { background: #34495e; color: white; padding: 10px 8px; text-align: center; }
+        td { padding: 8px; border: 1px solid #ddd; vertical-align: middle; }
+        td:first-child { text-align: center; width: 40px; }
+        td:nth-child(2) { width: 65%; }
+        td:nth-child(3) { text-align: center; width: 120px; }
+        select { padding: 5px; border-radius: 4px; border: 1px solid #aaa; }
+        .total { font-weight: bold; background: #ecf0f1; font-size: 14px; }
+        .section-title { background: #2c3e50; color: white; padding: 10px 15px; margin: 20px 0 5px; border-radius: 6px; font-weight: bold; }
+        .result { background: #e8f5e9; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; font-size: 16px; }
+        .btn { background: #27ae60; color: white; border: none; padding: 12px 30px; font-size: 16px; border-radius: 6px; cursor: pointer; }
+        .btn:hover { background: #219a52; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Чек-лист менеджера ресторана</h1>
+    <div class="info">
+        <div><label>Объект:</label><input type="text" id="objectName" placeholder="Название парка"></div>
+        <div><label>Дата:</label><input type="date" id="checkDate"></div>
+        <div><label>Время:</label><input type="time" id="checkTime"></div>
+        <div><label>Проверяющий:</label><input type="text" id="inspector" placeholder="ФИО менеджера"></div>
+    </div>
+    <p><b>Максимальный балл:</b> 80 (40 пунктов × 2)</p>
+
+    <table id="restaurantTable">
+        <thead>
+            <tr><th>№</th><th>Пункт проверки</th><th>Оценка (0/1/2)</th></tr>
+        </thead>
+        <tbody>
+            <!-- Блок 1 -->
+            <tr><td colspan="3" class="section-title">ВХОДНАЯ ЗОНА И ЗАЛ</td></tr>
+            <tr><td>1</td><td>Вход в ресторан чистый, без мусора</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>2</td><td>Вывеска / меню при входе актуальны, опрятны</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>3</td><td>Столы и стулья чистые, целые, расставлены ровно</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>4</td><td>Сервировка столов соответствует стандарту (приборы, салфетки, специи)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>5</td><td>Освещение в зале работает, уровень комфортный</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>6</td><td>Музыкальное сопровождение на нужной громкости</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>7</td><td>Полы чистые, без крошек и пятен</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>8</td><td>В зале приятный запах (отсутствие кухонных ароматов)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Блок 2 -->
+            <tr><td colspan="3" class="section-title">ОБСЛУЖИВАНИЕ ГОСТЕЙ</td></tr>
+            <tr><td>9</td><td>Гостей встречают в течение 30 секунд</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>10</td><td>Официант представляется, приветствует</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>11</td><td>Меню чистые, без повреждений, актуальные</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>12</td><td>Заказ принимается быстро (до 5 минут после посадки)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>13</td><td>Официант предлагает дополнительные позиции (напитки, десерты, акции)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>14</td><td>Время ожидания первого блюда не превышает норматив (12 минут)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>15</td><td>Подача блюд аккуратная, температура соответствует стандарту</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>16</td><td>Официант проверяет удовлетворённость гостя после подачи</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>17</td><td>Счёт приносят в течение 3 минут после просьбы</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>18</td><td>Прощание с гостем, приглашение вернуться</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Блок 3 -->
+            <tr><td colspan="3" class="section-title">ЧИСТОТА И САНИТАРИЯ ЗАЛА</td></tr>
+            <tr><td>19</td><td>Станция официантов чистая, без грязной посуды</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>20</td><td>Поверхности столов и подоконников без пыли</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>21</td><td>Салфетницы и диспенсеры заправлены</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>22</td><td>Туалеты ресторана чистые, укомплектованы (мыло, бумага, полотенца)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>23</td><td>Нет насекомых и следов их присутствия</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>24</td><td>График уборки соблюдается</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Блок 4 -->
+            <tr><td colspan="3" class="section-title">БЕЗОПАСНОСТЬ И САНИТАРНЫЕ НОРМЫ</td></tr>
+            <tr><td>25</td><td>План эвакуации размещён и виден</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>26</td><td>Эвакуационные выходы свободны, обозначены</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>27</td><td>Огнетушители в наличии и проверены (срок годности)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>28</td><td>Нет скользких участков на полу</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>29</td><td>Предупреждающие знаки «Мокрый пол» используются</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>30</td><td>Все сотрудники зала имеют медкнижки (выборочный контроль)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Блок 5 -->
+            <tr><td colspan="3" class="section-title">ПЕРСОНАЛ И СТАНДАРТЫ</td></tr>
+            <tr><td>31</td><td>Форма персонала чистая, отглаженная</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>32</td><td>Бейджи с именем у всех сотрудников</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>33</td><td>Сотрудники выглядят опрятно (причёски, макияж, руки)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>34</td><td>Правила общения с гостем соблюдаются (вежливость, улыбка)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>35</td><td>Нет посторонних разговоров, телефонов в зоне видимости гостей</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>36</td><td>Сменный рапорт / журнал передачи смены заполняется</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Блок 6 -->
+            <tr><td colspan="3" class="section-title">ТЕХНИЧЕСКОЕ ОСНАЩЕНИЕ И ОБОРУДОВАНИЕ</td></tr>
+            <tr><td>37</td><td>POS-терминалы и кассовое оборудование работают</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>38</td><td>Принтеры чеков / заказов исправны, бумага есть</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>39</td><td>Кондиционеры / вентиляция работают, температура комфортна</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>40</td><td>Холодильные витрины (если есть) чистые, температура по норме</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Итого -->
+            <tr class="total"><td colspan="2">ИТОГО БАЛЛОВ</td><td id="totalScore">80</td></tr>
+            <tr><td colspan="2">Процент выполнения</td><td id="percentScore">100%</td></tr>
+        </tbody>
+    </table>
+    <button class="btn" onclick="window.print()">Распечатать / Сохранить как PDF</button>
+</div>
+
+<script>
+    function calculateTotal() {
+        const selects = document.querySelectorAll('#restaurantTable .score');
+        let sum = 0;
+        selects.forEach(select => {
+            sum += parseInt(select.value);
+        });
+        document.getElementById('totalScore').textContent = sum;
+        const percent = Math.round((sum / 80) * 100);
+        document.getElementById('percentScore').textContent = percent + '%';
+    }
+
+    document.querySelectorAll('#restaurantTable .score').forEach(select => {
+        select.addEventListener('change', calculateTotal);
+    });
+
+    // Initial calculation
+    calculateTotal();
+</script>
+
+</body></html>
