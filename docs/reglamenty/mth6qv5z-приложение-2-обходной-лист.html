@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/Admin/Downloads/deepseek_html_20260626_ff0a82.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Приложение 2 – Обходной лист</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 40px;
+            background: #fff;
+            color: #000;
+            line-height: 1.5;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 18pt;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 5px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #f0f0f0;
+        }
+        .btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #34495e;
+        }
+        @media print {
+            .btn-container {
+                display: none;
+            }
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="btn-container">
+        <button onclick="window.print()">Печать / Сохранить как PDF</button>
+        <button onclick="downloadWord()">Скачать как Word (.doc)</button>
+    </div>
+
+    <h1>ПРИЛОЖЕНИЕ 2<br>ОБХОДНОЙ ЛИСТ</h1>
+    <p>Сотрудник: ____________________________________________ (ФИО)</p>
+    <p>Должность: ____________________________________________</p>
+    <p>Подразделение: ________________________________________</p>
+    <p>Дата увольнения: «___» ___________ 20__ г.</p>
+    <table>
+        <tbody><tr><th>№</th><th>Подразделение / Ответственное лицо</th><th>Что сдаётся</th><th>Подпись, дата</th></tr>
+        <tr><td>1</td><td>Непосредственный руководитель</td><td>Дела, документация, материальные ценности</td><td></td></tr>
+        <tr><td>2</td><td>Бухгалтерия</td><td>Подотчётные суммы, товарные остатки</td><td></td></tr>
+        <tr><td>3</td><td>Менеджер парка / Менеджер ресторана</td><td>Оборудование, инвентарь, терминалы</td><td></td></tr>
+        <tr><td>4</td><td>Техническая служба</td><td>Инструменты, оборудование, доступы</td><td></td></tr>
+        <tr><td>5</td><td>Управляющий парком (для линейного персонала)</td><td>Пропуска, форменная одежда, материальные ценности</td><td></td></tr>
+        <tr><td>6</td><td>Кадровый отдел</td><td>Трудовая книжка, обходной лист, финальная отметка</td><td></td></tr>
+    </tbody></table>
+    <p><b>Примечание:</b> Окончательный расчёт производится только при полностью заполненном обходном листе и отсутствии задолженности.</p>
+
+    <script>
+        function downloadWord() {
+            const printContent = document.querySelector('body').cloneNode(true);
+            const btnContainer = printContent.querySelector('.btn-container');
+            if (btnContainer) btnContainer.remove();
+            const htmlContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+                      xmlns:w="urn:schemas-microsoft-com:office:word" 
+                      xmlns="http://www.w3.org/TR/REC-html40">
+                <head><meta charset="UTF-8"><title>Приложение 2 – Обходной лист</title></head>
+                <body>${printContent.innerHTML}</body>
+                </html>`;
+            const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Приложение_2_Обходной_лист.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+</body></html>
