@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)file:///C:/Users/Admin/Downloads/deepseek_html_20260714_df7a51%20(1).html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест для официантов</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f8f5f0;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 30px 20px;
+            color: #2c2c2c;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px 45px;
+            position: relative;
+        }
+        h1 {
+            font-size: 34px;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-bottom: 3px solid #d4b48c;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h1 small {
+            font-size: 16px;
+            font-weight: 400;
+            color: #7a6a5a;
+            margin-left: auto;
+        }
+        .subhead {
+            background: #fbf3e8;
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 30px;
+            border: 1px solid #f0dbc8;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .timer-bar {
+            background: #1a1a2e;
+            color: #f9d976;
+            padding: 14px 24px;
+            border-radius: 40px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            border: 1px solid #f9d976;
+            box-shadow: 0 0 20px rgba(249, 217, 118, 0.15);
+        }
+        .timer-bar.warning {
+            color: #ff6b6b;
+            border-color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        #startScreen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        #startScreen h2 {
+            font-size: 28px;
+            color: #3d2c1e;
+            margin-bottom: 16px;
+        }
+        #startScreen p {
+            font-size: 18px;
+            color: #5f4a38;
+            margin-bottom: 24px;
+        }
+        .fio-group {
+            margin-bottom: 24px;
+        }
+        .fio-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .fio-group input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 16px;
+            border: 2px solid #d4b48c;
+            border-radius: 30px;
+            font-size: 18px;
+            background: #fcf9f5;
+            transition: 0.2s;
+        }
+        .fio-group input:focus {
+            outline: none;
+            border-color: #b8956e;
+            box-shadow: 0 0 0 3px rgba(212, 180, 140, 0.2);
+        }
+        .btn-primary {
+            background: #3d2c1e;
+            color: white;
+            border: none;
+            padding: 16px 60px;
+            font-size: 22px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .btn-primary:hover:not(:disabled) { background: #2c1c0e; transform: scale(1.02); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .question-block {
+            background: #fcf9f5;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 18px;
+            border: 1px solid #ece4da;
+            transition: 0.2s;
+        }
+        .question-block.correct {
+            border-left: 5px solid #3f9e7a;
+            background: #f0faf5;
+        }
+        .question-block.wrong {
+            border-left: 5px solid #d68b3c;
+            background: #fef6ed;
+        }
+        .question-number {
+            font-weight: 700;
+            color: #5f4a38;
+            margin-right: 10px;
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-left: 8px;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 4px 0;
+        }
+        .options input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .options input[type="radio"]:disabled {
+            cursor: not-allowed;
+        }
+        .btn-row {
+            text-align: center;
+            margin: 30px 0 20px;
+        }
+        button {
+            background: #3d2c1e;
+            color: white;
+            border: none;
+            padding: 14px 48px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        button:hover:not(:disabled) { background: #2c1c0e; }
+        button:active:not(:disabled) { transform: scale(0.97); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .reset-btn { background: #7a6a5a; margin-left: 15px; }
+        .reset-btn:hover:not(:disabled) { background: #5f4a38; }
+        .result-box {
+            background: #1a1a2e;
+            border-radius: 24px;
+            padding: 30px 30px;
+            margin-top: 30px;
+            text-align: center;
+            color: #f0e6d3;
+            border: 2px solid #f9d976;
+            display: none;
+        }
+        .result-box .score {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #f9d976;
+            text-shadow: 0 0 20px #f9d976, 0 0 40px #f9b23f;
+        }
+        .result-box .grade { font-size: 1.6rem; font-weight: 700; margin-top: 6px; }
+        .result-box .details { margin-top: 12px; font-size: 1.1rem; opacity: 0.9; }
+        .result-box .rec { margin-top: 8px; border-top: 1px solid #f9d97680; padding-top: 12px; }
+        .result-box .timeout-msg { color: #ff6b6b; font-weight: 700; font-size: 1.2rem; }
+        .footer { text-align: center; color: #7a6a5a; font-size: 14px; margin-top: 20px; }
+        .hidden { display: none; }
+        .save-btn-wrap {
+            text-align: center;
+            margin-top: 12px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .save-btn {
+            background: #3f9e7a;
+            padding: 12px 30px;
+            font-size: 16px;
+        }
+        .save-btn:hover:not(:disabled) { background: #2d7a5d; }
+        .save-btn-html {
+            background: #4a7fa7;
+        }
+        .save-btn-html:hover:not(:disabled) { background: #36668a; }
+        .save-btn:disabled, .save-btn-html:disabled { opacity: 0.5; cursor: not-allowed; }
+        @media (max-width: 640px) {
+            .container { padding: 24px 18px; }
+            h1 { font-size: 26px; flex-wrap: wrap; }
+            h1 small { margin-left: 0; width: 100%; }
+            .question-block { padding: 16px; }
+            .options label { font-size: 14px; }
+            .timer-bar { font-size: 1.4rem; padding: 10px 16px; }
+            .btn-primary { padding: 14px 40px; font-size: 18px; }
+            .save-btn-wrap { flex-direction: column; align-items: center; }
+        }
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; border: none; }
+            .btn-row, .save-btn-wrap, #startScreen, .timer-bar { display: none; }
+            .result-box { display: block !important; background: #222 !important; border: 2px solid #f9d976; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>
+        📝 Тест для официантов
+        <small>30 вопросов · 30 минут</small>
+    </h1>
+
+    <!-- Стартовый экран -->
+    <div id="startScreen">
+        <h2>🚀 Готов проверить свои знания?</h2>
+        <p>В тесте 30 вопросов по стандартам сервиса.<br>
+        На выполнение даётся <strong>30 минут</strong>. Таймер начнётся после выбора первого ответа.</p>
+        <div class="fio-group">
+            <label for="fioInput">Введите ФИО:</label>
+            <input type="text" id="fioInput" placeholder="Иванов Иван Иванович">
+        </div>
+        <button class="btn-primary" id="startBtn">▶ Начать тест</button>
+    </div>
+
+    <!-- Область теста -->
+    <div id="testArea" class="hidden">
+
+        <div class="timer-bar" id="timerDisplay">⏱️ 30:00</div>
+
+        <form id="testForm">
+            <!-- Вопрос 1 -->
+            <div class="question-block" id="q1">
+                <div class="question-text"><span class="question-number">1.</span> Что является главной задачей официанта по стандарту?</div>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> Продать как можно больше блюд и напитков</label>
+                    <label><input type="radio" name="q1" value="B"> Создать особую атмосферу уюта, спокойствия и безопасности</label>
+                    <label><input type="radio" name="q1" value="C"> Быстро убирать грязную посуду</label>
+                    <label><input type="radio" name="q1" value="D"> Строго соблюдать трудовую дисциплину</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 2 -->
+            <div class="question-block" id="q2">
+                <div class="question-text"><span class="question-number">2.</span> Какая ценность НЕ входит в философию команды?</div>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="A"> Ответственность</label>
+                    <label><input type="radio" name="q2" value="B"> Прибыль</label>
+                    <label><input type="radio" name="q2" value="C"> Мастерство</label>
+                    <label><input type="radio" name="q2" value="D"> Забота</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 3 -->
+            <div class="question-block" id="q3">
+                <div class="question-text"><span class="question-number">3.</span> Какой норматив времени на подход к столу после посадки гостя?</div>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="A"> 1 минута</label>
+                    <label><input type="radio" name="q3" value="B"> 3 минуты</label>
+                    <label><input type="radio" name="q3" value="C"> 5 минут</label>
+                    <label><input type="radio" name="q3" value="D"> 10 минут</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 4 -->
+            <div class="question-block" id="q4">
+                <div class="question-text"><span class="question-number">4.</span> Какая минимальная температура подачи горячих супов?</div>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="A"> 60 °C</label>
+                    <label><input type="radio" name="q4" value="B"> 65 °C</label>
+                    <label><input type="radio" name="q4" value="C"> 75 °C</label>
+                    <label><input type="radio" name="q4" value="D"> 85 °C</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 5 -->
+            <div class="question-block" id="q5">
+                <div class="question-text"><span class="question-number">5.</span> Как правильно расположить нож при сервировке стола?</div>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="A"> Слева, лезвием к тарелке</label>
+                    <label><input type="radio" name="q5" value="B"> Справа, лезвием к тарелке</label>
+                    <label><input type="radio" name="q5" value="C"> Слева, лезвием от тарелки</label>
+                    <label><input type="radio" name="q5" value="D"> Справа, лезвием от тарелки</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 6 -->
+            <div class="question-block" id="q6">
+                <div class="question-text"><span class="question-number">6.</span> Что запрещено делать в зале ресторана?</div>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="A"> Пользоваться телефоном в служебных целях</label>
+                    <label><input type="radio" name="q6" value="B"> Жевать жевательную резинку</label>
+                    <label><input type="radio" name="q6" value="C"> Разговаривать с коллегами по работе</label>
+                    <label><input type="radio" name="q6" value="D"> Убирать грязную посуду</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 7 -->
+            <div class="question-block" id="q7">
+                <div class="question-text"><span class="question-number">7.</span> Какой должна быть максимальная длина свободного края ногтей у официанта?</div>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="A"> 1 мм</label>
+                    <label><input type="radio" name="q7" value="B"> 2 мм</label>
+                    <label><input type="radio" name="q7" value="C"> 3 мм</label>
+                    <label><input type="radio" name="q7" value="D"> 5 мм</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 8 -->
+            <div class="question-block" id="q8">
+                <div class="question-text"><span class="question-number">8.</span> Какая температура подачи эспрессо?</div>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="A"> 55–60 °C</label>
+                    <label><input type="radio" name="q8" value="B"> 65–70 °C</label>
+                    <label><input type="radio" name="q8" value="C"> 75–80 °C</label>
+                    <label><input type="radio" name="q8" value="D"> 85–90 °C</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 9 -->
+            <div class="question-block" id="q9">
+                <div class="question-text"><span class="question-number">9.</span> Сколько минут даётся на уборку грязной посуды при смене блюд?</div>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="A"> 1 минута</label>
+                    <label><input type="radio" name="q9" value="B"> 3 минуты</label>
+                    <label><input type="radio" name="q9" value="C"> 5 минут</label>
+                    <label><input type="radio" name="q9" value="D"> 7 минут</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 10 -->
+            <div class="question-block" id="q10">
+                <div class="question-text"><span class="question-number">10.</span> Какой приём повышения продаж предполагает кивок головы при названии блюда?</div>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="A"> Правило ⅓ бокала</label>
+                    <label><input type="radio" name="q10" value="B"> Сетка меню</label>
+                    <label><input type="radio" name="q10" value="C"> Кивок Салливана</label>
+                    <label><input type="radio" name="q10" value="D"> Красочное описание</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 11 -->
+            <div class="question-block" id="q11">
+                <div class="question-text"><span class="question-number">11.</span> Что делать при сообщении гостя об аллергии на продукты?</div>
+                <div class="options">
+                    <label><input type="radio" name="q11" value="A"> Сказать, что все блюда могут содержать аллергены</label>
+                    <label><input type="radio" name="q11" value="B"> Уточнить у кухни, предупредить поваров, не принимать заказ без подтверждения</label>
+                    <label><input type="radio" name="q11" value="C"> Отказать в обслуживании</label>
+                    <label><input type="radio" name="q11" value="D"> Предложить гостю выбрать блюдо самостоятельно</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 12 -->
+            <div class="question-block" id="q12">
+                <div class="question-text"><span class="question-number">12.</span> Какой способ подачи горячих блюд используется на банкетах?</div>
+                <div class="options">
+                    <label><input type="radio" name="q12" value="A"> Порционно, на подносе</label>
+                    <label><input type="radio" name="q12" value="B"> В обнос (английский способ)</label>
+                    <label><input type="radio" name="q12" value="C"> В керамической посуде</label>
+                    <label><input type="radio" name="q12" value="D"> Самообслуживание</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 13 -->
+            <div class="question-block" id="q13">
+                <div class="question-text"><span class="question-number">13.</span> Что входит в колесо эффективности официанта?</div>
+                <div class="options">
+                    <label><input type="radio" name="q13" value="A"> Знание меню, стандарты сервиса, стрессоустойчивость, техника продаж, улыбчивость, командность</label>
+                    <label><input type="radio" name="q13" value="B"> Выручка, чаевые, количество заказов</label>
+                    <label><input type="radio" name="q13" value="C"> Внешний вид, пунктуальность, дисциплина</label>
+                    <label><input type="radio" name="q13" value="D"> Только знание меню и сервировка</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 14 -->
+            <div class="question-block" id="q14">
+                <div class="question-text"><span class="question-number">14.</span> Какой норматив времени на подачу аперитивов (не коктейлей)?</div>
+                <div class="options">
+                    <label><input type="radio" name="q14" value="A"> до 3 минут</label>
+                    <label><input type="radio" name="q14" value="B"> до 5 минут</label>
+                    <label><input type="radio" name="q14" value="C"> до 10 минут</label>
+                    <label><input type="radio" name="q14" value="D"> до 15 минут</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 15 -->
+            <div class="question-block" id="q15">
+                <div class="question-text"><span class="question-number">15.</span> Что является приоритетом при пожарной тревоге?</div>
+                <div class="options">
+                    <label><input type="radio" name="q15" value="A"> Сохранить кассовую выручку</label>
+                    <label><input type="radio" name="q15" value="B"> Эвакуировать гостей по плану</label>
+                    <label><input type="radio" name="q15" value="C"> Позвонить директору</label>
+                    <label><input type="radio" name="q15" value="D"> Проверить, не ложная ли тревога</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 16 -->
+            <div class="question-block" id="q16">
+                <div class="question-text"><span class="question-number">16.</span> Какая температура подачи белого вина?</div>
+                <div class="options">
+                    <label><input type="radio" name="q16" value="A"> 4–6 °C</label>
+                    <label><input type="radio" name="q16" value="B"> 8–12 °C</label>
+                    <label><input type="radio" name="q16" value="C"> 14–18 °C</label>
+                    <label><input type="radio" name="q16" value="D"> 20–22 °C</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 17 -->
+            <div class="question-block" id="q17">
+                <div class="question-text"><span class="question-number">17.</span> Что означает техника ВПИО в работе с возражениями?</div>
+                <div class="options">
+                    <label><input type="radio" name="q17" value="A"> Выслушать, принять, исследовать, ответить</label>
+                    <label><input type="radio" name="q17" value="B"> Возразить, предложить, извиниться, отойти</label>
+                    <label><input type="radio" name="q17" value="C"> Верить, понимать, исполнять, одобрять</label>
+                    <label><input type="radio" name="q17" value="D"> Внимание, поддержка, интерес, обаяние</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 18 -->
+            <div class="question-block" id="q18">
+                <div class="question-text"><span class="question-number">18.</span> Какой тайминг на принесение сдачи после оплаты?</div>
+                <div class="options">
+                    <label><input type="radio" name="q18" value="A"> до 2 минут</label>
+                    <label><input type="radio" name="q18" value="B"> до 4 минут</label>
+                    <label><input type="radio" name="q18" value="C"> до 6 минут</label>
+                    <label><input type="radio" name="q18" value="D"> до 8 минут</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 19 -->
+            <div class="question-block" id="q19">
+                <div class="question-text"><span class="question-number">19.</span> Какая рекомендуемая температура подачи капучино?</div>
+                <div class="options">
+                    <label><input type="radio" name="q19" value="A"> 50–55 °C</label>
+                    <label><input type="radio" name="q19" value="B"> 60–65 °C</label>
+                    <label><input type="radio" name="q19" value="C"> 70–75 °C</label>
+                    <label><input type="radio" name="q19" value="D"> 80–85 °C</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 20 -->
+            <div class="question-block" id="q20">
+                <div class="question-text"><span class="question-number">20.</span> Какой норматив времени на пересервировку стола после ухода гостя?</div>
+                <div class="options">
+                    <label><input type="radio" name="q20" value="A"> до 3 минут</label>
+                    <label><input type="radio" name="q20" value="B"> до 5 минут</label>
+                    <label><input type="radio" name="q20" value="C"> до 7 минут</label>
+                    <label><input type="radio" name="q20" value="D"> до 10 минут</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 21 (НОВЫЙ) -->
+            <div class="question-block" id="q21">
+                <div class="question-text"><span class="question-number">21.</span> Что из перечисленного является правильным действием официанта при встрече гостей, в конфликтных ситуациях и при работе с чужими столами?</div>
+                <div class="options">
+                    <label><input type="radio" name="q21" value="A"> Улыбка, зрительный контакт, предложение помощи; в конфликте — выслушать и предложить решение; за любым столом проявлять внимание и помощь</label>
+                    <label><input type="radio" name="q21" value="B"> Только приветствие, быстро уйти, не вмешиваться в чужие столы</label>
+                    <label><input type="radio" name="q21" value="C"> Игнорировать конфликт, передать менеджеру, не подходить к чужим столам</label>
+                    <label><input type="radio" name="q21" value="D"> Встречать гостей только за своим столом, в конфликте спорить, чтобы доказать правоту</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 22 -->
+            <div class="question-block" id="q22">
+                <div class="question-text"><span class="question-number">22.</span> Гость с аллергией на арахис просит десерт, который готовится в цехе, где используются орехи. Ваши действия?</div>
+                <div class="options">
+                    <label><input type="radio" name="q22" value="A"> Сказать, что всё в порядке, и принести десерт</label>
+                    <label><input type="radio" name="q22" value="B"> Предупредить о высоком риске перекрёстного загрязнения и предложить альтернативу</label>
+                    <label><input type="radio" name="q22" value="C"> Убрать орехи из десерта вручную</label>
+                    <label><input type="radio" name="q22" value="D"> Отказать в обслуживании без объяснения причин</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 23 -->
+            <div class="question-block" id="q23">
+                <div class="question-text"><span class="question-number">23.</span> Каковы первые признаки анафилактической реакции у гостя?</div>
+                <div class="options">
+                    <label><input type="radio" name="q23" value="A"> Головная боль и лёгкая тошнота</label>
+                    <label><input type="radio" name="q23" value="B"> Отёк лица/горла, затруднённое дыхание, сыпь (крапивница)</label>
+                    <label><input type="radio" name="q23" value="C"> Только кашель и чихание</label>
+                    <label><input type="radio" name="q23" value="D"> Повышенная температура и озноб</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 24 -->
+            <div class="question-block" id="q24">
+                <div class="question-text"><span class="question-number">24.</span> Что должен сделать официант, если гость сообщил об аллергии на конкретный продукт?</div>
+                <div class="options">
+                    <label><input type="radio" name="q24" value="A"> Записать пожелание и забыть</label>
+                    <label><input type="radio" name="q24" value="B"> Передать информацию на кухню с пометкой «аллергия на …» и проконтролировать подачу</label>
+                    <label><input type="radio" name="q24" value="C"> Сказать, что это не его проблемы</label>
+                    <label><input type="radio" name="q24" value="D"> Предложить только безалкогольные напитки</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 25 -->
+            <div class="question-block" id="q25">
+                <div class="question-text"><span class="question-number">25.</span> Содержит ли обычный соевый соус глютен (пшеницу)?</div>
+                <div class="options">
+                    <label><input type="radio" name="q25" value="A"> Нет, только соевые бобы</label>
+                    <label><input type="radio" name="q25" value="B"> Да, традиционный соевый соус содержит пшеницу</label>
+                    <label><input type="radio" name="q25" value="C"> Только если указано на этикетке</label>
+                    <label><input type="radio" name="q25" value="D"> Никогда не содержит глютен</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 26 -->
+            <div class="question-block" id="q26">
+                <div class="question-text"><span class="question-number">26.</span> Какое максимальное время уборки грязной посуды при смене блюд?</div>
+                <div class="options">
+                    <label><input type="radio" name="q26" value="A"> 1 минута</label>
+                    <label><input type="radio" name="q26" value="B"> 3 минуты</label>
+                    <label><input type="radio" name="q26" value="C"> 5 минут</label>
+                    <label><input type="radio" name="q26" value="D"> 7 минут</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 27 -->
+            <div class="question-block" id="q27">
+                <div class="question-text"><span class="question-number">27.</span> Какая температура подачи красного вина?</div>
+                <div class="options">
+                    <label><input type="radio" name="q27" value="A"> 8–12 °C</label>
+                    <label><input type="radio" name="q27" value="B"> 16–18 °C</label>
+                    <label><input type="radio" name="q27" value="C"> 20–25 °C</label>
+                    <label><input type="radio" name="q27" value="D"> 4–6 °C</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 28 -->
+            <div class="question-block" id="q28">
+                <div class="question-text"><span class="question-number">28.</span> Что категорически ЗАПРЕЩЕНО при работе с подносом?</div>
+                <div class="options">
+                    <label><input type="radio" name="q28" value="A"> Носить на одной руке</label>
+                    <label><input type="radio" name="q28" value="B"> Ставить поднос на стол или стулья</label>
+                    <label><input type="radio" name="q28" value="C"> Держать не выше плеча и не ниже локтя</label>
+                    <label><input type="radio" name="q28" value="D"> Носить лёгкое на пальцах, тяжёлое на ладони</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 29 -->
+            <div class="question-block" id="q29">
+                <div class="question-text"><span class="question-number">29.</span> Что означает термин «пересервировка» стола?</div>
+                <div class="options">
+                    <label><input type="radio" name="q29" value="A"> Смена скатерти на новую</label>
+                    <label><input type="radio" name="q29" value="B"> Полная замена приборов и подготовка стола для нового гостя</label>
+                    <label><input type="radio" name="q29" value="C"> Протирка посуды от пыли</label>
+                    <label><input type="radio" name="q29" value="D"> Пересчёт дневной выручки</label>
+                </div>
+            </div>
+
+            <!-- Вопрос 30 -->
+            <div class="question-block" id="q30">
+                <div class="question-text"><span class="question-number">30.</span> Что делать при разбитой посуде рядом с гостем?</div>
+                <div class="options">
+                    <label><input type="radio" name="q30" value="A"> Сказать «ничего страшного» и убрать осколки после ухода гостя</label>
+                    <label><input type="radio" name="q30" value="B"> Убедиться в безопасности гостя, извиниться, немедленно убрать осколки, заменить блюдо/напиток</label>
+                    <label><input type="radio" name="q30" value="C"> Вызвать уборщицу и не обращать внимания на гостя</label>
+                    <label><input type="radio" name="q30" value="D"> Вычесть стоимость посуды из зарплаты официанта</label>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button type="button" id="finishBtn">🏁 Завершить тест</button>
+                <button type="button" class="reset-btn" id="resetBtn">🔄 Сбросить</button>
+            </div>
+        </form>
+
+        <div class="result-box" id="resultBox">
+            <div class="score" id="scoreDisplay">0 / 30</div>
+            <div class="grade" id="gradeDisplay"></div>
+            <div class="details" id="detailsDisplay"></div>
+            <div class="rec" id="recDisplay"></div>
+            <div class="timeout-msg" id="timeoutMsg"></div>
+            <div class="save-btn-wrap" id="saveBtnWrap"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © Тест составлен на основе стандартов сервиса и обучающего материала.
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---- ПРАВИЛЬНЫЕ ОТВЕТЫ ----
+        const answers = {
+            q1: 'B', q2: 'B', q3: 'B', q4: 'C', q5: 'B',
+            q6: 'B', q7: 'B', q8: 'B', q9: 'B', q10: 'C',
+            q11: 'B', q12: 'B', q13: 'A', q14: 'B', q15: 'B',
+            q16: 'B', q17: 'A', q18: 'B', q19: 'B', q20: 'B',
+            q21: 'A', // новый правильный ответ
+            q22: 'B', q23: 'B', q24: 'B', q25: 'B',
+            q26: 'B', q27: 'B', q28: 'B', q29: 'B', q30: 'B'
+        };
+
+        const totalQuestions = 30;
+
+        // ---- DOM ----
+        const startScreen = document.getElementById('startScreen');
+        const testArea = document.getElementById('testArea');
+        const startBtn = document.getElementById('startBtn');
+        const fioInput = document.getElementById('fioInput');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const finishBtn = document.getElementById('finishBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultBox = document.getElementById('resultBox');
+        const timeoutMsg = document.getElementById('timeoutMsg');
+        const saveBtnWrap = document.getElementById('saveBtnWrap');
+
+        let timeLeft = 30 * 60;
+        let timerInterval = null;
+        let isTestActive = false;
+        let isFinished = false;
+        let timerStarted = false;
+        let lastResult = null;
+
+        // ---- Таймер ----
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function updateTimerDisplay() {
+            timerDisplay.textContent = `⏱️ ${formatTime(timeLeft)}`;
+            if (timeLeft <= 60) {
+                timerDisplay.classList.add('warning');
+            } else {
+                timerDisplay.classList.remove('warning');
+            }
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function startTimer() {
+            if (timerInterval) stopTimer();
+            timerStarted = true;
+            isTestActive = true;
+            timeLeft = 30 * 60;
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    finishTest('timeout');
+                }
+            }, 1000);
+        }
+
+        // ---- Завершение ----
+        function finishTest(reason = 'manual') {
+            if (isFinished) return;
+            isFinished = true;
+            isTestActive = false;
+            stopTimer();
+
+            document.querySelectorAll('#testForm input[type="radio"]').forEach(el => el.disabled = true);
+
+            const result = checkTest();
+            lastResult = result;
+
+            if (reason === 'timeout') {
+                timeoutMsg.textContent = '⏰ Время вышло! Тест завершён автоматически.';
+                // Автосохранение
+                setTimeout(() => {
+                    saveResult(result, 'doc');
+                }, 500);
+            } else {
+                timeoutMsg.textContent = '';
+                showSaveButtons(result);
+            }
+        }
+
+        // ---- Проверка ----
+        function checkTest() {
+            let correct = 0, wrong = 0;
+            const userAnswers = {};
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const qName = 'q' + i;
+                const selected = document.querySelector(`input[name="${qName}"]:checked`);
+                const block = document.getElementById(qName);
+                block.classList.remove('correct', 'wrong');
+
+                let userAnswer = null;
+                if (selected) {
+                    userAnswer = selected.value;
+                    userAnswers[qName] = userAnswer;
+                    if (userAnswer === answers[qName]) {
+                        correct++;
+                        block.classList.add('correct');
+                    } else {
+                        wrong++;
+                        block.classList.add('wrong');
+                    }
+                } else {
+                    wrong++;
+                    block.classList.add('wrong');
+                    userAnswers[qName] = '(не выбран)';
+                }
+            }
+
+            const percent = Math.round((correct / totalQuestions) * 100);
+
+            document.getElementById('scoreDisplay').textContent = correct + ' / ' + totalQuestions;
+            document.getElementById('detailsDisplay').textContent = 'Правильных: ' + correct + ' | Ошибок: ' + wrong;
+
+            let grade, rec;
+            if (percent >= 90) {
+                grade = '⭐ Отлично! Ты настоящий профессионал!';
+                rec = 'Ты отлично знаешь стандарты сервиса. Так держать!';
+            } else if (percent >= 75) {
+                grade = '👍 Хорошо! Ты хорошо ориентируешься.';
+                rec = 'Повтори разделы по таймингу, температурам и работе с аллергенами.';
+            } else if (percent >= 50) {
+                grade = '📘 Удовлетворительно.';
+                rec = 'Рекомендуем перечитать обучающий материал.';
+            } else {
+                grade = '📖 Требуется повторение.';
+                rec = 'Пройдите обучение заново — обратите внимание на все разделы.';
+            }
+
+            document.getElementById('gradeDisplay').textContent = grade;
+            document.getElementById('recDisplay').textContent = rec;
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+
+            return { correct, wrong, percent, grade, rec, userAnswers, saved: false };
+        }
+
+        // ---- Кнопки сохранения ----
+        function showSaveButtons(result) {
+            saveBtnWrap.innerHTML = '';
+
+            // Кнопка Word
+            const btnWord = document.createElement('button');
+            btnWord.textContent = '💾 Сохранить в Word (.doc)';
+            btnWord.className = 'save-btn';
+            btnWord.addEventListener('click', function() {
+                saveResult(result, 'doc');
+                btnWord.textContent = '✅ Сохранено (Word)';
+                btnWord.disabled = true;
+            });
+            saveBtnWrap.appendChild(btnWord);
+
+            // Кнопка HTML
+            const btnHtml = document.createElement('button');
+            btnHtml.textContent = '🌐 Сохранить в HTML (.html)';
+            btnHtml.className = 'save-btn save-btn-html';
+            btnHtml.addEventListener('click', function() {
+                saveResult(result, 'html');
+                btnHtml.textContent = '✅ Сохранено (HTML)';
+                btnHtml.disabled = true;
+            });
+            saveBtnWrap.appendChild(btnHtml);
+        }
+
+        // ---- Сохранение ----
+        function saveResult(result, format = 'doc') {
+            const fio = fioInput.value.trim() || 'Не указано';
+            const now = new Date();
+            const dateStr = now.getFullYear() + '-' +
+                            String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                            String(now.getDate()).padStart(2, '0') + '_' +
+                            String(now.getHours()).padStart(2, '0') + '-' +
+                            String(now.getMinutes()).padStart(2, '0');
+
+            // Формируем HTML-отчёт
+            let html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Результаты теста</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; background: #f8f5f0; }
+        .report { max-width: 800px; margin: 0 auto; background: white; padding: 40px 50px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #3d2c1e; border-bottom: 3px solid #d4b48c; padding-bottom: 12px; }
+        .score { font-size: 3rem; font-weight: bold; color: #f9b23f; }
+        .details { margin: 20px 0; }
+        .q-item { padding: 10px 0; border-bottom: 1px solid #eee; }
+        .q-item:last-child { border-bottom: none; }
+        .correct { color: #1f7a4a; font-weight: bold; }
+        .wrong { color: #b13a2e; font-weight: bold; }
+        .footer { margin-top: 30px; padding-top: 15px; border-top: 2px solid #eee; color: #7a6a5a; text-align: center; }
+        .label { font-weight: 600; color: #3d2c1e; }
+    </style>
+</head>
+<body>
+<div class="report">
+    <h1>📋 Результаты теста для официантов</h1>
+    <p><span class="label">ФИО:</span> ${fio}</p>
+    <p><span class="label">Дата и время:</span> ${now.toLocaleString('ru-RU')}</p>
+    <p><span class="label">Правильных ответов:</span> ${result.correct} из ${totalQuestions} (${result.percent}%)</p>
+    <p><span class="label">Ошибок:</span> ${result.wrong}</p>
+    <p><span class="label">Оценка:</span> ${result.grade}</p>
+    <p><span class="label">Рекомендация:</span> ${result.rec}</p>
+    <hr style="margin: 20px 0; border: 1px solid #eee;">
+    <h2>📌 Детали по вопросам</h2>
+`;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const qName = 'q' + i;
+                const userAns = result.userAnswers[qName] || '(не выбран)';
+                const correctAns = answers[qName];
+                const isCorrect = (userAns === correctAns);
+                const status = isCorrect ? '✅ верно' : '❌ неверно';
+                const questionText = document.querySelector(`#q${i} .question-text`).textContent.trim();
+                html += `<div class="q-item">
+                    <strong>${i}.</strong> ${questionText}<br>
+                    <span class="${isCorrect ? 'correct' : 'wrong'}">Ваш ответ: ${userAns} (${status})</span><br>
+                    <span style="color:#3d2c1e;">Правильный ответ: ${correctAns}</span>
+                </div>`;
+            }
+
+            html += `<div class="footer">Сохранено ${now.toLocaleString('ru-RU')}</div>
+</div>
+</body>
+</html>`;
+
+            // Выбор расширения и MIME-типа
+            let ext, mimeType;
+            if (format === 'doc') {
+                ext = 'doc';
+                mimeType = 'application/msword';
+            } else {
+                ext = 'html';
+                mimeType = 'text/html';
+            }
+
+            const blob = new Blob([html], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Тест_${fio}_${dateStr}.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ---- Сброс ----
+        function resetTest() {
+            if (isTestActive || timerStarted) {
+                if (!confirm('Тест ещё активен. Вы уверены, что хотите сбросить и начать заново?')) return;
+            }
+
+            stopTimer();
+            isTestActive = false;
+            isFinished = false;
+            timerStarted = false;
+            timeLeft = 30 * 60;
+            updateTimerDisplay();
+            timerDisplay.classList.remove('warning');
+
+            document.querySelectorAll('#testForm input[type="radio"]').forEach(el => {
+                el.checked = false;
+                el.disabled = false;
+            });
+            document.querySelectorAll('.question-block').forEach(b => b.classList.remove('correct', 'wrong'));
+
+            resultBox.style.display = 'none';
+            timeoutMsg.textContent = '';
+            saveBtnWrap.innerHTML = '';
+            lastResult = null;
+
+            testArea.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ---- Запуск ----
+        function startTest() {
+            const fio = fioInput.value.trim();
+            if (!fio) {
+                alert('Пожалуйста, введите ваше ФИО перед началом теста.');
+                return;
+            }
+
+            startScreen.classList.add('hidden');
+            testArea.classList.remove('hidden');
+
+            document.querySelectorAll('#testForm input[type="radio"]').forEach(el => {
+                el.checked = false;
+                el.disabled = false;
+            });
+            document.querySelectorAll('.question-block').forEach(b => b.classList.remove('correct', 'wrong'));
+            resultBox.style.display = 'none';
+            timeoutMsg.textContent = '';
+            saveBtnWrap.innerHTML = '';
+            isFinished = false;
+            isTestActive = false;
+            timerStarted = false;
+            timeLeft = 30 * 60;
+            updateTimerDisplay();
+            timerDisplay.classList.remove('warning');
+
+            const firstClickHandler = function(e) {
+                if (e.target && e.target.type === 'radio') {
+                    if (!timerStarted && !isFinished) {
+                        startTimer();
+                    }
+                    document.removeEventListener('click', firstClickHandler, true);
+                }
+            };
+            document.addEventListener('click', firstClickHandler, true);
+        }
+
+        // ---- Обработчики ----
+        startBtn.addEventListener('click', startTest);
+        finishBtn.addEventListener('click', function() {
+            if (isFinished) return;
+            if (!timerStarted) {
+                alert('Вы ещё не начали отвечать на вопросы.');
+                return;
+            }
+            finishTest('manual');
+        });
+        resetBtn.addEventListener('click', resetTest);
+
+        // ---- Инициализация ----
+        testArea.classList.add('hidden');
+        startScreen.classList.remove('hidden');
+        updateTimerDisplay();
+
+        window.addEventListener('beforeunload', function(e) {
+            if (isTestActive || (timerStarted && !isFinished)) {
+                e.preventDefault();
+                e.returnValue = 'Тест ещё не завершён. Вы уверены?';
+            }
+        });
+
+    })();
+</script>
+
+
+</body></html>
