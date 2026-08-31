@@ -1,26 +1,25 @@
-/* GitHub-интеграция: автокоммит документов и ролей в репозиторий. */
+/* GitHub-интеграция: автокоммит документов и ролей в репозиторий.
+   Токен берётся ТОЛЬКО из localStorage (введён админом через UI).
+   В GH_CONFIG.token токен не задаётся — это исключает утечку в открытом коде.
+   Репозиторий должен быть приватным, чтобы исключить чтение кода посторонними. */
 const GH = (() => {
   const cfg = window.GH_CONFIG || {};
   const API = 'https://api.github.com';
-  // Токен: приоритет у введённого админом (localStorage), затем GH_CONFIG.
-  // Токен из GH_CONFIG может устареть — свежий, введённый кнопкой
-  // «GitHub токен», должен перекрывать устаревший.
-  const lsToken = localStorage.getItem('gh_token') || '';
-  const token = lsToken || (cfg.token !== 'GITHUB_TOKEN_HERE' ? cfg.token : '');
-  // Живость токена выясняется по ответу GitHub: 401 означает, что токен
-  // истёк или отозван. Пока 401 не было — считаем живым; после — перестаём
-  // отправлять его, чтобы чтение публичного репозитория не отваливалось
-  // и опубликованные документы не пропадали из списка.
+  // Токен: ТОЛЬКО из localStorage. GH_CONFIG.token игнорируется.
+  const token = localStorage.getItem('gh_token') || '';
   let tokenAlive = !!token;
-  // Чтение публичного репозитория токена не требует
   const readReady = !!(cfg.owner && cfg.repo);
   const base = `${API}/repos/${cfg.owner}/${cfg.repo}`;
   const branch = cfg.branch || 'main';
 
   const TOKEN_DEAD_MSG = 'GitHub-токен недействителен (истёк или отозван). Нажмите кнопку «GitHub токен» и введите новый.';
+  const TOKEN_MISSING_MSG = 'GitHub-токен не задан. Нажмите кнопку «GitHub токен» в панели инструментов.';
 
   async function req(method, url, body, skipAuth) {
     const useTok = !skipAuth && token && tokenAlive;
+    if (!useTok && method !== 'GET') {
+      throw new Error(TOKEN_MISSING_MSG);
+    }
     const headers = {
       'Accept': 'application/vnd.github+json',
       'Content-Type': 'application/json'
@@ -31,12 +30,9 @@ const GH = (() => {
       headers,
       body: body ? JSON.stringify(body) : undefined
     });
-    // Токен отвергнут GitHub: помечаем мёртвым и убираем из хранилища,
-    // чтобы кнопка «GitHub токен» снова появилась и можно было ввести новый.
     if (r.status === 401 && useTok) {
       tokenAlive = false;
       try { localStorage.removeItem('gh_token'); } catch (e) { /* приватный режим */ }
-      // Публичное чтение повторяем без токена — документы не должны пропадать
       if (method === 'GET') return req(method, url, body, true);
       throw new Error(TOKEN_DEAD_MSG);
     }
@@ -61,15 +57,10 @@ const GH = (() => {
     try {
       f = await getFile(path);
     } catch (e) {
-      // Анонимное чтение упёрлось в лимит API (60 запросов/час на IP) —
-      // читаем файл напрямую с GitHub Pages: без лимитов и токена.
-      // Обновляется Pages при пересборке (~1 мин после коммита), поэтому
-      // для посетителей это эквивалентно API. sha у такого чтения нет —
-      // результат годен только для чтения, записи идут через API с токеном.
-      if (!hasToken() && /403|429|rate limit/i.test(e.message)) {
-        const root = location.href.replace(/[^/]*$/, '');
-        const r = await fetch(root + path);
-        if (r.ok) return { json: await r.json(), sha: null };
+      // Приватный репозиторий: анонимное чтение с GitHub Pages НЕ работает.
+      // Если токен не задан или отвергнут — сообщаем об этом явно.
+      if (!hasToken()) {
+        throw new Error(TOKEN_MISSING_MSG);
       }
       throw e;
     }
@@ -115,8 +106,6 @@ const GH = (() => {
   }
 
   return {
-    // ready динамический: становится false, как только GitHub отверг токен,
-    // поэтому раздел сразу честно показывает «Офлайн» и кнопку ввода токена
     get ready() { return !!(cfg.owner && cfg.repo && token && tokenAlive); },
     readReady,
     base, branch, readJSON, writeFile, deleteFile, getFile, fileToU8, test, u8ToB64, setToken, hasToken
