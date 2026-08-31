@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обучение по меню – Колумбус</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f8f5f0;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 30px 20px;
+            color: #2c2c2c;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            padding: 40px 45px;
+        }
+        h1 {
+            font-size: 34px;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-bottom: 3px solid #d4b48c;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h1 small {
+            font-size: 16px;
+            font-weight: 400;
+            color: #7a6a5a;
+            margin-left: auto;
+        }
+        .toc {
+            background: #f6f2ed;
+            border-radius: 16px;
+            padding: 20px 28px;
+            margin-bottom: 40px;
+            border: 1px solid #e8ddd2;
+        }
+        .toc h3 {
+            margin-bottom: 14px;
+            color: #3d2c1e;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: block;
+        }
+        .toc-list li {
+            padding: 6px 0 6px 0;
+            border-bottom: 1px dashed #e0d5c8;
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list li::marker { color: #5f4a38; font-weight: 600; }
+        .toc-list a {
+            color: #5f4a38;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            display: inline-block;
+            padding: 2px 0;
+            transition: 0.2s;
+        }
+        .toc-list a:hover {
+            color: #2c1c0e;
+            border-bottom: 2px solid #d4b48c;
+        }
+        .brand-section {
+            background: #f0ebe4;
+            border-radius: 16px;
+            padding: 12px 20px;
+            margin: 24px 0 16px;
+            border-left: 6px solid #d4b48c;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #3d2c1e;
+        }
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c1c0e;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #d4b48c;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h2 .badge-section {
+            background: #3d2c1e;
+            color: #f0ebe4;
+            font-size: 14px;
+            padding: 2px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #4d3a2a;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            padding-left: 14px;
+            border-left: 5px solid #d4b48c;
+        }
+        .table-wrap {
+            overflow-x: auto;
+            margin: 16px 0 32px;
+            border-radius: 14px;
+            border: 1px solid #e8ddd2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: #fefcf9;
+        }
+        th {
+            background: #ede5db;
+            color: #2d241c;
+            font-weight: 600;
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 2px solid #d4b48c;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eae1d6;
+            vertical-align: top;
+        }
+        tr:last-child td { border-bottom: none; }
+        .badge-allergen {
+            display: inline-block;
+            background: #f0e6d8;
+            border-radius: 20px;
+            padding: 2px 12px;
+            font-size: 12px;
+            margin: 2px 4px 2px 0;
+            white-space: nowrap;
+        }
+        .badge-allergen.gluten { background: #fce4d6; }
+        .badge-allergen.milk { background: #dde8f0; }
+        .badge-allergen.egg { background: #fef2d0; }
+        .badge-allergen.fish { background: #d6e9f0; }
+        .badge-allergen.shellfish { background: #f0d6d6; }
+        .badge-allergen.nuts { background: #e8dcc8; }
+        .badge-allergen.soy { background: #e0e6c8; }
+        .badge-allergen.mustard { background: #f0e0b0; }
+        .badge-allergen.celery { background: #c8d8c8; }
+        .badge-allergen.sulfite { background: #d0d0d0; }
+        .badge-allergen.sesame { background: #e0d6c0; }
+        .highlight {
+            background: #fcf6ee;
+            border-left: 5px solid #d4b48c;
+            padding: 14px 20px;
+            margin: 16px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .divider {
+            height: 3px;
+            background: linear-gradient(to right, #e3d5c8, #d4b48c, #e3d5c8);
+            margin: 40px 0 20px;
+            border-radius: 10px;
+        }
+        .footnote {
+            font-size: 13px;
+            color: #6b5d4e;
+            background: #f3ede6;
+            border-radius: 30px;
+            padding: 4px 16px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+        /* анимация слогана */
+        .slogan-block {
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+            border-radius: 40px;
+            padding: 50px 30px;
+            margin: 50px 0 20px;
+            border: 3px solid #f9d976;
+            box-shadow: 0 0 40px rgba(249, 217, 118, 0.3);
+        }
+        .slogan-text {
+            font-size: 3.2rem;
+            font-weight: 900;
+            font-family: 'Arial Black', Impact, sans-serif;
+            background: linear-gradient(45deg, #f9d976, #f9b23f, #f9d976);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s ease-in-out infinite alternate;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+        .slogan-sub {
+            color: #f0e6d3;
+            font-size: 1.3rem;
+            margin-top: 12px;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 4px;
+        }
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .slogan-block .emoji-fire {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 10px;
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @media (max-width: 820px) {
+            .container { padding: 24px 18px; }
+            h1 { font-size: 26px; flex-wrap: wrap; }
+            h1 small { margin-left: 0; width: 100%; }
+            .toc-list li { margin-left: 10px; }
+            .slogan-text { font-size: 2.2rem; }
+            .slogan-sub { font-size: 1rem; }
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; padding: 20px 30px; }
+            .toc { display: none; }
+            .slogan-block { background: #222 !important; border: 2px solid #f9d976; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .slogan-text { -webkit-text-fill-color: #f9d976; background: none; animation: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>
+        🍽️ Меню «Колумбус»
+        <small>обучение для официантов (состав, вес, аллергены, нормативы)</small>
+    </h1>
+
+    <!-- Оглавление -->
+    <div class="toc">
+        <h3>📖 Содержание</h3>
+        <ol class="toc-list">
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#salads">Салаты</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#soups">Супы</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#hot">Горячие блюда</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#breakfast">Завтраки</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#burgers">Бургеры (соусы на выбор)</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#pizza">Пицца</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#sets">Сеты</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#snacks">Закуски и детское меню</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#garnishes">Гарниры</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#desserts">Десерты и фруктовые тарелки</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#flex">Гибкость меню</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#allergens">Аллергены</a></li>
+            <li><a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260716_3a158f.html#sauces">Список соусов</a></li>
+        </ol>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- САЛАТЫ -->
+    <!-- ========================================= -->
+    <h2 id="salads">🥗 Салаты</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Цезарь с курицей</td><td>120</td><td>Салат Романо, куриное филе, пармезан, крутоны, помидоры, соус Цезарь</td><td>10–12</td><td>Холодный (~12°C)</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Салат с сыром Чечил</td><td>120</td><td>Сыр Чечил, руккола, помидоры, огурцы, семечки тыквы, оливковое масло</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Салат с картофелем и индейкой</td><td>180</td><td>Картофель, индейка су-вид, помидоры, лук красный, укроп, уксус</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen sulfite">Сульфиты</span></td></tr>
+                <tr><td>Салат с ростками сои</td><td>100</td><td>Ростки сои, микс салатов, помидоры, огурцы, сыр Креметта, соус Винегрет</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen soy">Соя</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Салат со свеклой</td><td>90</td><td>Свекла запечённая, микс салатов, брынза, кедровые орехи, масло, бальзамик</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи</span></td></tr>
+                <tr><td>Салат с печёным перцем, авокадо и страчателлой</td><td>170</td><td>Авокадо, микс салата, перец рамиро, страчателла, масло</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Салат Цезарь с курицей (ресторанная порция)</td><td>245</td><td>Романо, курица, гренки, соус Цезарь, пармезан, яйцо перепелиное</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Салат Цезарь с креветкой</td><td>245</td><td>Романо, креветки, гренки, соус Цезарь, пармезан, яйцо перепелиное</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen shellfish">Ракообразные</span><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Салат «Креветки в азиатском стиле»</td><td>150</td><td>Креветки, морковь, перец болгарский, авокадо, огурец, микс салата, соус кокос, желе манго</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen shellfish">Ракообразные</span><span class="badge-allergen soy">Соя</span></td></tr>
+                <tr><td>Стейк-салат</td><td>220</td><td>Стейк пиканья, перец, фасоль, сельдерей, редис, микс салата, соусы (перечный, устричный, ворчестер), яйцо перепелиное</td><td>20–25</td><td>Тёплый (мясо) + холодный (овощи)</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen soy">Соя</span><span class="badge-allergen celery">Сельдерей</span></td></tr>
+                <tr><td>Салат с хрустящими баклажанами</td><td>220</td><td>Баклажаны в крахмале, помидоры, фета, сладкий чили, кедровые орехи, кинза</td><td>15–17</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи</span><span class="badge-allergen soy">Соя</span></td></tr>
+                <tr><td>Зелёный салат с молодым редисом</td><td>200</td><td>Редис, огурец, кабачок, шпинат, картофель мини, яйцо, соус дзадзыки, горчица, сельдерей</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen mustard">Горчица</span><span class="badge-allergen celery">Сельдерей</span></td></tr>
+                <tr><td>Салатик овощной со сметаной</td><td>120/50</td><td>Огурец, помидоры, микс салата, сметана, яйцо перепелиное</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- СУПЫ -->
+    <!-- ========================================= -->
+    <h2 id="soups">🍲 Супы</h2>
+    <div class="brand-section">Горячие супы</div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Щи с телятиной</td><td>240</td><td>Щи (основа), телятина, сметана</td><td>5–7</td><td>Горячий (75°C)</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Суп лапша домашняя</td><td>245</td><td>Лапша, куриный бульон, курица, укроп</td><td>5–7</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Борщ</td><td>250</td><td>Борщ (основа), сметана, зелень</td><td>5–7</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Овощной суп</td><td>235</td><td>Овощной крем-суп, вешенки фри</td><td>5–7</td><td>Горячий</td><td>—</td></tr>
+                <tr><td>Домашний с телятиной</td><td>250</td><td>Основа, телятина, сметана, укроп</td><td>5–7</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Суп лапша куриная</td><td>300</td><td>Куриный бульон, лапша яичная, морковь, куриное филе</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Суп Том Ям с морепродуктами</td><td>350</td><td>База Том Ям, мидии, креветки, кальмар, грибы, помидоры черри, кинза, лайм, рис</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen shellfish">Ракообразные, моллюски</span></td></tr>
+                <tr><td>Борщ со смальцем из черемши</td><td>350/50/30</td><td>Борщ база, ростбиф, сметана, смалец, хлеб бородинский, чесночное масло, лук, перец чили</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Бульон куриный с яйцом</td><td>200</td><td>Бульон куриный, морковь, яйцо перепелиное</td><td>7–10</td><td>Горячий</td><td><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Пельмешки</td><td>130</td><td>Пельмени мини, масло сливочное (бульон по запросу)</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Супчик куриный с лапшой</td><td>250</td><td>Бульон куриный, лапша яичная, морковь, куриное филе</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="brand-section">Холодные супы</div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Окрошка на квасе</td><td>350</td><td>Замес (овощи, мясо), квас, сметана, зелень</td><td>10–15</td><td>Холодный (10–14°C)</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen gluten">Глютен (квас)</span></td></tr>
+                <tr><td>Окрошка на кефире</td><td>350</td><td>Замес, кефир, сметана, зелень</td><td>10–15</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Зелёный гаспачо</td><td>250</td><td>Основа, сельдерей, кабачок маринованный</td><td>10–15</td><td>Холодный</td><td><span class="badge-allergen celery">Сельдерей</span></td></tr>
+                <tr><td>Суп клубничный</td><td>250</td><td>Клубничный суп, страчателла, клубника, мята</td><td>10–15</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ГОРЯЧИЕ БЛЮДА -->
+    <!-- ========================================= -->
+    <h2 id="hot">🍛 Горячие блюда</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Свинина в панировке</td><td>225</td><td>Свинина, панировка, яйцо, мука, пюре, кетчуп, крутоны</td><td>12–15</td><td>Горячий (65°C)</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Пенне с моцареллой</td><td>260</td><td>Пенне, соус Неаполитано, моцарелла, пармезан, базилик</td><td>10–12</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Курица с рисом</td><td>260</td><td>Рис с укропом, соус Фрикассе, соус Песто</td><td>10–12</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи (песто)</span></td></tr>
+                <tr><td>Фрикадельки с соусом</td><td>350</td><td>Куриные фрикадельки (4 шт.), пенне, грибной соус, петрушка</td><td>12–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Куриные котлетки</td><td>120/160</td><td>Котлеты (2 шт.), пюре, соус Тако</td><td>12–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Бефстроганов с печёным картофелем</td><td>150/150</td><td>Говяжья вырезка, грибы, сливки, сметана, картофель мини, лук фри, вешенки фри</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Томлёная щека с пюре и трюфелем</td><td>150/150</td><td>Говяжьи щёчки, деми глясс, пюре, трюфельная паста, поп-корн из гречки</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen gluten">Глютен (поп-корн)</span></td></tr>
+                <tr><td>Филе сибаса с овощами и соусом велюте</td><td>180</td><td>Сибас, морковь, кабачок, брокколи, соус велюте</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Куриная котлета с пюре</td><td>160/150</td><td>Куриная котлета, пюре, деми глясс, шпинат, фундук, чипсы</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи</span></td></tr>
+                <tr><td>Вырезка говяжья с паштетом из утки</td><td>220</td><td>Говяжья вырезка, шпинат, брокколи, соус красное вино, паштет из утки, трюфель</td><td>20–25</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen gluten">Глютен (соус)</span></td></tr>
+                <tr><td>Филе судака с ризотто из цветной капусты</td><td>120/80/50</td><td>Судак, ризотто из цветной капусты, соус из кабачка</td><td>12–15</td><td>Горячий</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Стейк Пиканья с жареным романо</td><td>180/50</td><td>Стейк пиканья, салат романо, запечённый чеснок, соус для стейка</td><td>20–25</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Котлета из судака и лосося</td><td>120/100</td><td>Рыбные котлеты (2 шт.), кабачок маринованный, песто, сливочное масло</td><td>15–17</td><td>Горячий</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи (песто)</span></td></tr>
+                <tr><td>Ребра свиные</td><td>350/90</td><td>Свиные рёбра, соус барбекю, картофель мини, битые огурцы, кунжут</td><td>15–17</td><td>Горячий</td><td><span class="badge-allergen soy">Соя</span><span class="badge-allergen sesame">Кунжут</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ЗАВТРАКИ -->
+    <!-- ========================================= -->
+    <h2 id="breakfast">🍳 Завтраки</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Большой завтрак с лососем</td><td>240</td><td>Чиабатта, лосось с/с, авокадо, яйца (омлет/скрембл/яичница), микс салата, огурцы, помидоры черри</td><td>15–18</td><td>Горячий (60°C)</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Большой завтрак с сосиской и мортаделлой</td><td>330</td><td>Хлеб деревенский, сосиска с сыром, бекон, мортаделла, грибы, помидоры, фасоль, яйца, микс салата</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen soy">Соя</span></td></tr>
+                <tr><td>Омлет / яичница / скрембл</td><td>150</td><td>Яйца, молоко (в омлете), масло, чиабатта, микс салата</td><td>10–12</td><td>Горячий</td><td><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Сырники (3 шт.)</td><td>180</td><td>Сырники, фруктовая сгущёнка, крошка печенья, мята</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Бриошь с лососем и яйцом пашот</td><td>200</td><td>Бриошь, крем-чиз, авокадо, лосось, яйцо пашот, соус голландез</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Французский тост</td><td>200</td><td>Бриошь, яичный желток, молоко, карамельный соус, соус чёрная смородина, мороженое, клубника</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Крок-мадам</td><td>190</td><td>Бриошь, яичный желток, молоко, соус спайси, моцарелла, чеддер, мортаделла, яйцо</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- БУРГЕРЫ -->
+    <!-- ========================================= -->
+    <h2 id="burgers">🍔 Бургеры (соусы на выбор)</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Соусы на выбор</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Бургер с курицей</td><td>150</td><td>Булочка, куриная котлета, шпинат, помидоры черри</td><td>кетчуп, барбекю, сырный</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Бургер с говядиной</td><td>170</td><td>Булочка, говяжья котлета, салат айсберг, помидоры, огурец</td><td>кетчуп, горчица, сырный</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Фирменный бургер с мраморной говядиной</td><td>320/150/30</td><td>Булочка бриошь, говяжья котлета, чеддер, бекон, салат, помидоры, огурцы маринованные, лук красный</td><td>барбекю, сырный, кетчуп</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen soy">Соя</span><span class="badge-allergen mustard">Горчица</span></td></tr>
+                <tr><td>Бургер с куриным шницелем</td><td>310</td><td>Булочка бриошь, шницель из куриного бедра, чеддер, пармезан, салат романо, помидоры, овощные палочки</td><td>кетчуп, барбекю, сырный, цезарь</td><td>15–17</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen soy">Соя</span></td></tr>
+            </tbody>
+        </table>
+        <div style="padding: 8px 16px; background: #faf7f2; font-size: 0.9rem; border-top: 1px solid #e8ddd2;">
+            🧂 Доступные соусы для всех бургеров: кетчуп, горчица дижонская, майонез, соус барбекю, соус сырный, соус цезарь, соус терияки-майонез, соус спайси (по желанию гостя – дополнительно могут быть предоставлены и другие соусы по запросу).
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ПИЦЦА -->
+    <!-- ========================================= -->
+    <h2 id="pizza">🍕 Пицца</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Маргарита</td><td>440</td><td>Основа, томатный соус, моцарелла, помидоры, оливковое масло, базилик</td><td>15–20</td><td>Горячий (70–80°C)</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Сырная</td><td>450</td><td>Основа, бешамель, моцарелла, пармезан, чеддер, горгонзола</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Пепперони</td><td>430</td><td>Основа, томатный соус, моцарелла, пепперони</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen soy">Соя</span></td></tr>
+                <tr><td>Карбонара</td><td>440</td><td>Основа, бешамель, моцарелла, бекон, пармезан, перепелиные яйца, орегано, чипсы из бекона</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- СЕТЫ -->
+    <!-- ========================================= -->
+    <h2 id="sets">🥩 Сеты</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Состав</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Мясной сет</td><td>~1000</td><td>Стейк пиканья, рёбра, шницель, кебаб, картофельные дольки, салат коул-слоу, огурцы маринованные, соусы (барбекю, сырный, сальса)</td><td>30–60</td><td>Горячие компоненты + комн.</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen soy">Соя</span><span class="badge-allergen mustard">Горчица</span></td></tr>
+                <tr><td>Пивной сет</td><td>~1000</td><td>Сырные палочки, куриные крылья BBQ, креветки попкорн, колбаска с сыром, колбаски трио, бородинский хлеб, картофель фри, соусы (кетчуп, блю-чиз, барбекю)</td><td>30–60</td><td>Горячие закуски</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen shellfish">Ракообразные</span><span class="badge-allergen soy">Соя</span></td></tr>
+                <tr><td>Рыбный сет</td><td>~800</td><td>Кальмар, мидии, судак, лосось, креветки, батат фри, лимон, лайм, соевый соус</td><td>30–60</td><td>Горячие компоненты</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen shellfish">Ракообразные, моллюски</span><span class="badge-allergen soy">Соя</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ЗАКУСКИ И ДЕТСКОЕ МЕНЮ -->
+    <!-- ========================================= -->
+    <h2 id="snacks">🍟 Закуски и детское меню</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Брускетта с лососем</td><td>85</td><td>Чиабатта, лосось, крем-чиз, салат, укроп</td><td>10–12</td><td>Тёплый</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Брускетта с ростбифом</td><td>125</td><td>Хлеб деревенский, крем-чиз, песто, ростбиф, руккола, медово-горчичный соус</td><td>10–12</td><td>Тёплый</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи</span><span class="badge-allergen mustard">Горчица</span></td></tr>
+                <tr><td>Брускетта с креветками гриль</td><td>100</td><td>Чиабатта, креветки, крем-чиз, сладкий чили, руккола, гуакамоле</td><td>10–15</td><td>Тёплый</td><td><span class="badge-allergen shellfish">Ракообразные</span><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen soy">Соя</span></td></tr>
+                <tr><td>Сырная тарелка</td><td>250+50</td><td>Ассорти сыров (пармезан, камамбер, голубая плесень, чеддер, маасдам, грюйер), мёд, клубника, грецкий орех</td><td>15–20</td><td>Комнатная</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи</span></td></tr>
+                <tr><td>Роти с ростбифом</td><td>165</td><td>Лепешка роти, ростбиф, горчица, помидоры, руккола, огурец маринованный</td><td>10–12</td><td>Тёплый</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen mustard">Горчица</span><span class="badge-allergen egg">Яйца (майонез)</span></td></tr>
+                <tr><td>Роти с курицей гриль</td><td>220</td><td>Лепешка роти, куриное филе, соус Цезарь, романо, помидоры, чеддер</td><td>10–12</td><td>Тёплый</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Сосиски-осьминожки</td><td>200</td><td>Сосиски, спагетти, кетчуп, сырный соус</td><td>15–18</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Макарошки с сыром</td><td>150</td><td>Пенне, сливки, моцарелла, чеддер</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Эскимо из котлет с пюре</td><td>100/150</td><td>Куриные котлеты (2 шт.), пюре, помидоры черри, базилик</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Куриные палочки с огурцом</td><td>100/50/30</td><td>Куриное филе в панировке, огурец, кетчуп</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Картофель фри</td><td>150</td><td>Картофель, соль</td><td>7–10</td><td>Горячий</td><td>—</td></tr>
+                <tr><td>Куриный шашлычок</td><td>100/30/30</td><td>Куриное филе на шпажках, огурец, кетчуп</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen soy">Соя (маринад)</span></td></tr>
+                <tr><td>Сырные палочки</td><td>150/30</td><td>Сырные палочки, соус чёрная смородина</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Куриные шарики</td><td>80/30</td><td>Куриные боулы (3 шт.), сырный соус</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Попкорн из креветок</td><td>200</td><td>Креветки в кляре, соус чили манго, авокадо, икра масаго</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen shellfish">Ракообразные</span><span class="badge-allergen soy">Соя</span><span class="badge-allergen fish">Икра</span></td></tr>
+                <tr><td>Куриные крылья с соусом BBQ</td><td>250/50/50/30</td><td>Крылья, соус BBQ, сельдерей, морковь, соус блю-чиз, кешью</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen soy">Соя</span><span class="badge-allergen nuts">Орехи</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen celery">Сельдерей</span></td></tr>
+                <tr><td>Драники с лососем</td><td>200/30</td><td>Драники (2 шт.), яйцо пашот, лосось, сметана, огурец</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen fish">Рыба</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Драники с томлёной говядиной</td><td>180/30/30</td><td>Драники (2 шт.), говяжьи щёчки, соусы (деми глясс, сальса, соевый), релиш, сметана</td><td>15–20</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen soy">Соя</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Хот-дог с сыром чеддер</td><td>150</td><td>Булочка, колбаска, сырный соус, битые огурцы, горчица, барбекю, бекон, чеддер</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen mustard">Горчица</span><span class="badge-allergen soy">Соя</span></td></tr>
+                <tr><td>Хот-дог классика</td><td>125</td><td>Булочка, колбаска, горчица, маринованные огурцы, сырный соус, кетчуп, лук фри</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen mustard">Горчица</span></td></tr>
+                <tr><td>Крокеты с креветкой</td><td>100</td><td>Крокеты (4 шт.), сливочный гуакамоле</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen shellfish">Ракообразные</span><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Крокеты с томлёным мясом</td><td>100</td><td>Крокеты (4 шт.), соус спайси</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen gluten">Глютен</span></td></tr>
+                <tr><td>Овощные палочки с творожным соусом</td><td>150/50</td><td>Огурец, морковь, сельдерей, крем-чиз</td><td>10–12</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen celery">Сельдерей</span></td></tr>
+                <tr><td>Блинчики с топпингом</td><td>150/30</td><td>Блинчики (3 шт.), топпинг на выбор (мёд, сметана, ягодные соусы)</td><td>7–10</td><td>Тёплые</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Блинчики с творожным кремом</td><td>140</td><td>Блинчики (2 шт.), творожный сыр, сливки, клубника, шоколад, голубика</td><td>10–12</td><td>Тёплые</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen soy">Соя (шоколад)</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ГАРНИРЫ -->
+    <!-- ========================================= -->
+    <h2 id="garnishes">🥔 Гарниры</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Картофельное пюре</td><td>150</td><td>Пюре, молоко</td><td>7–10</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Батат запечённый со шпинатом</td><td>210</td><td>Батат, соус дзадзыки, шпинат, кинза</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Батат фри с пармезаном</td><td>150</td><td>Батат, пармезан</td><td>10–15</td><td>Горячий</td><td><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Запечённые овощи</td><td>150</td><td>Баклажан, цуккини, грибы, перец, помидоры, томатный соус, шпинат</td><td>10–15</td><td>Горячий</td><td>—</td></tr>
+                <tr><td>Овощной рататуй</td><td>150</td><td>Рататуй, зелень, масло</td><td>10–15</td><td>Горячий</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ДЕСЕРТЫ И ФРУКТОВЫЕ ТАРЕЛКИ -->
+    <!-- ========================================= -->
+    <h2 id="desserts">🍰 Десерты и фруктовые тарелки</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Название</th><th>Вес (г)</th><th>Основные ингредиенты</th><th>Время (мин)</th><th>Температура</th><th>Аллергены</th></tr></thead>
+            <tbody>
+                <tr><td>Брауни</td><td>170</td><td>Брауни (2 куска), мороженое, шоколадное печенье, фундук, мята</td><td>7–10</td><td>Тёплый / холодный</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span><span class="badge-allergen nuts">Орехи</span></td></tr>
+                <tr><td>Крем-брюле</td><td>200</td><td>Крем-брюле, тростниковый сахар, апельсиновые цукаты</td><td>7–10</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Очень шоколадный десерт</td><td>120</td><td>Шоколадное сабле, шоколадные чипсы, стружка, пищевое золото</td><td>10–15</td><td>Комнатная</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen soy">Соя (шоколад)</span></td></tr>
+                <tr><td>Тирамису с ягодами</td><td>190</td><td>Тирамису из манки, какао, клубника, голубика, мята</td><td>7–10</td><td>Холодный</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Морковный</td><td>120</td><td>Морковный десерт, мятный крем-чиз, голубика, апельсиновые цукаты, карамелизированный грецкий орех</td><td>10–15</td><td>Холодный</td><td><span class="badge-allergen milk">Молочные</span><span class="badge-allergen nuts">Орехи</span></td></tr>
+                <tr><td>Фондан</td><td>200</td><td>Фондан, мороженое, соус чёрная смородина, клубника, мята</td><td>12–15</td><td>Горячий (фондан) + холодный (мороженое)</td><td><span class="badge-allergen gluten">Глютен</span><span class="badge-allergen milk">Молочные</span><span class="badge-allergen egg">Яйца</span></td></tr>
+                <tr><td>Павлова с ягодами и компоте из манго</td><td>80</td><td>Меренга, компоте из манго, сливочная пена, клубника, голубика</td><td>10–15</td><td>Холодный</td><td><span class="badge-allergen egg">Яйца</span><span class="badge-allergen milk">Молочные</span></td></tr>
+                <tr><td>Конфеты финиковые в ореховой крошке</td><td>100</td><td>Финиковые конфеты (5 шт.), упаковка</td><td>7–10</td><td>Комнатная</td><td><span class="badge-allergen nuts">Орехи</span></td></tr>
+                <tr><td>Фруктовая тарелка большая</td><td>1800</td><td>Ананас, виноград (белый/красный), груша, киви, клубника, голубика, апельсин, манго, банан, мята, пудра</td><td>15–20</td><td>Холодная</td><td>—</td></tr>
+                <tr><td>Фруктовая тарелка малая</td><td>1400</td><td>Ананас, виноград, груша, киви, клубника, голубика, апельсин, манго, банан, мята, пудра</td><td>15–20</td><td>Холодная</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ГИБКОСТЬ МЕНЮ -->
+    <!-- ========================================= -->
+    <h2 id="flex">🔄 Гибкость меню – удаление ингредиентов</h2>
+    <div class="highlight" style="border-left-color: #f9b23f;">
+        <strong>🧑‍🍳 По просьбе гостя мы можем удалить отдельный компонент блюда, если он представлен как самостоятельная часть.</strong><br>
+        <span style="font-size: 0.95rem;">Пример: в салате можно убрать лук, помидоры или соус – они добавляются отдельно.<br>
+        <span style="background: #f0e6d8; padding: 2px 10px; border-radius: 20px;">Важно!</span> Если ингредиент входит в состав котлеты, фарша или соуса (например, лук в котлете), удалить его невозможно – он является частью рецептуры. Официант обязан уточнить это у гостя и предложить альтернативу.</span>
+    </div>
+    <p style="margin-top: -8px; font-size: 15px; color: #5f4a38;">
+        ✅ Всегда переспрашивайте гостя: <em>«Вы хотите убрать только видимый ингредиент или у вас аллергия на него?»</em> – это поможет избежать недоразумений.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- ОБЩАЯ ПАМЯТКА ПО АЛЛЕРГЕНАМ -->
+    <!-- ========================================= -->
+    <h2 id="allergens">⚠️ Аллергены – общая памятка</h2>
+    <div class="highlight">
+        <strong>Перед приёмом заказа обязательно уточняйте у гостя наличие аллергии или непереносимости.</strong> Ниже приведены основные группы аллергенов, присутствующие в блюдах.
+    </div>
+    <ul style="margin: 16px 0 24px 24px; line-height: 1.8;">
+        <li><span class="badge-allergen gluten">Глютен</span> – мука, хлеб, макароны, панировка, крутоны, соусы на основе муки, пицца.</li>
+        <li><span class="badge-allergen milk">Молочные</span> – сыры (моцарелла, пармезан, чеддер, фета, страчателла, горгонзола и др.), сливки, сметана, молоко, сливочное масло, крем-чиз.</li>
+        <li><span class="badge-allergen egg">Яйца</span> – яйца куриные и перепелиные (в блюдах, соусах, панировке, выпечке).</li>
+        <li><span class="badge-allergen fish">Рыба</span> – лосось, судак, тунец, икра масаго.</li>
+        <li><span class="badge-allergen shellfish">Ракообразные и моллюски</span> – креветки, кальмары, мидии.</li>
+        <li><span class="badge-allergen nuts">Орехи</span> – кедровые, грецкие, фундук, кешью, а также продукты с их содержанием (песто, соусы).</li>
+        <li><span class="badge-allergen soy">Соя</span> – соевый соус, ростки сои, некоторые соусы (BBQ, терияки, сладкий чили).</li>
+        <li><span class="badge-allergen mustard">Горчица</span> – дижонская, зернистая, горчичные соусы.</li>
+        <li><span class="badge-allergen celery">Сельдерей</span> – стебли сельдерея, используется в салатах, закусках, супах.</li>
+        <li><span class="badge-allergen sulfite">Сульфиты</span> – могут присутствовать в уксусе, сухофруктах, квасе.</li>
+        <li><span class="badge-allergen sesame">Кунжут</span> – в некоторых блюдах (рёбра, хлеб).</li>
+    </ul>
+    <div class="footnote">При отсутствии явного аллергена в составе, но при наличии в соусах или маринадах – всегда уточняйте у шефа.</div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- СПИСОК СОУСОВ -->
+    <!-- ========================================= -->
+    <h2 id="sauces">🧂 Список соусов (для бургеров и других блюд)</h2>
+    <div class="highlight" style="border-left-color: #6a8c9c;">
+        <strong>Доступные соусы (подаются отдельно или входят в состав):</strong>
+        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+            <li><strong>Классические:</strong> кетчуп, горчица дижонская, горчица зернистая, майонез, сметана</li>
+            <li><strong>Барбекю / острые:</strong> соус барбекю, соус спайси, соус сладкий чили, соус чили-манго, соус BBQ для крыльев</li>
+            <li><strong>Сырные:</strong> соус сырный (чеддер), соус блю-чиз, соус Цезарь, соус Крем-чиз, соус голландез</li>
+            <li><strong>Азиатские:</strong> соус соевый, соус терияки, соус терияки-майонез, соус том ям, заправка тамаки, соус шисо, соус устричный, соус ворчестер, соус кокос</li>
+            <li><strong>Для салатов и овощей:</strong> соус Винегрет, крем бальзамический, соус цитронет, соус перечный, чатни из болгарского перца, соус баже, соус дзадзыки, медово-горчичный</li>
+            <li><strong>Для стейков и мяса:</strong> соус для стейка, соус деми глясс, соус красное вино, соус сальса тамаки, соус грибной, соус Неаполитано, соус Фрикассе, соус Песто, соус велюте, томатный соус, соус бешамель</li>
+            <li><strong>Десертные:</strong> соус карамельный, соус чёрная смородина, фруктовая сгущёнка, клубничный/вишнёвый топпинг</li>
+        </ul>
+        <p style="margin-top: 10px; font-style: italic;">❗ Все соусы подаются отдельно по желанию гостя. Уточняйте предпочтения по остроте и составу.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ========================================= -->
+    <!-- АНИМИРОВАННЫЙ СЛОГАН -->
+    <!-- ========================================= -->
+    <div class="slogan-block">
+        <span class="emoji-fire">🔥</span>
+        <div class="slogan-text">Мы готовим так, что пальчики оближешь!</div>
+        <div class="slogan-text" style="font-size: 2rem; -webkit-text-fill-color: #f9b23f; background: none; animation: none; text-shadow: 0 0 20px #f9b23f;">Даже у поваров!</div>
+        <div class="slogan-sub">★ Приятного аппетита от команды «Колумбус» ★</div>
+    </div>
+
+    <div style="text-align:center; color:#7a6a5a; font-size:14px; margin-top: 20px; border-top: 1px solid #e0d5c8; padding-top: 20px;">
+        © Обучающий материал по меню ресторана «Колумбус» – июнь 2026<br>
+        Все веса и время приготовления указаны согласно техкартам. При отклонениях руководствуйтесь актуальной версией меню.
+    </div>
+
+</div>
+
+</body></html>
