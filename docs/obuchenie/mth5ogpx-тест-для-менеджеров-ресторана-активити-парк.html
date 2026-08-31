@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)file:///C:/Users/Admin/Downloads/deepseek_html_20260622_75c1f7%20(1).html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Тест для менеджеров ресторана – Активити-парк</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #f5f7fa; color: #1a1a1a; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px 35px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: #2c3e50; }
+        .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; }
+        th { background: #34495e; color: white; padding: 12px 8px; text-align: center; }
+        td { padding: 10px 8px; border: 1px solid #ddd; vertical-align: top; }
+        td:first-child { text-align: center; font-weight: bold; width: 50px; }
+        td:nth-child(2) { width: 60%; }
+        td:nth-child(3) { text-align: center; width: 200px; }
+        .options label { display: inline-block; margin-right: 15px; cursor: pointer; }
+        .options input { margin-right: 4px; }
+        .section-title { background: #2c3e50; color: white; padding: 12px 15px; margin: 25px 0 10px; border-radius: 6px; font-weight: bold; text-align: center; }
+        .open-q { background: #fff9e6; padding: 15px; border-radius: 6px; margin: 10px 0; border-left: 4px solid #f39c12; }
+        .open-q b { color: #e67e22; }
+        textarea { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ddd; font-family: inherit; }
+        .btn-row { text-align: center; margin: 30px 0; }
+        button { background: #27ae60; color: white; border: none; padding: 14px 40px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 0 10px; transition: background 0.2s; }
+        button:hover { background: #219a52; }
+        button.reset { background: #e74c3c; }
+        button.reset:hover { background: #c0392b; }
+        .result-box { background: #f0f8e8; border: 2px solid #27ae60; border-radius: 10px; padding: 20px 25px; margin-top: 25px; text-align: center; display: none; }
+        .result-box h2 { color: #27ae60; margin-bottom: 10px; }
+        .result-box .score { font-size: 48px; font-weight: bold; color: #2c3e50; }
+        .result-box .grade { font-size: 18px; margin-top: 8px; font-weight: bold; }
+        .result-box .rec { font-size: 13px; color: #555; margin-top: 6px; }
+        .info-row { display: flex; gap: 20px; margin-bottom: 20px; }
+        .info-row input { padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>ТЕСТ ДЛЯ МЕНЕДЖЕРОВ РЕСТОРАНА АКТИВИТИ-ПАРКА</h1>
+    <p class="subtitle">34 вопроса · 57 минут · Проходной балл: 75%</p>
+    
+    <div class="info-row">
+        <div><label>ФИО:</label> <input type="text" id="fio" placeholder="Введите ФИО"></div>
+        <div><label>Дата:</label> <input type="date" id="testDate"></div>
+        <div><label>Парк / ТЦ:</label> <input type="text" id="location" placeholder="Название объекта"></div>
+    </div>
+
+    <form id="testForm">
+        <!-- Блок 1: Безопасность гостей в зале -->
+        <div class="section-title">БЛОК 1. БЕЗОПАСНОСТЬ ГОСТЕЙ В ЗАЛЕ</div>
+        <table>
+            <tbody><tr><th>№</th><th>Вопрос</th><th>Ответ</th></tr>
+            <tr>
+                <td>1</td>
+                <td>Что является стоп-фактором, обнуляющим бонус Менеджера ресторана?</td>
+                <td class="options">
+                    <label><input type="radio" name="q1" value="A"> A</label>
+                    <label><input type="radio" name="q1" value="B"> B</label>
+                    <label><input type="radio" name="q1" value="C"> C</label>
+                    <label><input type="radio" name="q1" value="D"> D</label>
+                    <br><small>A — Отрицательный отзыв о вкусе<br>B — Несчастный случай с гостем по вине персонала<br>C — Невыполнение плана на 10%<br>D — Опоздание официанта</small>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Гость сообщает официанту об аллергии на орехи. Действия Менеджера:</td>
+                <td class="options">
+                    <label><input type="radio" name="q2" value="A"> A</label>
+                    <label><input type="radio" name="q2" value="B"> B</label>
+                    <label><input type="radio" name="q2" value="C"> C</label>
+                    <label><input type="radio" name="q2" value="D"> D</label>
+                    <br><small>A — Сказать, что всё может содержать орехи<br>B — Уточнить у кухни, предупредить, проконтролировать<br>C — Отказать в обслуживании<br>D — Предложить самому разобраться</small>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Официант разбил тарелку рядом с гостем. Первое действие:</td>
+                <td class="options">
+                    <label><input type="radio" name="q3" value="A"> A</label>
+                    <label><input type="radio" name="q3" value="B"> B</label>
+                    <label><input type="radio" name="q3" value="C"> C</label>
+                    <label><input type="radio" name="q3" value="D"> D</label>
+                    <br><small>A — Замечание при госте<br>B — Убедиться в безопасности, извиниться, заменить<br>C — Вычесть из зарплаты<br>D — Сказать "Ничего страшного"</small>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Пожарная тревога. Ваш приоритет:</td>
+                <td class="options">
+                    <label><input type="radio" name="q4" value="A"> A</label>
+                    <label><input type="radio" name="q4" value="B"> B</label>
+                    <label><input type="radio" name="q4" value="C"> C</label>
+                    <label><input type="radio" name="q4" value="D"> D</label>
+                    <br><small>A — Эвакуировать гостей по плану<br>B — Позвонить Гендиректору<br>C — Закрыть кассу<br>D — Проверить, не ложная ли</small>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Ребёнок бегает между столиками. Действия Менеджера:</td>
+                <td class="options">
+                    <label><input type="radio" name="q5" value="A"> A</label>
+                    <label><input type="radio" name="q5" value="B"> B</label>
+                    <label><input type="radio" name="q5" value="C"> C</label>
+                    <label><input type="radio" name="q5" value="D"> D</label>
+                    <br><small>A — Замечание родителям при всех<br>B — Вежливо предупредить, предложить раскраску<br>C — Игнорировать<br>D — Вызвать охрану</small>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Гость поскользнулся на мокром полу (знак не поставили). Кто виноват?</td>
+                <td class="options">
+                    <label><input type="radio" name="q6" value="A"> A</label>
+                    <label><input type="radio" name="q6" value="B"> B</label>
+                    <label><input type="radio" name="q6" value="C"> C</label>
+                    <label><input type="radio" name="q6" value="D"> D</label>
+                    <br><small>A — Гость<br>B — Менеджер ресторана<br>C — Уборщица<br>D — Случайность</small>
+                </td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Что обязательно должно быть в зале с точки зрения безопасности?</td>
+                <td class="options">
+                    <label><input type="radio" name="q7" value="A"> A</label>
+                    <label><input type="radio" name="q7" value="B"> B</label>
+                    <label><input type="radio" name="q7" value="C"> C</label>
+                    <label><input type="radio" name="q7" value="D"> D</label>
+                    <br><small>A — Меню с ценами<br>B — План эвакуации и указатели выходов<br>C — Фотографии блюд<br>D — Список сотрудников</small>
+                </td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Гость подавился и не может дышать. Действия:</td>
+                <td class="options">
+                    <label><input type="radio" name="q8" value="A"> A</label>
+                    <label><input type="radio" name="q8" value="B"> B</label>
+                    <label><input type="radio" name="q8" value="C"> C</label>
+                    <label><input type="radio" name="q8" value="D"> D</label>
+                    <br><small>A — Ждать скорую<br>B — Вызвать скорую и оказать приём Геймлиха<br>C — Позвать Шеф-повара<br>D — Дать воды</small>
+                </td>
+            </tr>
+        </tbody></table>
+
+        <!-- Блок 2: Операционное управление залом -->
+        <div class="section-title">БЛОК 2. ОПЕРАЦИОННОЕ УПРАВЛЕНИЕ ЗАЛОМ</div>
+        <table>
+            <tbody><tr><th>№</th><th>Вопрос</th><th>Ответ</th></tr>
+            <tr>
+                <td>9</td>
+                <td>Низкая загрузка в будний день. Лучшее действие:</td>
+                <td class="options">
+                    <label><input type="radio" name="q9" value="A"> A</label>
+                    <label><input type="radio" name="q9" value="B"> B</label>
+                    <label><input type="radio" name="q9" value="C"> C</label>
+                    <label><input type="radio" name="q9" value="D"> D</label>
+                    <br><small>A — Отправить персонал домой<br>B — Тренинг и ревизия<br>C — Закрыть раньше<br>D — Снизить цены вдвое</small>
+                </td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Периодичность аудита зала по чек-листу:</td>
+                <td class="options">
+                    <label><input type="radio" name="q10" value="A"> A</label>
+                    <label><input type="radio" name="q10" value="B"> B</label>
+                    <label><input type="radio" name="q10" value="C"> C</label>
+                    <label><input type="radio" name="q10" value="D"> D</label>
+                    <br><small>A — Ежедневно<br>B — Раз в неделю<br>C — Дважды в месяц<br>D — Раз в месяц</small>
+                </td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Пришла группа из 25 детей после игр. Приоритет:</td>
+                <td class="options">
+                    <label><input type="radio" name="q11" value="A"> A</label>
+                    <label><input type="radio" name="q11" value="B"> B</label>
+                    <label><input type="radio" name="q11" value="C"> C</label>
+                    <label><input type="radio" name="q11" value="D"> D</label>
+                    <br><small>A — Рассадить за свободные<br>B — Подготовить зону, детское меню, напитки<br>C — Сказать "надо было бронировать"<br>D — Живая очередь</small>
+                </td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>Очередь на входе. Решение:</td>
+                <td class="options">
+                    <label><input type="radio" name="q12" value="A"> A</label>
+                    <label><input type="radio" name="q12" value="B"> B</label>
+                    <label><input type="radio" name="q12" value="C"> C</label>
+                    <label><input type="radio" name="q12" value="D"> D</label>
+                    <br><small>A — Ускорить кухню<br>B — Предложить напитки, оперативно рассадить<br>C — Сказать ждать<br>D — Закрыть на спецобслуживание</small>
+                </td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>Пример правильного делегирования:</td>
+                <td class="options">
+                    <label><input type="radio" name="q13" value="A"> A</label>
+                    <label><input type="radio" name="q13" value="B"> B</label>
+                    <label><input type="radio" name="q13" value="C"> C</label>
+                    <label><input type="radio" name="q13" value="D"> D</label>
+                    <br><small>A — "Сделай всё"<br>B — "Проверь зону А до 11:30 и отметь в чек-листе"<br>C — "Ты профи, сам знаешь"<br>D — "Я занят, разберись"</small>
+                </td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>В низкий сезон главный фокус:</td>
+                <td class="options">
+                    <label><input type="radio" name="q14" value="A"> A</label>
+                    <label><input type="radio" name="q14" value="B"> B</label>
+                    <label><input type="radio" name="q14" value="C"> C</label>
+                    <label><input type="radio" name="q14" value="D"> D</label>
+                    <br><small>A — Выручка любой ценой<br>B — Набор персонала<br>C — Затраты, обучение, качество<br>D — Агрессивная реклама</small>
+                </td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>Распределение персонала в пик (13–16, выходные):</td>
+                <td class="options">
+                    <label><input type="radio" name="q15" value="A"> A</label>
+                    <label><input type="radio" name="q15" value="B"> B</label>
+                    <label><input type="radio" name="q15" value="C"> C</label>
+                    <label><input type="radio" name="q15" value="D"> D</label>
+                    <br><small>A — Все в одной зоне<br>B — Равномерно, усилить бар и детскую<br>C — Минимум<br>D — Всех на обед</small>
+                </td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td>Нарушение дресс-кода после беседы. Дальше:</td>
+                <td class="options">
+                    <label><input type="radio" name="q16" value="A"> A</label>
+                    <label><input type="radio" name="q16" value="B"> B</label>
+                    <label><input type="radio" name="q16" value="C"> C</label>
+                    <label><input type="radio" name="q16" value="D"> D</label>
+                    <br><small>A — Игнорировать<br>B — Письменное предупреждение, снижение бонуса<br>C — Уволить<br>D — Купить форму</small>
+                </td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td>Действие за 30 минут до открытия:</td>
+                <td class="options">
+                    <label><input type="radio" name="q17" value="A"> A</label>
+                    <label><input type="radio" name="q17" value="B"> B</label>
+                    <label><input type="radio" name="q17" value="C"> C</label>
+                    <label><input type="radio" name="q17" value="D"> D</label>
+                    <br><small>A — Проверить зал по чек-листу<br>B — Ждать у входа<br>C — Планёрка<br>D — Соцсети</small>
+                </td>
+            </tr>
+        </tbody></table>
+
+        <!-- Блок 3: Сервис и работа с гостем -->
+        <div class="section-title">БЛОК 3. СЕРВИС И РАБОТА С ГОСТЕМ</div>
+        <table>
+            <tbody><tr><th>№</th><th>Вопрос</th><th>Ответ</th></tr>
+            <tr>
+                <td>18</td>
+                <td>Гневный пост в соцсетях о холодном блюде. Первое действие:</td>
+                <td class="options">
+                    <label><input type="radio" name="q18" value="A"> A</label>
+                    <label><input type="radio" name="q18" value="B"> B</label>
+                    <label><input type="radio" name="q18" value="C"> C</label>
+                    <label><input type="radio" name="q18" value="D"> D</label>
+                    <br><small>A — Публичный ответ<br>B — Личный звонок, пригласить<br>C — Игнорировать<br>D — Удалить</small>
+                </td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td>Гость просит возврат за наполовину съеденное блюдо:</td>
+                <td class="options">
+                    <label><input type="radio" name="q19" value="A"> A</label>
+                    <label><input type="radio" name="q19" value="B"> B</label>
+                    <label><input type="radio" name="q19" value="C"> C</label>
+                    <label><input type="radio" name="q19" value="D"> D</label>
+                    <br><small>A — Отказать<br>B — Заменить, извиниться<br>C — Полный возврат<br>D — "Вы же ели"</small>
+                </td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>Правильная работа с возражением:</td>
+                <td class="options">
+                    <label><input type="radio" name="q20" value="A"> A</label>
+                    <label><input type="radio" name="q20" value="B"> B</label>
+                    <label><input type="radio" name="q20" value="C"> C</label>
+                    <label><input type="radio" name="q20" value="D"> D</label>
+                    <br><small>A — "Вы не правы"<br>B — "Понимаю, давайте разберёмся"<br>C — "Не моя зона"<br>D — "Пишите на почту"</small>
+                </td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>Тайный гость поставил 3/5. Действия:</td>
+                <td class="options">
+                    <label><input type="radio" name="q21" value="A"> A</label>
+                    <label><input type="radio" name="q21" value="B"> B</label>
+                    <label><input type="radio" name="q21" value="C"> C</label>
+                    <label><input type="radio" name="q21" value="D"> D</label>
+                    <br><small>A — Игнорировать<br>B — Наказать виновного<br>C — Разобрать с командой, улучшить<br>D — Попросить пересмотреть</small>
+                </td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td>Гость просит заменить гарнир. Официант не знает. Менеджер:</td>
+                <td class="options">
+                    <label><input type="radio" name="q22" value="A"> A</label>
+                    <label><input type="radio" name="q22" value="B"> B</label>
+                    <label><input type="radio" name="q22" value="C"> C</label>
+                    <label><input type="radio" name="q22" value="D"> D</label>
+                    <br><small>A — Отказать<br>B — Уточнить на кухне, предложить варианты<br>C — Заменить без согласования<br>D — "Берите что есть"</small>
+                </td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>Что мотивирует официанта продавать акции?</td>
+                <td class="options">
+                    <label><input type="radio" name="q23" value="A"> A</label>
+                    <label><input type="radio" name="q23" value="B"> B</label>
+                    <label><input type="radio" name="q23" value="C"> C</label>
+                    <label><input type="radio" name="q23" value="D"> D</label>
+                    <br><small>A — Штраф<br>B — Оперативный бонус с продаж<br>C — Страх увольнения<br>D — Ничего</small>
+                </td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td>Гость просит разогреть детское питание. Действия:</td>
+                <td class="options">
+                    <label><input type="radio" name="q24" value="A"> A</label>
+                    <label><input type="radio" name="q24" value="B"> B</label>
+                    <label><input type="radio" name="q24" value="C"> C</label>
+                    <label><input type="radio" name="q24" value="D"> D</label>
+                    <br><small>A — Отказать<br>B — Помочь разогреть, предложить место<br>C — "Нет микроволновки"<br>D — Купить наше</small>
+                </td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td>Гость потерял телефон. Алгоритм:</td>
+                <td class="options">
+                    <label><input type="radio" name="q25" value="A"> A</label>
+                    <label><input type="radio" name="q25" value="B"> B</label>
+                    <label><input type="radio" name="q25" value="C"> C</label>
+                    <label><input type="radio" name="q25" value="D"> D</label>
+                    <br><small>A — "Не отвечаем"<br>B — Помочь искать, камеры, контакты<br>C — Вызвать полицию<br>D — Искать самим</small>
+                </td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td>Жалоба, что заказ несут 25 минут. Ответ:</td>
+                <td class="options">
+                    <label><input type="radio" name="q26" value="A"> A</label>
+                    <label><input type="radio" name="q26" value="B"> B</label>
+                    <label><input type="radio" name="q26" value="C"> C</label>
+                    <label><input type="radio" name="q26" value="D"> D</label>
+                    <br><small>A — "Ждите"<br>B — Извиниться, проверить, комплимент<br>C — Перекинуть на официанта<br>D — Сделать вид</small>
+                </td>
+            </tr>
+        </tbody></table>
+
+        <!-- Блок 4: Финансы, KPI и отчётность -->
+        <div class="section-title">БЛОК 4. ФИНАНСЫ, KPI И ОТЧЁТНОСТЬ</div>
+        <table>
+            <tbody><tr><th>№</th><th>Вопрос</th><th>Ответ</th></tr>
+            <tr>
+                <td>27</td>
+                <td>Какие KPI у Менеджера ресторана?</td>
+                <td class="options">
+                    <label><input type="radio" name="q27" value="A"> A</label>
+                    <label><input type="radio" name="q27" value="B"> B</label>
+                    <label><input type="radio" name="q27" value="C"> C</label>
+                    <label><input type="radio" name="q27" value="D"> D</label>
+                    <br><small>A — Выручка F&amp;B, затраты, скорость, аудит<br>B — Загрузка парка<br>C — Только план<br>D — Подписчики Instagram</small>
+                </td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>"Капирование KPI 120%" означает:</td>
+                <td class="options">
+                    <label><input type="radio" name="q28" value="A"> A</label>
+                    <label><input type="radio" name="q28" value="B"> B</label>
+                    <label><input type="radio" name="q28" value="C"> C</label>
+                    <label><input type="radio" name="q28" value="D"> D</label>
+                    <br><small>A — Не более 120% в расчёте бонуса<br>B — План +20%<br>C — Штраф за перевыполнение<br>D — Бонус без ограничений</small>
+                </td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>Выручка парка 85% от плана. Бонус Менеджера ресторана:</td>
+                <td class="options">
+                    <label><input type="radio" name="q29" value="A"> A</label>
+                    <label><input type="radio" name="q29" value="B"> B</label>
+                    <label><input type="radio" name="q29" value="C"> C</label>
+                    <label><input type="radio" name="q29" value="D"> D</label>
+                    <br><small>A — 85%<br>B — Не выплачивается (порог 90%)<br>C — Полностью<br>D — Только линейным</small>
+                </td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>Снижение затрат до 26% при плане ≤30%, но качество 3,2. Бонус по затратам:</td>
+                <td class="options">
+                    <label><input type="radio" name="q30" value="A"> A</label>
+                    <label><input type="radio" name="q30" value="B"> B</label>
+                    <label><input type="radio" name="q30" value="C"> C</label>
+                    <label><input type="radio" name="q30" value="D"> D</label>
+                    <br><small>A — Повышенный<br>B — Обнулится (защита от экономии)<br>C — Пониженный<br>D — Не влияет</small>
+                </td>
+            </tr>
+            <tr>
+                <td>31</td>
+                <td>Сезонный корректор весов KPI:</td>
+                <td class="options">
+                    <label><input type="radio" name="q31" value="A"> A</label>
+                    <label><input type="radio" name="q31" value="B"> B</label>
+                    <label><input type="radio" name="q31" value="C"> C</label>
+                    <label><input type="radio" name="q31" value="D"> D</label>
+                    <br><small>A — Не меняется<br>B — Высокий сезон: ↑выручка, низкий: ↑затраты<br>C — Не считается<br>D — Веса равны</small>
+                </td>
+            </tr>
+            <tr>
+                <td>32</td>
+                <td>Оперативный бонус Менеджера ресторана:</td>
+                <td class="options">
+                    <label><input type="radio" name="q32" value="A"> A</label>
+                    <label><input type="radio" name="q32" value="B"> B</label>
+                    <label><input type="radio" name="q32" value="C"> C</label>
+                    <label><input type="radio" name="q32" value="D"> D</label>
+                    <br><small>A — 10% оклада<br>B — 3% от акций за неделю<br>C — 5000 руб<br>D — 1% от выручки парка</small>
+                </td>
+            </tr>
+            <tr>
+                <td>33</td>
+                <td>Источник данных для KPI «Выручка F&amp;B»:</td>
+                <td class="options">
+                    <label><input type="radio" name="q33" value="A"> A</label>
+                    <label><input type="radio" name="q33" value="B"> B</label>
+                    <label><input type="radio" name="q33" value="C"> C</label>
+                    <label><input type="radio" name="q33" value="D"> D</label>
+                    <br><small>A — Журнал учёта<br>B — Google Analytics<br>C — R_Keeper / IIKO<br>D — Mystery Shopping</small>
+                </td>
+            </tr>
+            <tr>
+                <td>34</td>
+                <td>"Перекрёстная мотивация" для Менеджера ресторана:</td>
+                <td class="options">
+                    <label><input type="radio" name="q34" value="A"> A</label>
+                    <label><input type="radio" name="q34" value="B"> B</label>
+                    <label><input type="radio" name="q34" value="C"> C</label>
+                    <label><input type="radio" name="q34" value="D"> D</label>
+                    <br><small>A — Соревнование<br>B — 20% бонуса зависит от KPI Менеджера парка<br>C — Все рестораны<br>D — Не применяется</small>
+                </td>
+            </tr>
+        </tbody></table>
+
+        <!-- Открытые вопросы -->
+        <div class="section-title">ОТКРЫТЫЕ ВОПРОСЫ (оцениваются отдельно)</div>
+        <div class="open-q">
+            <b>Вопрос 35.</b> Опишите алгоритм действий при жалобе гостя на качество блюда (холодное, пересоленное, не соответствует описанию).<br>
+            <textarea rows="4" placeholder="Введите ответ..."></textarea>
+        </div>
+        <div class="open-q">
+            <b>Вопрос 36.</b> Выручка ресторана второй месяц ниже плана на 15%. Опишите план действий.<br>
+            <textarea rows="4" placeholder="Введите ответ..."></textarea>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="btn-row">
+            <button type="button" onclick="checkAnswers()">ПРОВЕРИТЬ РЕЗУЛЬТАТ</button>
+            <button type="button" class="reset" onclick="resetForm()">СБРОСИТЬ</button>
+        </div>
+    </form>
+
+    <!-- Результат -->
+    <div class="result-box" id="resultBox">
+        <h2>РЕЗУЛЬТАТ ТЕСТА</h2>
+        <p>Правильных ответов:</p>
+        <div class="score" id="scoreDisplay">0 / 34</div>
+        <p style="margin-top:5px;">Процент: <b id="percentDisplay">0%</b></p>
+        <div class="grade" id="gradeDisplay"></div>
+        <div class="rec" id="recDisplay"></div>
+    </div>
+</div>
+
+<script>
+    // Правильные ответы (ключ) для 34 вопросов (после удаления вопросов, связанных с QR)
+    const correct = {
+        q1: 'B', q2: 'B', q3: 'B', q4: 'A', q5: 'B', q6: 'B', q7: 'B', q8: 'B',
+        q9: 'B', q10: 'B', q11: 'B', q12: 'B', q13: 'B', q14: 'C', q15: 'B', q16: 'B', q17: 'A',
+        q18: 'B', q19: 'B', q20: 'B', q21: 'C', q22: 'B', q23: 'B', q24: 'B', q25: 'B', q26: 'B',
+        q27: 'A', q28: 'A', q29: 'B', q30: 'B', q31: 'B', q32: 'B', q33: 'C', q34: 'B'
+    };
+    const totalQ = 34;
+
+    function checkAnswers() {
+        let score = 0;
+        for (let i = 1; i <= totalQ; i++) {
+            const qName = 'q' + i;
+            const selected = document.querySelector(`input[name="${qName}"]:checked`);
+            if (selected && selected.value === correct[qName]) {
+                score++;
+            }
+        }
+        const percent = Math.round((score / totalQ) * 100);
+        let grade, rec;
+        if (score >= 31) {
+            grade = 'Отлично';
+            rec = 'Готов к самостоятельной работе, можно назначать наставником';
+        } else if (score >= 26) {
+            grade = 'Хорошо';
+            rec = 'Допущен с планом развития по слабым темам';
+        } else if (score >= 21) {
+            grade = 'Удовлетворительно';
+            rec = 'Требуется дополнительное обучение, повторное тестирование через месяц';
+        } else {
+            grade = 'Неудовлетворительно';
+            rec = 'Не допускается к управленческой работе';
+        }
+
+        document.getElementById('scoreDisplay').textContent = score + ' / ' + totalQ;
+        document.getElementById('percentDisplay').textContent = percent + '%';
+        document.getElementById('gradeDisplay').textContent = 'Оценка: ' + grade;
+        document.getElementById('recDisplay').textContent = rec;
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+        document.querySelectorAll('textarea').forEach(t => t.value = '');
+        document.getElementById('resultBox').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body></html>
