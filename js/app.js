@@ -80,7 +80,13 @@ const App = (() => {
       }
     });
 
-    $('#logoutBtn').addEventListener('click', () => { Auth.logout(); location.reload(); });
+    $('#logoutBtn').addEventListener('click', async () => {
+    // Синхронизация перед выходом
+    if (typeof Sync !== 'undefined' && Sync.enabled()) {
+      try { await Sync.sync(); } catch (e) { console.warn('[Sync] logout sync failed:', e.message); }
+    }
+    Auth.logout(); location.reload();
+  });
     window.addEventListener('hashchange', route);
     $('#modalClose').addEventListener('click', closeModal);
     $('.modal-backdrop').addEventListener('click', closeModal);
@@ -99,8 +105,13 @@ const App = (() => {
 
   async function renderUserBox() {
     const s = Auth.current();
-    $('#userBox').innerHTML = `<div class="user-name">${escapeHtml(s.name)}</div>
+    let html = `<div class="user-name">${escapeHtml(s.name)}</div>
       <div class="user-role">${s.role === 'director' ? 'Гендиректор' : 'Управляющий парком'}</div>`;
+    // Кнопка синхронизации (если Vercel настроен)
+    if (typeof Sync !== 'undefined' && Sync.enabled()) {
+      html += `<div style="margin-top:8px">${Sync.renderSyncButton()}</div>`;
+    }
+    $('#userBox').innerHTML = html;
   }
 
   async function renderNavParks() {
