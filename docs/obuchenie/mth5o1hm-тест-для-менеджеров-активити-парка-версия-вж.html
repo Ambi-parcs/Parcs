@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<!-- saved from url=(0254)file:///C:/Users/Admin/Downloads/Telegram%20Desktop/%D0%A2%D0%B5%D1%81%D1%82_%D0%B4%D0%BB%D1%8F_%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D0%BE%D0%B2_%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%B8%D1%82%D0%B8_%D0%BF%D0%B0%D1%80%D0%BA%D0%B0_%D0%92%D0%90.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест для менеджеров активити-парка</title>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; padding: 20px; color: #1a1a1a; }
+    .container { max-width: 860px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 28px 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h1 { text-align: center; margin-bottom: 5px; font-size: 22px; color: #2c3e50; }
+    .subtitle { text-align: center; color: #7f8c8d; margin-bottom: 22px; font-size: 13px; }
+    .info-table { width: 100%; border-collapse: collapse; margin-bottom: 22px; font-size: 13px; }
+    .info-table th { background: #34495e; color: #fff; padding: 9px 8px; border: 1px solid #2c3e50; }
+    .info-table td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+
+    .progress { position: sticky; top: 0; background: #fff; padding: 10px 0 14px; z-index: 5; border-bottom: 1px solid #eee; margin-bottom: 18px; }
+    .progress-bar { height: 8px; background: #ecf0f1; border-radius: 6px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: #27ae60; transition: width .3s; }
+    .progress-text { font-size: 12px; color: #7f8c8d; margin-top: 6px; text-align: center; }
+
+    .block-title { background: #2c3e50; color: #fff; padding: 12px 15px; margin: 26px 0 16px; border-radius: 6px; font-size: 15px; font-weight: bold; }
+
+    .question { border: 1px solid #e1e6eb; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+    .q-head { font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 12px; line-height: 1.4; }
+    .q-head .num { display: inline-block; min-width: 28px; height: 28px; line-height: 28px; text-align: center; background: #2c3e50; color: #fff; border-radius: 6px; margin-right: 8px; font-size: 13px; }
+
+    .options { display: flex; flex-direction: column; gap: 8px; }
+    .option { display: flex; align-items: flex-start; gap: 10px; padding: 11px 13px; border: 1.5px solid #dfe4ea; border-radius: 8px; cursor: pointer; transition: background .15s, border-color .15s; font-size: 14px; line-height: 1.35; }
+    .option:hover { border-color: #3498db; background: #f4f9ff; }
+    .option input { margin-top: 2px; transform: scale(1.25); cursor: pointer; flex-shrink: 0; }
+    .option .letter { font-weight: 700; color: #2c3e50; flex-shrink: 0; }
+    .option.correct { background: #e8f8ec; border-color: #27ae60; }
+    .option.correct .letter { color: #1e7e44; }
+    .option.wrong { background: #fdecea; border-color: #e74c3c; }
+    .option.wrong .letter { color: #b23121; }
+    .options.locked .option { cursor: default; }
+    .options.locked .option:hover { border-color: #dfe4ea; background: transparent; }
+    .options.locked .option.correct:hover { background: #e8f8ec; border-color: #27ae60; }
+    .options.locked .option.wrong:hover { background: #fdecea; border-color: #e74c3c; }
+
+    .feedback { margin-top: 11px; padding: 11px 13px; border-radius: 8px; font-size: 13px; line-height: 1.45; display: none; }
+    .feedback.ok { display: block; background: #e8f8ec; color: #1e7e44; border: 1px solid #27ae60; font-weight: 600; }
+    .feedback.err { display: block; background: #fdecea; color: #b23121; border: 1px solid #e74c3c; }
+    .feedback.err b { color: #b23121; }
+
+    .open-q { background: #fff9e6; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #f39c12; font-size: 13px; line-height: 1.45; }
+    .open-q b { color: #e67e22; }
+    .open-q textarea { width: 100%; margin-top: 8px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 13px; }
+
+    .btn-row { text-align: center; margin: 28px 0 10px; }
+    button { color: #fff; border: none; padding: 13px 42px; font-size: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 6px; transition: background .2s; }
+    .btn-check { background: #27ae60; }
+    .btn-check:hover { background: #219a52; }
+    .btn-reset { background: #e74c3c; }
+    .btn-reset:hover { background: #c0392b; }
+
+    .result-box { background: #f0f8e8; border: 2px solid #27ae60; border-radius: 10px; padding: 22px 25px; margin-top: 20px; text-align: center; display: none; }
+    .result-box h2 { color: #27ae60; margin-bottom: 10px; }
+    .result-box .score { font-size: 46px; font-weight: bold; color: #2c3e50; }
+    .result-box .grade { font-size: 18px; margin-top: 8px; font-weight: bold; }
+    .result-box .rec { font-size: 13px; color: #555; margin-top: 6px; }
+    .result-box .note { font-size: 12px; color: #e67e22; margin-top: 8px; }
+    .legend { font-size: 12px; color: #999; text-align: center; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <h1>ТЕСТ ДЛЯ МЕНЕДЖЕРОВ АКТИВИТИ-ПАРКА</h1>
+    <p class="subtitle">32 тестовых вопроса + 2 открытых · 61 минута · Проходной балл: 75%</p>
+
+    <table class="info-table">
+        <tbody>
+        <tr><th>Блок</th><th>Тема</th><th>Вопросов</th><th>Время</th><th>Проходной балл</th></tr>
+        <tr><td>1</td><td>Безопасность и техсостояние</td><td>10</td><td>15 мин</td><td>80%</td></tr>
+        <tr><td>2</td><td>Операционное управление</td><td>6</td><td>10 мин</td><td>75%</td></tr>
+        <tr><td>3</td><td>Сервис и работа с гостем</td><td>5</td><td>8 мин</td><td>75%</td></tr>
+        <tr><td>4</td><td>Административная и юридическая ответственность</td><td>6</td><td>12 мин</td><td>80%</td></tr>
+        <tr><td>5</td><td>Финансы, KPI и отчётность</td><td>2</td><td>8 мин</td><td>75%</td></tr>
+        <tr><td>6</td><td>Дополнительный финансово-административный блок</td><td>3</td><td>8 мин</td><td>70%</td></tr>
+        <tr><td><b>Итого</b></td><td>+ 2 открытых вопроса</td><td><b>32</b></td><td><b>61 мин</b></td><td><b>75%</b></td></tr>
+        </tbody>
+    </table>
+
+    <div class="progress">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 6.25%;"></div></div>
+        <div class="progress-text" id="progressText">Отвечено: 2 / 32 · Верно: 1</div>
+    </div>
+
+    <form id="testForm" onsubmit="return false;">
+        <div id="quiz"><div class="block-title">БЛОК 1. БЕЗОПАСНОСТЬ И ТЕХСОСТОЯНИЕ</div><div class="question" id="qcard-1">
+                 <div class="q-head"><span class="num">1</span>Что является стоп-фактором, обнуляющим бонус всего объекта?</div>
+                 <div class="options" id="opts-1"><label class="option" id="opt-1-A" onclick="answer(1,&#39;A&#39;)">
+                   <input type="radio" name="q1" value="A">
+                   <span class="letter">A —</span><span class="otext">Несчастный случай с гостем по вине парка</span>
+                 </label><label class="option" id="opt-1-B" onclick="answer(1,&#39;B&#39;)">
+                   <input type="radio" name="q1" value="B">
+                   <span class="letter">B —</span><span class="otext">Отрицательный отзыв в интернете</span>
+                 </label><label class="option" id="opt-1-C" onclick="answer(1,&#39;C&#39;)">
+                   <input type="radio" name="q1" value="C">
+                   <span class="letter">C —</span><span class="otext">Невыполнение плана по выручке на 10%</span>
+                 </label><label class="option" id="opt-1-D" onclick="answer(1,&#39;D&#39;)">
+                   <input type="radio" name="q1" value="D">
+                   <span class="letter">D —</span><span class="otext">Увольнение оператора</span>
+                 </label></div>
+                 <div class="feedback" id="fb-1"></div>
+               </div><div class="question" id="qcard-2">
+                 <div class="q-head"><span class="num">2</span>С какой периодичностью менеджер парка обязан проводить обход и заполнять чек-лист безопасности?</div>
+                 <div class="options" id="opts-2"><label class="option" id="opt-2-A" onclick="answer(2,&#39;A&#39;)">
+                   <input type="radio" name="q2" value="A">
+                   <span class="letter">A —</span><span class="otext">Раз в неделю</span>
+                 </label><label class="option" id="opt-2-B" onclick="answer(2,&#39;B&#39;)">
+                   <input type="radio" name="q2" value="B">
+                   <span class="letter">B —</span><span class="otext">Только перед открытием</span>
+                 </label><label class="option" id="opt-2-C" onclick="answer(2,&#39;C&#39;)">
+                   <input type="radio" name="q2" value="C">
+                   <span class="letter">C —</span><span class="otext">Два раза в день: перед открытием и в течение смены</span>
+                 </label><label class="option" id="opt-2-D" onclick="answer(2,&#39;D&#39;)">
+                   <input type="radio" name="q2" value="D">
+                   <span class="letter">D —</span><span class="otext">Раз в месяц</span>
+                 </label></div>
+                 <div class="feedback" id="fb-2"></div>
+               </div><div class="question" id="qcard-3">
+                 <div class="q-head"><span class="num">3</span>Гость просит допустить ребёнка на аттракцион, хотя ребёнок не проходит по росту. Ваши действия:</div>
+                 <div class="options" id="opts-3"><label class="option" id="opt-3-A" onclick="answer(3,&#39;A&#39;)">
+                   <input type="radio" name="q3" value="A">
+                   <span class="letter">A —</span><span class="otext">Допустить по расписке от родителя</span>
+                 </label><label class="option" id="opt-3-B" onclick="answer(3,&#39;B&#39;)">
+                   <input type="radio" name="q3" value="B">
+                   <span class="letter">B —</span><span class="otext">Вежливо отказать, объяснив правила безопасности</span>
+                 </label><label class="option" id="opt-3-C" onclick="answer(3,&#39;C&#39;)">
+                   <input type="radio" name="q3" value="C">
+                   <span class="letter">C —</span><span class="otext">Допустить, раз гость настаивает</span>
+                 </label><label class="option" id="opt-3-D" onclick="answer(3,&#39;D&#39;)">
+                   <input type="radio" name="q3" value="D">
+                   <span class="letter">D —</span><span class="otext">Перенаправить к управляющему</span>
+                 </label></div>
+                 <div class="feedback" id="fb-3"></div>
+               </div><div class="question" id="qcard-4">
+                 <div class="q-head"><span class="num">4</span>Что из перечисленного НЕ входит в чек-лист безопасности аттракциона?</div>
+                 <div class="options" id="opts-4"><label class="option" id="opt-4-A" onclick="answer(4,&#39;A&#39;)">
+                   <input type="radio" name="q4" value="A">
+                   <span class="letter">A —</span><span class="otext">Крепления</span>
+                 </label><label class="option" id="opt-4-B" onclick="answer(4,&#39;B&#39;)">
+                   <input type="radio" name="q4" value="B">
+                   <span class="letter">B —</span><span class="otext">Аптечка</span>
+                 </label><label class="option" id="opt-4-C" onclick="answer(4,&#39;C&#39;)">
+                   <input type="radio" name="q4" value="C">
+                   <span class="letter">C —</span><span class="otext">Ограждения</span>
+                 </label><label class="option" id="opt-4-D" onclick="answer(4,&#39;D&#39;)">
+                   <input type="radio" name="q4" value="D">
+                   <span class="letter">D —</span><span class="otext">Количество гостей в очереди</span>
+                 </label></div>
+                 <div class="feedback" id="fb-4"></div>
+               </div><div class="question" id="qcard-5">
+                 <div class="q-head"><span class="num">5</span>Если оператор аттракциона заметил неисправность во время работы, он должен:</div>
+                 <div class="options" id="opts-5"><label class="option" id="opt-5-A" onclick="answer(5,&#39;A&#39;)">
+                   <input type="radio" name="q5" value="A">
+                   <span class="letter">A —</span><span class="otext">Дождаться конца смены</span>
+                 </label><label class="option" id="opt-5-B" onclick="answer(5,&#39;B&#39;)">
+                   <input type="radio" name="q5" value="B">
+                   <span class="letter">B —</span><span class="otext">Устранить неисправность самостоятельно</span>
+                 </label><label class="option" id="opt-5-C" onclick="answer(5,&#39;C&#39;)">
+                   <input type="radio" name="q5" value="C">
+                   <span class="letter">C —</span><span class="otext">Немедленно остановить аттракцион и сообщить ответственному</span>
+                 </label><label class="option" id="opt-5-D" onclick="answer(5,&#39;D&#39;)">
+                   <input type="radio" name="q5" value="D">
+                   <span class="letter">D —</span><span class="otext">Продолжить работу</span>
+                 </label></div>
+                 <div class="feedback" id="fb-5"></div>
+               </div><div class="question" id="qcard-6">
+                 <div class="q-head"><span class="num">6</span>Что делать, если гость получил лёгкую травму (ушиб, ссадина) на территории парка?</div>
+                 <div class="options" id="opts-6"><label class="option" id="opt-6-A" onclick="answer(6,&#39;A&#39;)">
+                   <input type="radio" name="q6" value="A">
+                   <span class="letter">A —</span><span class="otext">Оказать первую помощь и зафиксировать случай в журнале</span>
+                 </label><label class="option" id="opt-6-B" onclick="answer(6,&#39;B&#39;)">
+                   <input type="radio" name="q6" value="B">
+                   <span class="letter">B —</span><span class="otext">Отправить гостя домой без записи</span>
+                 </label><label class="option" id="opt-6-C" onclick="answer(6,&#39;C&#39;)">
+                   <input type="radio" name="q6" value="C">
+                   <span class="letter">C —</span><span class="otext">Сразу вызвать скорую при ушибе/ссадине</span>
+                 </label><label class="option" id="opt-6-D" onclick="answer(6,&#39;D&#39;)">
+                   <input type="radio" name="q6" value="D">
+                   <span class="letter">D —</span><span class="otext">Не реагировать, травма лёгкая</span>
+                 </label></div>
+                 <div class="feedback" id="fb-6"></div>
+               </div><div class="question" id="qcard-7">
+                 <div class="q-head"><span class="num">7</span>Пожарная тревога. Гость с ребёнком в зоне аттракциона. Ваш приоритет:</div>
+                 <div class="options" id="opts-7"><label class="option" id="opt-7-A" onclick="answer(7,&#39;A&#39;)">
+                   <input type="radio" name="q7" value="A">
+                   <span class="letter">A —</span><span class="otext">Собрать всех менеджеров</span>
+                 </label><label class="option" id="opt-7-B" onclick="answer(7,&#39;B&#39;)">
+                   <input type="radio" name="q7" value="B">
+                   <span class="letter">B —</span><span class="otext">Проверить, не ложная ли тревога</span>
+                 </label><label class="option" id="opt-7-C" onclick="answer(7,&#39;C&#39;)">
+                   <input type="radio" name="q7" value="C">
+                   <span class="letter">C —</span><span class="otext">Сначала позвонить гендиректору</span>
+                 </label><label class="option" id="opt-7-D" onclick="answer(7,&#39;D&#39;)">
+                   <input type="radio" name="q7" value="D">
+                   <span class="letter">D —</span><span class="otext">Эвакуация гостей по утверждённому плану</span>
+                 </label></div>
+                 <div class="feedback" id="fb-7"></div>
+               </div><div class="question" id="qcard-8">
+                 <div class="q-head"><span class="num">8</span>Какое действие — нарушение правил безопасности на батутной арене?</div>
+                 <div class="options" id="opts-8"><label class="option" id="opt-8-A" onclick="answer(8,&#39;A&#39;)">
+                   <input type="radio" name="q8" value="A">
+                   <span class="letter">A —</span><span class="otext">Проведение инструктажа перед прыжками</span>
+                 </label><label class="option" id="opt-8-B" onclick="answer(8,&#39;B&#39;)">
+                   <input type="radio" name="q8" value="B">
+                   <span class="letter">B —</span><span class="otext">Двое гостей на одном батуте</span>
+                 </label><label class="option" id="opt-8-C" onclick="answer(8,&#39;C&#39;)">
+                   <input type="radio" name="q8" value="C">
+                   <span class="letter">C —</span><span class="otext">Проверка роста и веса гостя</span>
+                 </label><label class="option" id="opt-8-D" onclick="answer(8,&#39;D&#39;)">
+                   <input type="radio" name="q8" value="D">
+                   <span class="letter">D —</span><span class="otext">Допуск только в нескользящих носках</span>
+                 </label></div>
+                 <div class="feedback" id="fb-8"></div>
+               </div><div class="question" id="qcard-9">
+                 <div class="q-head"><span class="num">9</span>Что должно быть размещено у входа на каждый аттракцион в обязательном порядке?</div>
+                 <div class="options" id="opts-9"><label class="option" id="opt-9-A" onclick="answer(9,&#39;A&#39;)">
+                   <input type="radio" name="q9" value="A">
+                   <span class="letter">A —</span><span class="otext">Реклама мерча</span>
+                 </label><label class="option" id="opt-9-B" onclick="answer(9,&#39;B&#39;)">
+                   <input type="radio" name="q9" value="B">
+                   <span class="letter">B —</span><span class="otext">Фотографии гостей</span>
+                 </label><label class="option" id="opt-9-C" onclick="answer(9,&#39;C&#39;)">
+                   <input type="radio" name="q9" value="C">
+                   <span class="letter">C —</span><span class="otext">Правила, ограничения по росту/весу/возрасту и контакты ответственного</span>
+                 </label><label class="option" id="opt-9-D" onclick="answer(9,&#39;D&#39;)">
+                   <input type="radio" name="q9" value="D">
+                   <span class="letter">D —</span><span class="otext">Список сотрудников смены</span>
+                 </label></div>
+                 <div class="feedback" id="fb-9"></div>
+               </div><div class="question" id="qcard-10">
+                 <div class="q-head"><span class="num">10</span>Плановая проверка аттракциона перед запуском включает:</div>
+                 <div class="options" id="opts-10"><label class="option" id="opt-10-A" onclick="answer(10,&#39;A&#39;)">
+                   <input type="radio" name="q10" value="A">
+                   <span class="letter">A —</span><span class="otext">Только беглый визуальный осмотр</span>
+                 </label><label class="option" id="opt-10-B" onclick="answer(10,&#39;B&#39;)">
+                   <input type="radio" name="q10" value="B">
+                   <span class="letter">B —</span><span class="otext">Проверку креплений и тормозов с записью в журнал</span>
+                 </label><label class="option" id="opt-10-C" onclick="answer(10,&#39;C&#39;)">
+                   <input type="radio" name="q10" value="C">
+                   <span class="letter">C —</span><span class="otext">Проверку документов на оборудование</span>
+                 </label><label class="option" id="opt-10-D" onclick="answer(10,&#39;D&#39;)">
+                   <input type="radio" name="q10" value="D">
+                   <span class="letter">D —</span><span class="otext">Тестовый запуск без пассажиров вместо осмотра</span>
+                 </label></div>
+                 <div class="feedback" id="fb-10"></div>
+               </div><div class="block-title">БЛОК 2. ОПЕРАЦИОННОЕ УПРАВЛЕНИЕ</div><div class="question" id="qcard-11">
+                 <div class="q-head"><span class="num">11</span>Менеджер заметил, что оператор систематически опаздывает. Первое действие:</div>
+                 <div class="options" id="opts-11"><label class="option" id="opt-11-A" onclick="answer(11,&#39;A&#39;)">
+                   <input type="radio" name="q11" value="A">
+                   <span class="letter">A —</span><span class="otext">Сразу уволить</span>
+                 </label><label class="option" id="opt-11-B" onclick="answer(11,&#39;B&#39;)">
+                   <input type="radio" name="q11" value="B">
+                   <span class="letter">B —</span><span class="otext">Сразу лишить премии</span>
+                 </label><label class="option" id="opt-11-C" onclick="answer(11,&#39;C&#39;)">
+                   <input type="radio" name="q11" value="C">
+                   <span class="letter">C —</span><span class="otext">Сразу передать дело в HR</span>
+                 </label><label class="option" id="opt-11-D" onclick="answer(11,&#39;D&#39;)">
+                   <input type="radio" name="q11" value="D">
+                   <span class="letter">D —</span><span class="otext">Личная беседа для выяснения причин</span>
+                 </label></div>
+                 <div class="feedback" id="fb-11"></div>
+               </div><div class="question" id="qcard-12">
+                 <div class="q-head"><span class="num">12</span>В парке одновременно сломались два аттракциона. Решение менеджера:</div>
+                 <div class="options locked" id="opts-12"><label class="option correct" id="opt-12-A" onclick="answer(12,&#39;A&#39;)">
+                   <input type="radio" name="q12" value="A" disabled="">
+                   <span class="letter">A —</span><span class="otext">Перенаправить поток на рабочие зоны, добавить анимацию и бонусы</span>
+                 </label><label class="option" id="opt-12-B" onclick="answer(12,&#39;B&#39;)">
+                   <input type="radio" name="q12" value="B" disabled="">
+                   <span class="letter">B —</span><span class="otext">Закрыть парк до ремонта</span>
+                 </label><label class="option wrong" id="opt-12-C" onclick="answer(12,&#39;C&#39;)">
+                   <input type="radio" name="q12" value="C" disabled="">
+                   <span class="letter">C —</span><span class="otext">Ничего не делать</span>
+                 </label><label class="option" id="opt-12-D" onclick="answer(12,&#39;D&#39;)">
+                   <input type="radio" name="q12" value="D" disabled="">
+                   <span class="letter">D —</span><span class="otext">Вернуть деньги всем гостям</span>
+                 </label></div>
+                 <div class="feedback err" id="fb-12"><b>Неверно.</b> Правильный ответ: <b>A</b> — Перенаправить поток на рабочие зоны, добавить анимацию и бонусы.<br>Закрывать парк нельзя: поток перенаправляют на рабочие зоны и добавляют анимацию и компенсации.</div>
+               </div><div class="question" id="qcard-13">
+                 <div class="q-head"><span class="num">13</span>В парк пришла группа из 30 детей. Действия менеджера в первую очередь:</div>
+                 <div class="options locked" id="opts-13"><label class="option" id="opt-13-A" onclick="answer(13,&#39;A&#39;)">
+                   <input type="radio" name="q13" value="A" disabled="">
+                   <span class="letter">A —</span><span class="otext">Сразу запустить всех на аттракционы</span>
+                 </label><label class="option correct" id="opt-13-B" onclick="answer(13,&#39;B&#39;)">
+                   <input type="radio" name="q13" value="B" disabled="">
+                   <span class="letter">B —</span><span class="otext">Провести инструктаж и распределить по зонам</span>
+                 </label><label class="option" id="opt-13-C" onclick="answer(13,&#39;C&#39;)">
+                   <input type="radio" name="q13" value="C" disabled="">
+                   <span class="letter">C —</span><span class="otext">Попросить подождать в стороне</span>
+                 </label><label class="option" id="opt-13-D" onclick="answer(13,&#39;D&#39;)">
+                   <input type="radio" name="q13" value="D" disabled="">
+                   <span class="letter">D —</span><span class="otext">Взять двойную оплату за группу</span>
+                 </label></div>
+                 <div class="feedback ok" id="fb-13">Отлично, так держать!</div>
+               </div><div class="question" id="qcard-14">
+                 <div class="q-head"><span class="num">14</span>В низкий сезон приоритет в управлении парком:</div>
+                 <div class="options" id="opts-14"><label class="option" id="opt-14-A" onclick="answer(14,&#39;A&#39;)">
+                   <input type="radio" name="q14" value="A">
+                   <span class="letter">A —</span><span class="otext">Гнать выручку любой ценой</span>
+                 </label><label class="option" id="opt-14-B" onclick="answer(14,&#39;B&#39;)">
+                   <input type="radio" name="q14" value="B">
+                   <span class="letter">B —</span><span class="otext">Массовый набор персонала</span>
+                 </label><label class="option" id="opt-14-C" onclick="answer(14,&#39;C&#39;)">
+                   <input type="radio" name="q14" value="C">
+                   <span class="letter">C —</span><span class="otext">Оптимизация расходов, развитие и обучение команды</span>
+                 </label><label class="option" id="opt-14-D" onclick="answer(14,&#39;D&#39;)">
+                   <input type="radio" name="q14" value="D">
+                   <span class="letter">D —</span><span class="otext">Агрессивная реклама</span>
+                 </label></div>
+                 <div class="feedback" id="fb-14"></div>
+               </div><div class="question" id="qcard-15">
+                 <div class="q-head"><span class="num">15</span>Распределение персонала в пиковые часы (выходные, 13:00–16:00):</div>
+                 <div class="options" id="opts-15"><label class="option" id="opt-15-A" onclick="answer(15,&#39;A&#39;)">
+                   <input type="radio" name="q15" value="A">
+                   <span class="letter">A —</span><span class="otext">Только на популярных зонах</span>
+                 </label><label class="option" id="opt-15-B" onclick="answer(15,&#39;B&#39;)">
+                   <input type="radio" name="q15" value="B">
+                   <span class="letter">B —</span><span class="otext">Минимум персонала для экономии</span>
+                 </label><label class="option" id="opt-15-C" onclick="answer(15,&#39;C&#39;)">
+                   <input type="radio" name="q15" value="C">
+                   <span class="letter">C —</span><span class="otext">Отправить всех на обед одновременно</span>
+                 </label><label class="option" id="opt-15-D" onclick="answer(15,&#39;D&#39;)">
+                   <input type="radio" name="q15" value="D">
+                   <span class="letter">D —</span><span class="otext">Равномерно, усилив вход, кассы и очереди</span>
+                 </label></div>
+                 <div class="feedback" id="fb-15"></div>
+               </div><div class="question" id="qcard-16">
+                 <div class="q-head"><span class="num">16</span>Что должен сделать менеджер за 30 минут до открытия?</div>
+                 <div class="options" id="opts-16"><label class="option" id="opt-16-A" onclick="answer(16,&#39;A&#39;)">
+                   <input type="radio" name="q16" value="A">
+                   <span class="letter">A —</span><span class="otext">Проверить готовность зон, оборудования и расстановку персонала</span>
+                 </label><label class="option" id="opt-16-B" onclick="answer(16,&#39;B&#39;)">
+                   <input type="radio" name="q16" value="B">
+                   <span class="letter">B —</span><span class="otext">Ждать гостей у входа</span>
+                 </label><label class="option" id="opt-16-C" onclick="answer(16,&#39;C&#39;)">
+                   <input type="radio" name="q16" value="C">
+                   <span class="letter">C —</span><span class="otext">Провести долгую планёрку в офисе</span>
+                 </label><label class="option" id="opt-16-D" onclick="answer(16,&#39;D&#39;)">
+                   <input type="radio" name="q16" value="D">
+                   <span class="letter">D —</span><span class="otext">Проверять личные соцсети</span>
+                 </label></div>
+                 <div class="feedback" id="fb-16"></div>
+               </div><div class="block-title">БЛОК 3. СЕРВИС И РАБОТА С ГОСТЕМ</div><div class="question" id="qcard-17">
+                 <div class="q-head"><span class="num">17</span>Гость гневно пишет в соцсетях, что ребёнка не пустили на аттракцион. Первое действие:</div>
+                 <div class="options" id="opts-17"><label class="option" id="opt-17-A" onclick="answer(17,&#39;A&#39;)">
+                   <input type="radio" name="q17" value="A">
+                   <span class="letter">A —</span><span class="otext">Вступить в публичный спор в комментариях</span>
+                 </label><label class="option" id="opt-17-B" onclick="answer(17,&#39;B&#39;)">
+                   <input type="radio" name="q17" value="B">
+                   <span class="letter">B —</span><span class="otext">Игнорировать сообщение</span>
+                 </label><label class="option" id="opt-17-C" onclick="answer(17,&#39;C&#39;)">
+                   <input type="radio" name="q17" value="C">
+                   <span class="letter">C —</span><span class="otext">Связаться с гостем лично, разобраться и предложить решение</span>
+                 </label><label class="option" id="opt-17-D" onclick="answer(17,&#39;D&#39;)">
+                   <input type="radio" name="q17" value="D">
+                   <span class="letter">D —</span><span class="otext">Удалить отзыв</span>
+                 </label></div>
+                 <div class="feedback" id="fb-17"></div>
+               </div><div class="question" id="qcard-18">
+                 <div class="q-head"><span class="num">18</span>Какая фраза — пример правильной работы с возражением гостя?</div>
+                 <div class="options" id="opts-18"><label class="option" id="opt-18-A" onclick="answer(18,&#39;A&#39;)">
+                   <input type="radio" name="q18" value="A">
+                   <span class="letter">A —</span><span class="otext">«Вы не правы»</span>
+                 </label><label class="option" id="opt-18-B" onclick="answer(18,&#39;B&#39;)">
+                   <input type="radio" name="q18" value="B">
+                   <span class="letter">B —</span><span class="otext">«Понимаю вас, давайте разберёмся вместе»</span>
+                 </label><label class="option" id="opt-18-C" onclick="answer(18,&#39;C&#39;)">
+                   <input type="radio" name="q18" value="C">
+                   <span class="letter">C —</span><span class="otext">«Это не моя зона ответственности»</span>
+                 </label><label class="option" id="opt-18-D" onclick="answer(18,&#39;D&#39;)">
+                   <input type="radio" name="q18" value="D">
+                   <span class="letter">D —</span><span class="otext">«Пишите на почту»</span>
+                 </label></div>
+                 <div class="feedback" id="fb-18"></div>
+               </div><div class="question" id="qcard-19">
+                 <div class="q-head"><span class="num">19</span>Тайный гость оценил сервис на 3 из 5. Ваши действия:</div>
+                 <div class="options" id="opts-19"><label class="option" id="opt-19-A" onclick="answer(19,&#39;A&#39;)">
+                   <input type="radio" name="q19" value="A">
+                   <span class="letter">A —</span><span class="otext">Игнорировать оценку</span>
+                 </label><label class="option" id="opt-19-B" onclick="answer(19,&#39;B&#39;)">
+                   <input type="radio" name="q19" value="B">
+                   <span class="letter">B —</span><span class="otext">Наказать виновного сотрудника</span>
+                 </label><label class="option" id="opt-19-C" onclick="answer(19,&#39;C&#39;)">
+                   <input type="radio" name="q19" value="C">
+                   <span class="letter">C —</span><span class="otext">Попросить тайного гостя пересмотреть оценку</span>
+                 </label><label class="option" id="opt-19-D" onclick="answer(19,&#39;D&#39;)">
+                   <input type="radio" name="q19" value="D">
+                   <span class="letter">D —</span><span class="otext">Разобрать ситуацию с командой и внедрить улучшения</span>
+                 </label></div>
+                 <div class="feedback" id="fb-19"></div>
+               </div><div class="question" id="qcard-20">
+                 <div class="q-head"><span class="num">20</span>Семья с особым ребёнком хочет посетить парк. Действия менеджера:</div>
+                 <div class="options" id="opts-20"><label class="option" id="opt-20-A" onclick="answer(20,&#39;A&#39;)">
+                   <input type="radio" name="q20" value="A">
+                   <span class="letter">A —</span><span class="otext">Обеспечить сопровождение и особые условия</span>
+                 </label><label class="option" id="opt-20-B" onclick="answer(20,&#39;B&#39;)">
+                   <input type="radio" name="q20" value="B">
+                   <span class="letter">B —</span><span class="otext">Отказать в посещении</span>
+                 </label><label class="option" id="opt-20-C" onclick="answer(20,&#39;C&#39;)">
+                   <input type="radio" name="q20" value="C">
+                   <span class="letter">C —</span><span class="otext">Сослаться на отсутствие условий</span>
+                 </label><label class="option" id="opt-20-D" onclick="answer(20,&#39;D&#39;)">
+                   <input type="radio" name="q20" value="D">
+                   <span class="letter">D —</span><span class="otext">Попросить доплату за особые условия</span>
+                 </label></div>
+                 <div class="feedback" id="fb-20"></div>
+               </div><div class="question" id="qcard-21">
+                 <div class="q-head"><span class="num">21</span>Гость потерял ребёнка на территории парка. Алгоритм действий:</div>
+                 <div class="options" id="opts-21"><label class="option" id="opt-21-A" onclick="answer(21,&#39;A&#39;)">
+                   <input type="radio" name="q21" value="A">
+                   <span class="letter">A —</span><span class="otext">Подождать, пока ребёнок найдётся сам</span>
+                 </label><label class="option" id="opt-21-B" onclick="answer(21,&#39;B&#39;)">
+                   <input type="radio" name="q21" value="B">
+                   <span class="letter">B —</span><span class="otext">Сразу вызвать полицию, ничего больше не предпринимая</span>
+                 </label><label class="option" id="opt-21-C" onclick="answer(21,&#39;C&#39;)">
+                   <input type="radio" name="q21" value="C">
+                   <span class="letter">C —</span><span class="otext">Объявление, поиск силами персонала, контроль выходов</span>
+                 </label><label class="option" id="opt-21-D" onclick="answer(21,&#39;D&#39;)">
+                   <input type="radio" name="q21" value="D">
+                   <span class="letter">D —</span><span class="otext">Поручить поиск только родителям</span>
+                 </label></div>
+                 <div class="feedback" id="fb-21"></div>
+               </div><div class="block-title">БЛОК 4. АДМИНИСТРАТИВНАЯ И ЮРИДИЧЕСКАЯ ОТВЕТСТВЕННОСТЬ</div><div class="question" id="qcard-22">
+                 <div class="q-head"><span class="num">22</span>Кто несёт итоговую ответственность перед компанией за соблюдение правил допуска гостей в парке?</div>
+                 <div class="options" id="opts-22"><label class="option" id="opt-22-A" onclick="answer(22,&#39;A&#39;)">
+                   <input type="radio" name="q22" value="A">
+                   <span class="letter">A —</span><span class="otext">Оператор аттракциона</span>
+                 </label><label class="option" id="opt-22-B" onclick="answer(22,&#39;B&#39;)">
+                   <input type="radio" name="q22" value="B">
+                   <span class="letter">B —</span><span class="otext">Менеджер парка</span>
+                 </label><label class="option" id="opt-22-C" onclick="answer(22,&#39;C&#39;)">
+                   <input type="radio" name="q22" value="C">
+                   <span class="letter">C —</span><span class="otext">Гендиректор</span>
+                 </label><label class="option" id="opt-22-D" onclick="answer(22,&#39;D&#39;)">
+                   <input type="radio" name="q22" value="D">
+                   <span class="letter">D —</span><span class="otext">Юридический отдел</span>
+                 </label></div>
+                 <div class="feedback" id="fb-22"></div>
+               </div><div class="question" id="qcard-23">
+                 <div class="q-head"><span class="num">23</span>Гость написал заявление в Роспотребнадзор. Кто взаимодействует с органами на площадке?</div>
+                 <div class="options" id="opts-23"><label class="option" id="opt-23-A" onclick="answer(23,&#39;A&#39;)">
+                   <input type="radio" name="q23" value="A">
+                   <span class="letter">A —</span><span class="otext">Охранник</span>
+                 </label><label class="option" id="opt-23-B" onclick="answer(23,&#39;B&#39;)">
+                   <input type="radio" name="q23" value="B">
+                   <span class="letter">B —</span><span class="otext">Любой сотрудник</span>
+                 </label><label class="option" id="opt-23-C" onclick="answer(23,&#39;C&#39;)">
+                   <input type="radio" name="q23" value="C">
+                   <span class="letter">C —</span><span class="otext">Гость решает сам</span>
+                 </label><label class="option" id="opt-23-D" onclick="answer(23,&#39;D&#39;)">
+                   <input type="radio" name="q23" value="D">
+                   <span class="letter">D —</span><span class="otext">Менеджер парка как ответственное лицо, по согласованию с руководством</span>
+                 </label></div>
+                 <div class="feedback" id="fb-23"></div>
+               </div><div class="question" id="qcard-24">
+                 <div class="q-head"><span class="num">24</span>Какие документы обязан предоставить менеджер при проверке?</div>
+                 <div class="options" id="opts-24"><label class="option" id="opt-24-A" onclick="answer(24,&#39;A&#39;)">
+                   <input type="radio" name="q24" value="A">
+                   <span class="letter">A —</span><span class="otext">Журналы, чек-листы, сертификаты на оборудование</span>
+                 </label><label class="option" id="opt-24-B" onclick="answer(24,&#39;B&#39;)">
+                   <input type="radio" name="q24" value="B">
+                   <span class="letter">B —</span><span class="otext">Устав компании</span>
+                 </label><label class="option" id="opt-24-C" onclick="answer(24,&#39;C&#39;)">
+                   <input type="radio" name="q24" value="C">
+                   <span class="letter">C —</span><span class="otext">Отзывы гостей</span>
+                 </label><label class="option" id="opt-24-D" onclick="answer(24,&#39;D&#39;)">
+                   <input type="radio" name="q24" value="D">
+                   <span class="letter">D —</span><span class="otext">Маркетинговый план</span>
+                 </label></div>
+                 <div class="feedback" id="fb-24"></div>
+               </div><div class="question" id="qcard-25">
+                 <div class="q-head"><span class="num">25</span>Гость подал в суд за травму. Какие документы предоставить юристам?</div>
+                 <div class="options" id="opts-25"><label class="option" id="opt-25-A" onclick="answer(25,&#39;A&#39;)">
+                   <input type="radio" name="q25" value="A">
+                   <span class="letter">A —</span><span class="otext">План продаж</span>
+                 </label><label class="option" id="opt-25-B" onclick="answer(25,&#39;B&#39;)">
+                   <input type="radio" name="q25" value="B">
+                   <span class="letter">B —</span><span class="otext">Штатное расписание</span>
+                 </label><label class="option" id="opt-25-C" onclick="answer(25,&#39;C&#39;)">
+                   <input type="radio" name="q25" value="C">
+                   <span class="letter">C —</span><span class="otext">Журнал происшествий, видеозапись, чек-листы, объяснительные</span>
+                 </label><label class="option" id="opt-25-D" onclick="answer(25,&#39;D&#39;)">
+                   <input type="radio" name="q25" value="D">
+                   <span class="letter">D —</span><span class="otext">Рекламные буклеты</span>
+                 </label></div>
+                 <div class="feedback" id="fb-25"></div>
+               </div><div class="question" id="qcard-26">
+                 <div class="q-head"><span class="num">26</span>Гость отказывается покидать парк после закрытия. Ваши действия:</div>
+                 <div class="options" id="opts-26"><label class="option" id="opt-26-A" onclick="answer(26,&#39;A&#39;)">
+                   <input type="radio" name="q26" value="A">
+                   <span class="letter">A —</span><span class="otext">Применить силу через охрану</span>
+                 </label><label class="option" id="opt-26-B" onclick="answer(26,&#39;B&#39;)">
+                   <input type="radio" name="q26" value="B">
+                   <span class="letter">B —</span><span class="otext">Вежливо объяснить правила и предупредить о вызове полиции</span>
+                 </label><label class="option" id="opt-26-C" onclick="answer(26,&#39;C&#39;)">
+                   <input type="radio" name="q26" value="C">
+                   <span class="letter">C —</span><span class="otext">Оставить гостя в парке на ночь</span>
+                 </label><label class="option" id="opt-26-D" onclick="answer(26,&#39;D&#39;)">
+                   <input type="radio" name="q26" value="D">
+                   <span class="letter">D —</span><span class="otext">Выдать бесплатный билет, чтобы ушёл</span>
+                 </label></div>
+                 <div class="feedback" id="fb-26"></div>
+               </div><div class="question" id="qcard-27">
+                 <div class="q-head"><span class="num">27</span>Что является правонарушением с личной административной ответственностью менеджера?</div>
+                 <div class="options" id="opts-27"><label class="option" id="opt-27-A" onclick="answer(27,&#39;A&#39;)">
+                   <input type="radio" name="q27" value="A">
+                   <span class="letter">A —</span><span class="otext">Низкая выручка парка</span>
+                 </label><label class="option" id="opt-27-B" onclick="answer(27,&#39;B&#39;)">
+                   <input type="radio" name="q27" value="B">
+                   <span class="letter">B —</span><span class="otext">Увольнение сотрудника</span>
+                 </label><label class="option" id="opt-27-C" onclick="answer(27,&#39;C&#39;)">
+                   <input type="radio" name="q27" value="C">
+                   <span class="letter">C —</span><span class="otext">Отказ в возврате денег гостю</span>
+                 </label><label class="option" id="opt-27-D" onclick="answer(27,&#39;D&#39;)">
+                   <input type="radio" name="q27" value="D">
+                   <span class="letter">D —</span><span class="otext">Допуск гостей на заведомо неисправный аттракцион</span>
+                 </label></div>
+                 <div class="feedback" id="fb-27"></div>
+               </div><div class="block-title">БЛОК 5. ФИНАНСЫ, KPI И ОТЧЁТНОСТЬ</div><div class="question" id="qcard-28">
+                 <div class="q-head"><span class="num">28</span>Выручка парка выполнена на 85% от плана. Что с бонусами (порог выплаты — 90%)?</div>
+                 <div class="options" id="opts-28"><label class="option" id="opt-28-A" onclick="answer(28,&#39;A&#39;)">
+                   <input type="radio" name="q28" value="A">
+                   <span class="letter">A —</span><span class="otext">Не выплачиваются — не достигнут порог 90%</span>
+                 </label><label class="option" id="opt-28-B" onclick="answer(28,&#39;B&#39;)">
+                   <input type="radio" name="q28" value="B">
+                   <span class="letter">B —</span><span class="otext">Выплачиваются 85% от суммы бонуса</span>
+                 </label><label class="option" id="opt-28-C" onclick="answer(28,&#39;C&#39;)">
+                   <input type="radio" name="q28" value="C">
+                   <span class="letter">C —</span><span class="otext">Выплачиваются полностью</span>
+                 </label><label class="option" id="opt-28-D" onclick="answer(28,&#39;D&#39;)">
+                   <input type="radio" name="q28" value="D">
+                   <span class="letter">D —</span><span class="otext">Выплачиваются только линейному персоналу</span>
+                 </label></div>
+                 <div class="feedback" id="fb-28"></div>
+               </div><div class="question" id="qcard-29">
+                 <div class="q-head"><span class="num">29</span>Основной источник данных для KPI «Выручка от услуг парка»?</div>
+                 <div class="options" id="opts-29"><label class="option" id="opt-29-A" onclick="answer(29,&#39;A&#39;)">
+                   <input type="radio" name="q29" value="A">
+                   <span class="letter">A —</span><span class="otext">Бумажный журнал гостей</span>
+                 </label><label class="option" id="opt-29-B" onclick="answer(29,&#39;B&#39;)">
+                   <input type="radio" name="q29" value="B">
+                   <span class="letter">B —</span><span class="otext">Веб-аналитика сайта</span>
+                 </label><label class="option" id="opt-29-C" onclick="answer(29,&#39;C&#39;)">
+                   <input type="radio" name="q29" value="C">
+                   <span class="letter">C —</span><span class="otext">Билетная система и касса</span>
+                 </label><label class="option" id="opt-29-D" onclick="answer(29,&#39;D&#39;)">
+                   <input type="radio" name="q29" value="D">
+                   <span class="letter">D —</span><span class="otext">Опросы тайных гостей</span>
+                 </label></div>
+                 <div class="feedback" id="fb-29"></div>
+               </div><div class="block-title">БЛОК 6. ДОПОЛНИТЕЛЬНЫЙ ФИНАНСОВО-АДМИНИСТРАТИВНЫЙ БЛОК</div><div class="question" id="qcard-30">
+                 <div class="q-head"><span class="num">30</span>Выявлена недостача ТМЦ при инвентаризации. Кто несёт ответственность?</div>
+                 <div class="options" id="opts-30"><label class="option" id="opt-30-A" onclick="answer(30,&#39;A&#39;)">
+                   <input type="radio" name="q30" value="A">
+                   <span class="letter">A —</span><span class="otext">Бухгалтерия</span>
+                 </label><label class="option" id="opt-30-B" onclick="answer(30,&#39;B&#39;)">
+                   <input type="radio" name="q30" value="B">
+                   <span class="letter">B —</span><span class="otext">Менеджер — по договору о материальной ответственности</span>
+                 </label><label class="option" id="opt-30-C" onclick="answer(30,&#39;C&#39;)">
+                   <input type="radio" name="q30" value="C">
+                   <span class="letter">C —</span><span class="otext">Списать как естественную убыль</span>
+                 </label><label class="option" id="opt-30-D" onclick="answer(30,&#39;D&#39;)">
+                   <input type="radio" name="q30" value="D">
+                   <span class="letter">D —</span><span class="otext">Охрана</span>
+                 </label></div>
+                 <div class="feedback" id="fb-30"></div>
+               </div><div class="question" id="qcard-31">
+                 <div class="q-head"><span class="num">31</span>Недостача в кассе 5 000 руб. Действия менеджера:</div>
+                 <div class="options" id="opts-31"><label class="option" id="opt-31-A" onclick="answer(31,&#39;A&#39;)">
+                   <input type="radio" name="q31" value="A">
+                   <span class="letter">A —</span><span class="otext">Покрыть недостачу из своих средств</span>
+                 </label><label class="option" id="opt-31-B" onclick="answer(31,&#39;B&#39;)">
+                   <input type="radio" name="q31" value="B">
+                   <span class="letter">B —</span><span class="otext">Уволить кассира сразу</span>
+                 </label><label class="option" id="opt-31-C" onclick="answer(31,&#39;C&#39;)">
+                   <input type="radio" name="q31" value="C">
+                   <span class="letter">C —</span><span class="otext">Скрыть недостачу</span>
+                 </label><label class="option" id="opt-31-D" onclick="answer(31,&#39;D&#39;)">
+                   <input type="radio" name="q31" value="D">
+                   <span class="letter">D —</span><span class="otext">Провести расследование, удержание — по ТК РФ</span>
+                 </label></div>
+                 <div class="feedback" id="fb-31"></div>
+               </div><div class="question" id="qcard-32">
+                 <div class="q-head"><span class="num">32</span>Запрос из налоговой по кассовым операциям. Действия:</div>
+                 <div class="options" id="opts-32"><label class="option" id="opt-32-A" onclick="answer(32,&#39;A&#39;)">
+                   <input type="radio" name="q32" value="A">
+                   <span class="letter">A —</span><span class="otext">Уведомить финдиректора и подготовить документы</span>
+                 </label><label class="option" id="opt-32-B" onclick="answer(32,&#39;B&#39;)">
+                   <input type="radio" name="q32" value="B">
+                   <span class="letter">B —</span><span class="otext">Игнорировать запрос</span>
+                 </label><label class="option" id="opt-32-C" onclick="answer(32,&#39;C&#39;)">
+                   <input type="radio" name="q32" value="C">
+                   <span class="letter">C —</span><span class="otext">Ответить устно по телефону</span>
+                 </label><label class="option" id="opt-32-D" onclick="answer(32,&#39;D&#39;)">
+                   <input type="radio" name="q32" value="D">
+                   <span class="letter">D —</span><span class="otext">Удалить документы</span>
+                 </label></div>
+                 <div class="feedback" id="fb-32"></div>
+               </div></div>
+
+        <!-- ОТКРЫТЫЕ ВОПРОСЫ -->
+        <div class="block-title">ОТКРЫТЫЕ ВОПРОСЫ (оцениваются проверяющим отдельно)</div>
+        <div class="open-q">
+            <b>Вопрос 33.</b> Опишите полный алгоритм действий при несчастном случае с гостем на аттракционе. Включите административные и юридические шаги.
+            <textarea rows="4"></textarea>
+        </div>
+        <div class="open-q">
+            <b>Вопрос 34.</b> Команда не выполнила план по выручке второй месяц подряд. Опишите план действий менеджера парка. Включите финансовый анализ и административные меры.
+            <textarea rows="4"></textarea>
+        </div>
+
+        <div class="btn-row">
+            <button type="button" class="btn-check" onclick="showResult()">ПРОВЕРИТЬ РЕЗУЛЬТАТ</button>
+            <button type="button" class="btn-reset" onclick="resetTest()">СБРОСИТЬ</button>
+        </div>
+    </form>
+
+    <div class="result-box" id="resultBox">
+        <h2>РЕЗУЛЬТАТ ТЕСТА</h2>
+        <p>Правильных ответов:</p>
+        <div class="score" id="scoreDisplay">0 / 32</div>
+        <p style="margin-top:5px;">Процент: <b id="percentDisplay">0%</b></p>
+        <div class="grade" id="gradeDisplay"></div>
+        <div class="rec" id="recDisplay"></div>
+        <div class="note" id="noteDisplay"></div>
+    </div>
+
+    <p class="legend">Тестовые вопросы проверяются автоматически сразу после выбора ответа. Открытые вопросы оцениваются проверяющим.</p>
+
+</div>
+
+<script>
+// ====== ДАННЫЕ ТЕСТА ======
+// correct — буква правильного ответа, exp — короткое пояснение
+const QUIZ = [
+  { title: "БЛОК 1. БЕЗОПАСНОСТЬ И ТЕХСОСТОЯНИЕ", questions: [
+    { n:1, q:"Что является стоп-фактором, обнуляющим бонус всего объекта?",
+      opts:["Несчастный случай с гостем по вине парка","Отрицательный отзыв в интернете","Невыполнение плана по выручке на 10%","Увольнение оператора"],
+      correct:"A", exp:"Безопасность гостей — абсолютный приоритет. Несчастный случай по вине парка обнуляет бонус всего объекта." },
+    { n:2, q:"С какой периодичностью менеджер парка обязан проводить обход и заполнять чек-лист безопасности?",
+      opts:["Раз в неделю","Только перед открытием","Два раза в день: перед открытием и в течение смены","Раз в месяц"],
+      correct:"C", exp:"Обход с чек-листом проводится дважды в день, чтобы вовремя выявить износ и неисправности." },
+    { n:3, q:"Гость просит допустить ребёнка на аттракцион, хотя ребёнок не проходит по росту. Ваши действия:",
+      opts:["Допустить по расписке от родителя","Вежливо отказать, объяснив правила безопасности","Допустить, раз гость настаивает","Перенаправить к управляющему"],
+      correct:"B", exp:"Ростовые и весовые ограничения — требование безопасности и не могут быть нарушены ни по просьбе, ни по расписке." },
+    { n:4, q:"Что из перечисленного НЕ входит в чек-лист безопасности аттракциона?",
+      opts:["Крепления","Аптечка","Ограждения","Количество гостей в очереди"],
+      correct:"D", exp:"Чек-лист проверяет техническое состояние; длина очереди к безопасности не относится." },
+    { n:5, q:"Если оператор аттракциона заметил неисправность во время работы, он должен:",
+      opts:["Дождаться конца смены","Устранить неисправность самостоятельно","Немедленно остановить аттракцион и сообщить ответственному","Продолжить работу"],
+      correct:"C", exp:"При любой неисправности аттракцион немедленно останавливают; самостоятельный ремонт запрещён." },
+    { n:6, q:"Что делать, если гость получил лёгкую травму (ушиб, ссадина) на территории парка?",
+      opts:["Оказать первую помощь и зафиксировать случай в журнале","Отправить гостя домой без записи","Сразу вызвать скорую при ушибе/ссадине","Не реагировать, травма лёгкая"],
+      correct:"A", exp:"При лёгкой травме оказывают первую помощь и обязательно фиксируют случай в журнале — скорая не нужна, но запись обязательна." },
+    { n:7, q:"Пожарная тревога. Гость с ребёнком в зоне аттракциона. Ваш приоритет:",
+      opts:["Собрать всех менеджеров","Проверить, не ложная ли тревога","Сначала позвонить гендиректору","Эвакуация гостей по утверждённому плану"],
+      correct:"D", exp:"При пожарной тревоге приоритет один — безопасная эвакуация гостей по плану." },
+    { n:8, q:"Какое действие — нарушение правил безопасности на батутной арене?",
+      opts:["Проведение инструктажа перед прыжками","Двое гостей на одном батуте","Проверка роста и веса гостя","Допуск только в нескользящих носках"],
+      correct:"B", exp:"Правило арены — один человек на один батут; двое на одном батуте создают высокий риск травм." },
+    { n:9, q:"Что должно быть размещено у входа на каждый аттракцион в обязательном порядке?",
+      opts:["Реклама мерча","Фотографии гостей","Правила, ограничения по росту/весу/возрасту и контакты ответственного","Список сотрудников смены"],
+      correct:"C", exp:"У входа обязательны правила, ограничения по росту/весу/возрасту и контакты ответственного." },
+    { n:10, q:"Плановая проверка аттракциона перед запуском включает:",
+      opts:["Только беглый визуальный осмотр","Проверку креплений и тормозов с записью в журнал","Проверку документов на оборудование","Тестовый запуск без пассажиров вместо осмотра"],
+      correct:"B", exp:"Это контроль узлов безопасности (крепления, тормоза) с фиксацией в журнале, а не беглый осмотр." }
+  ]},
+  { title: "БЛОК 2. ОПЕРАЦИОННОЕ УПРАВЛЕНИЕ", questions: [
+    { n:11, q:"Менеджер заметил, что оператор систематически опаздывает. Первое действие:",
+      opts:["Сразу уволить","Сразу лишить премии","Сразу передать дело в HR","Личная беседа для выяснения причин"],
+      correct:"D", exp:"Первый шаг — личная беседа для выяснения причин; санкции только если она не помогла." },
+    { n:12, q:"В парке одновременно сломались два аттракциона. Решение менеджера:",
+      opts:["Перенаправить поток на рабочие зоны, добавить анимацию и бонусы","Закрыть парк до ремонта","Ничего не делать","Вернуть деньги всем гостям"],
+      correct:"A", exp:"Закрывать парк нельзя: поток перенаправляют на рабочие зоны и добавляют анимацию и компенсации." },
+    { n:13, q:"В парк пришла группа из 30 детей. Действия менеджера в первую очередь:",
+      opts:["Сразу запустить всех на аттракционы","Провести инструктаж и распределить по зонам","Попросить подождать в стороне","Взять двойную оплату за группу"],
+      correct:"B", exp:"Большую группу сначала инструктируют и распределяют по зонам, чтобы избежать давки и травм." },
+    { n:14, q:"В низкий сезон приоритет в управлении парком:",
+      opts:["Гнать выручку любой ценой","Массовый набор персонала","Оптимизация расходов, развитие и обучение команды","Агрессивная реклама"],
+      correct:"C", exp:"В низкий сезон фокус — на оптимизации расходов, обучении команды и подготовке к высокому сезону." },
+    { n:15, q:"Распределение персонала в пиковые часы (выходные, 13:00–16:00):",
+      opts:["Только на популярных зонах","Минимум персонала для экономии","Отправить всех на обед одновременно","Равномерно, усилив вход, кассы и очереди"],
+      correct:"D", exp:"В пик персонал распределяют равномерно, усиливая узкие места — вход, кассы и очереди." },
+    { n:16, q:"Что должен сделать менеджер за 30 минут до открытия?",
+      opts:["Проверить готовность зон, оборудования и расстановку персонала","Ждать гостей у входа","Провести долгую планёрку в офисе","Проверять личные соцсети"],
+      correct:"A", exp:"За 30 минут до открытия менеджер проверяет готовность зон, оборудования и расстановку персонала." }
+  ]},
+  { title: "БЛОК 3. СЕРВИС И РАБОТА С ГОСТЕМ", questions: [
+    { n:17, q:"Гость гневно пишет в соцсетях, что ребёнка не пустили на аттракцион. Первое действие:",
+      opts:["Вступить в публичный спор в комментариях","Игнорировать сообщение","Связаться с гостем лично, разобраться и предложить решение","Удалить отзыв"],
+      correct:"C", exp:"Негатив переводят из публичного поля в личное: связаться, разобраться и предложить решение." },
+    { n:18, q:"Какая фраза — пример правильной работы с возражением гостя?",
+      opts:["«Вы не правы»","«Понимаю вас, давайте разберёмся вместе»","«Это не моя зона ответственности»","«Пишите на почту»"],
+      correct:"B", exp:"Работа с возражением начинается с присоединения и готовности помочь, а не со спора." },
+    { n:19, q:"Тайный гость оценил сервис на 3 из 5. Ваши действия:",
+      opts:["Игнорировать оценку","Наказать виновного сотрудника","Попросить тайного гостя пересмотреть оценку","Разобрать ситуацию с командой и внедрить улучшения"],
+      correct:"D", exp:"Оценку используют для развития: разбор с командой и план улучшений, а не наказание." },
+    { n:20, q:"Семья с особым ребёнком хочет посетить парк. Действия менеджера:",
+      opts:["Обеспечить сопровождение и особые условия","Отказать в посещении","Сослаться на отсутствие условий","Попросить доплату за особые условия"],
+      correct:"A", exp:"Семье с особым ребёнком обеспечивают сопровождение и комфортные условия — это инклюзия и репутация." },
+    { n:21, q:"Гость потерял ребёнка на территории парка. Алгоритм действий:",
+      opts:["Подождать, пока ребёнок найдётся сам","Сразу вызвать полицию, ничего больше не предпринимая","Объявление, поиск силами персонала, контроль выходов","Поручить поиск только родителям"],
+      correct:"C", exp:"Немедленный поиск силами персонала, объявление и контроль выходов, чтобы ребёнок не покинул территорию." }
+  ]},
+  { title: "БЛОК 4. АДМИНИСТРАТИВНАЯ И ЮРИДИЧЕСКАЯ ОТВЕТСТВЕННОСТЬ", questions: [
+    { n:22, q:"Кто несёт итоговую ответственность перед компанией за соблюдение правил допуска гостей в парке?",
+      opts:["Оператор аттракциона","Менеджер парка","Гендиректор","Юридический отдел"],
+      correct:"B", exp:"Итоговую ответственность за соблюдение правил допуска несёт менеджер как руководитель объекта." },
+    { n:23, q:"Гость написал заявление в Роспотребнадзор. Кто взаимодействует с органами на площадке?",
+      opts:["Охранник","Любой сотрудник","Гость решает сам","Менеджер парка как ответственное лицо, по согласованию с руководством"],
+      correct:"D", exp:"С проверяющими органами на площадке взаимодействует менеджер как ответственное лицо — по согласованию с руководством." },
+    { n:24, q:"Какие документы обязан предоставить менеджер при проверке?",
+      opts:["Журналы, чек-листы, сертификаты на оборудование","Устав компании","Отзывы гостей","Маркетинговый план"],
+      correct:"A", exp:"Предоставляют документы безопасности и эксплуатации: журналы, чек-листы и сертификаты на оборудование." },
+    { n:25, q:"Гость подал в суд за травму. Какие документы предоставить юристам?",
+      opts:["План продаж","Штатное расписание","Журнал происшествий, видеозапись, чек-листы, объяснительные","Рекламные буклеты"],
+      correct:"C", exp:"Нужны доказательства соблюдения процедур: журнал происшествий, видео, чек-листы и объяснительные." },
+    { n:26, q:"Гость отказывается покидать парк после закрытия. Ваши действия:",
+      opts:["Применить силу через охрану","Вежливо объяснить правила и предупредить о вызове полиции","Оставить гостя в парке на ночь","Выдать бесплатный билет, чтобы ушёл"],
+      correct:"B", exp:"Сначала вежливо объясняют правила и предупреждают о вызове полиции; применение силы недопустимо." },
+    { n:27, q:"Что является правонарушением с личной административной ответственностью менеджера?",
+      opts:["Низкая выручка парка","Увольнение сотрудника","Отказ в возврате денег гостю","Допуск гостей на заведомо неисправный аттракцион"],
+      correct:"D", exp:"Допуск гостей на неисправный аттракцион — прямое нарушение требований безопасности с личной ответственностью." }
+  ]},
+  { title: "БЛОК 5. ФИНАНСЫ, KPI И ОТЧЁТНОСТЬ", questions: [
+    { n:28, q:"Выручка парка выполнена на 85% от плана. Что с бонусами (порог выплаты — 90%)?",
+      opts:["Не выплачиваются — не достигнут порог 90%","Выплачиваются 85% от суммы бонуса","Выплачиваются полностью","Выплачиваются только линейному персоналу"],
+      correct:"A", exp:"Бонус завязан на пороге выполнения 90%; при 85% порог не достигнут — бонус не выплачивается." },
+    { n:29, q:"Основной источник данных для KPI «Выручка от услуг парка»?",
+      opts:["Бумажный журнал гостей","Веб-аналитика сайта","Билетная система и касса","Опросы тайных гостей"],
+      correct:"C", exp:"Источник данных по выручке — билетная система и касса (фактические продажи), а не аналитика трафика." }
+  ]},
+  { title: "БЛОК 6. ДОПОЛНИТЕЛЬНЫЙ ФИНАНСОВО-АДМИНИСТРАТИВНЫЙ БЛОК", questions: [
+    { n:30, q:"Выявлена недостача ТМЦ при инвентаризации. Кто несёт ответственность?",
+      opts:["Бухгалтерия","Менеджер — по договору о материальной ответственности","Списать как естественную убыль","Охрана"],
+      correct:"B", exp:"За недостачу ТМЦ отвечает материально ответственное лицо — менеджер, с которым заключён договор." },
+    { n:31, q:"Недостача в кассе 5 000 руб. Действия менеджера:",
+      opts:["Покрыть недостачу из своих средств","Уволить кассира сразу","Скрыть недостачу","Провести расследование, удержание — по ТК РФ"],
+      correct:"D", exp:"Проводят служебное расследование, удержание — строго в рамках ТК РФ; скрывать нельзя." },
+    { n:32, q:"Запрос из налоговой по кассовым операциям. Действия:",
+      opts:["Уведомить финдиректора и подготовить документы","Игнорировать запрос","Ответить устно по телефону","Удалить документы"],
+      correct:"A", exp:"Уведомляют финдиректора и готовят документы; игнорировать или уничтожать документы недопустимо." }
+  ]}
+];
+
+const LETTERS = ["A","B","C","D"];
+const PRAISE = ["Верно! Молодец!","Отлично, так держать!","Правильно!","Здорово, верно!","Так и есть! Молодец."];
+const TOTAL = 32;
+
+const state = {}; // q.n -> {answered:bool, correct:bool}
+
+function buildQuiz() {
+  const root = document.getElementById('quiz');
+  let html = "";
+  QUIZ.forEach(block => {
+    html += `<div class="block-title">${block.title}</div>`;
+    block.questions.forEach(q => {
+      let opts = "";
+      q.opts.forEach((text, i) => {
+        const L = LETTERS[i];
+        opts += `<label class="option" id="opt-${q.n}-${L}" onclick="answer(${q.n},'${L}')">
+                   <input type="radio" name="q${q.n}" value="${L}">
+                   <span class="letter">${L} —</span><span class="otext">${text}</span>
+                 </label>`;
+      });
+      html += `<div class="question" id="qcard-${q.n}">
+                 <div class="q-head"><span class="num">${q.n}</span>${q.q}</div>
+                 <div class="options" id="opts-${q.n}">${opts}</div>
+                 <div class="feedback" id="fb-${q.n}"></div>
+               </div>`;
+    });
+  });
+  root.innerHTML = html;
+}
+
+function findQ(n){
+  for (const b of QUIZ) for (const q of b.questions) if (q.n===n) return q;
+}
+
+function answer(n, chosen) {
+  if (state[n] && state[n].answered) return; // блокируем повторный ответ
+  const q = findQ(n);
+  const isCorrect = (chosen === q.correct);
+  state[n] = { answered:true, correct:isCorrect };
+
+  // подсветка выбранного и правильного варианта
+  const optsBox = document.getElementById('opts-'+n);
+  optsBox.classList.add('locked');
+  optsBox.querySelectorAll('input').forEach(inp => { inp.disabled = true; });
+  document.querySelector(`input[name="q${n}"][value="${chosen}"]`).checked = true;
+
+  if (isCorrect) {
+    document.getElementById(`opt-${n}-${chosen}`).classList.add('correct');
+  } else {
+    document.getElementById(`opt-${n}-${chosen}`).classList.add('wrong');
+    document.getElementById(`opt-${n}-${q.correct}`).classList.add('correct');
+  }
+
+  const fb = document.getElementById('fb-'+n);
+  if (isCorrect) {
+    fb.className = "feedback ok";
+    fb.textContent = PRAISE[Math.floor(Math.random()*PRAISE.length)];
+  } else {
+    const correctText = q.opts[LETTERS.indexOf(q.correct)];
+    fb.className = "feedback err";
+    fb.innerHTML = `<b>Неверно.</b> Правильный ответ: <b>${q.correct}</b> — ${correctText}.<br>${q.exp}`;
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  let answered = 0, correct = 0;
+  for (let i=1;i<=TOTAL;i++){ if (state[i]&&state[i].answered){answered++; if(state[i].correct) correct++;} }
+  document.getElementById('progressFill').style.width = (answered/TOTAL*100)+'%';
+  document.getElementById('progressText').textContent =
+    `Отвечено: ${answered} / ${TOTAL} · Верно: ${correct}`;
+}
+
+function showResult() {
+  let answered = 0, score = 0;
+  for (let i=1;i<=TOTAL;i++){ if (state[i]&&state[i].answered){answered++; if(state[i].correct) score++;} }
+  const percent = Math.round(score / TOTAL * 100);
+  let grade, rec;
+  if (percent >= 90) { grade="Отлично"; rec="Готов к самостоятельной работе, можно назначать наставником."; }
+  else if (percent >= 75) { grade="Хорошо — тест пройден"; rec="Допущен с планом развития по слабым темам."; }
+  else if (percent >= 60) { grade="Удовлетворительно — тест не пройден"; rec="Требуется дополнительное обучение, повторное тестирование через месяц."; }
+  else { grade="Неудовлетворительно"; rec="Не допускается к управленческой работе без обучения."; }
+
+  document.getElementById('scoreDisplay').textContent = score + ' / ' + TOTAL;
+  document.getElementById('percentDisplay').textContent = percent + '%';
+  document.getElementById('gradeDisplay').textContent = 'Оценка: ' + grade;
+  document.getElementById('recDisplay').textContent = rec;
+  document.getElementById('noteDisplay').textContent =
+    answered < TOTAL ? `Внимание: отвечено только ${answered} из ${TOTAL} вопросов.` : '';
+  document.getElementById('resultBox').style.display = 'block';
+  document.getElementById('resultBox').scrollIntoView({ behavior:'smooth' });
+}
+
+function resetTest() {
+  for (const k in state) delete state[k];
+  buildQuiz();
+  document.querySelectorAll('textarea').forEach(t => t.value='');
+  document.getElementById('resultBox').style.display='none';
+  updateProgress();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+buildQuiz();
+updateProgress();
+</script>
+
+
+</body></html>
