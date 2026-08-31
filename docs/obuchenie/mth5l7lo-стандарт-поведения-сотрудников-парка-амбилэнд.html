@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/Admin/Downloads/deepseek_html_20260701_f46b5d.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Стандарт поведения сотрудников парка «АмбиЛэнд»</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f7f9fc;
+      color: #1a2b3c;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
+      padding: 2.5rem 2.8rem;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1.5rem 1.2rem;
+      }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1d3b4f;
+      border-left: 6px solid #f9b23f;
+      padding-left: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .subhead {
+      font-size: 1.1rem;
+      color: #4d6479;
+      margin-bottom: 2rem;
+      padding-left: 1.6rem;
+      border-bottom: 2px solid #e8edf5;
+      padding-bottom: 0.7rem;
+    }
+
+    .emotional-block {
+      background: #fef6e0;
+      border-left: 6px solid #f9b23f;
+      padding: 1rem 1.8rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #4d3e2b;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: #1d3b4f;
+      margin: 2rem 0 0.8rem 0;
+      padding-bottom: 0.3rem;
+      border-bottom: 3px solid #b8d9c9;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #2a4d63;
+      margin: 1.2rem 0 0.4rem 0;
+    }
+
+    ul, ol {
+      padding-left: 1.6rem;
+      margin: 0.4rem 0 0.8rem 0;
+    }
+    li {
+      margin-bottom: 0.25rem;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 2rem;
+      background: #f6faff;
+      padding: 1rem 1.8rem;
+      border-radius: 16px;
+      margin: 0.5rem 0 1rem 0;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+    }
+
+    .highlight-box {
+      background: #ebf5f0;
+      border-left: 5px solid #3f9e7a;
+      padding: 1rem 1.8rem;
+      border-radius: 12px;
+      margin: 1.2rem 0;
+    }
+
+    .warning-box {
+      background: #fef6ed;
+      border-left: 5px solid #d68b3c;
+      padding: 1rem 1.8rem;
+      border-radius: 12px;
+      margin: 1.2rem 0;
+    }
+
+    .info-box {
+      background: #eef3f9;
+      border-left: 5px solid #4a7fa7;
+      padding: 1rem 1.8rem;
+      border-radius: 12px;
+      margin: 1.2rem 0;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #3f9e7a;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      letter-spacing: 0.4px;
+      margin-right: 0.4rem;
+    }
+
+    .badge-warn {
+      background: #d68b3c;
+    }
+
+    .badge-info {
+      background: #4a7fa7;
+    }
+
+    .badge-phone {
+      background: #e67e22;
+    }
+
+    .example-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .example-table th {
+      background: #dce8e3;
+      font-weight: 600;
+      padding: 0.7rem 1rem;
+      text-align: left;
+      color: #1d3b4f;
+    }
+
+    .example-table td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid #e6ecf3;
+      vertical-align: top;
+      width: 50%;
+    }
+
+    .example-table .corr {
+      background: #f0faf5;
+    }
+    .example-table .incorr {
+      background: #fdf3f0;
+    }
+
+    .example-table .corr strong {
+      color: #1f7a4a;
+    }
+    .example-table .incorr strong {
+      color: #b13a2e;
+    }
+
+    @media (max-width: 700px) {
+      .example-table, .example-table tbody, .example-table tr, .example-table td {
+        display: block;
+        width: 100%;
+      }
+      .example-table tr {
+        margin-bottom: 0.6rem;
+        border-bottom: 2px solid #d5dee8;
+      }
+      .example-table td {
+        border-bottom: none;
+        padding: 0.6rem 1rem;
+      }
+      .example-table th {
+        display: none;
+      }
+    }
+
+    .algorithm-steps {
+      background: #eef6f0;
+      border-radius: 16px;
+      padding: 1.4rem 2rem;
+      margin: 1rem 0 1.5rem 0;
+      counter-reset: step;
+    }
+
+    .algorithm-steps li {
+      list-style: none;
+      counter-increment: step;
+      margin-bottom: 0.6rem;
+      padding-left: 2.2rem;
+      position: relative;
+    }
+
+    .algorithm-steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #1f7a3d;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, #dce6ef, transparent);
+      margin: 2rem 0;
+    }
+
+    .footer-note {
+      margin-top: 2.5rem;
+      padding-top: 1.2rem;
+      border-top: 2px solid #e5ecf3;
+      font-size: 0.95rem;
+      color: #4d6479;
+      text-align: center;
+    }
+
+    .save-btn {
+      display: inline-block;
+      background: #3f9e7a;
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      box-shadow: 0 4px 10px rgba(63, 158, 122, 0.3);
+      margin-top: 1rem;
+    }
+    .save-btn:hover {
+      background: #2d7a5d;
+    }
+    .save-btn:active {
+      transform: scale(0.97);
+    }
+    .btn-wrap {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .phone-note {
+      background: #fdf2e9;
+      border-left: 6px solid #e67e22;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      margin: 0.8rem 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="content-to-save">
+
+  <h1>🎈 Стандарт поведения сотрудников парка</h1>
+  <div class="subhead">ООО «АмбиЛэнд» • Детский активити-парк в ТЦ • Версия 2.0</div>
+
+  <div class="emotional-block">
+    <span style="font-size: 2rem;">🌟</span> Ты — создатель радости! Каждое твоё слово, жест и улыбка формируют впечатление о парке. Будь внимателен, добр и профессионален — и дети поверят в чудо, а родители — в нас. <span style="font-size: 2rem;">✨</span>
+  </div>
+
+  <!-- Вступление -->
+  <p style="font-size: 1.05rem; margin-bottom: 1.2rem;">
+    Корректное поведение — основа работы с детьми и их родителями. Вежливость и доброжелательность важнее профессиональных навыков, которым можно обучиться. Игнорирование и нарушение правил послужат поводом для прекращения сотрудничества.
+  </p>
+
+  <!-- Поведение на рабочем месте -->
+  <h2>1. 🧑‍💼 Поведение на рабочем месте</h2>
+  <ul>
+    <li><strong>Внешний вид</strong> — регламентируется отдельным <a href="file:///C:/Users/Admin/Downloads/deepseek_html_20260701_f46b5d.html#appearance" style="color:#1f7a4a; text-decoration:underline;">Стандартом внешнего вида</a> (скачать можно в конце документа).</li>
+    <li>Обладать полными знаниями о парке/ресторане (активности, меню, расписание).</li>
+    <li>Не курить во время смены; после курения — прополоскать рот.</li>
+    <li>После еды — полоскать рот перед выходом к гостям.</li>
+    <li>Не болтать с коллегами при гостях.</li>
+    <li>Запрещено употреблять алкоголь, курить или находиться в нерабочем состоянии.</li>
+    <li>Не жевать жвачку, не есть/пить на виду у посетителей.</li>
+    <li>Всегда быть занятым полезной деятельностью (игры, помощь, порядок).</li>
+    <li>Не поправлять одежду, не сморкаться, не причёсываться в зоне видимости гостей.</li>
+    <li>Не сидеть на аттракционах, не опираться на оборудование.</li>
+    <li>Не садиться за стол с гостями.</li>
+    <li>Не пересчитывать деньги перед гостем, не забирать чаевые до ухода гостя.</li>
+    <li>Не ссориться с коллегами на рабочем месте.</li>
+    <li>Руки должны быть свободны (не держать в карманах, не трогать лицо/волосы).</li>
+    <li>Не обсуждать коллег или гостей в их присутствии.</li>
+    <li>Найденные вещи — сразу администратору.</li>
+    <li>Следить за порядком (убирать мусор, предупреждать скольжение).</li>
+    <li>Не оставлять детей без присмотра в игровых зонах.</li>
+    <li>Знать расположение аптечки и огнетушителей.</li>
+    <li>Никогда не передавать внутреннюю и конфиденциальную информацию третьим лицам.</li>
+  </ul>
+
+  <!-- НОВЫЙ ПУНКТ О ТЕЛЕФОНЕ (выделен) -->
+  <div class="phone-note">
+    <span class="badge badge-phone">📱 Обновлено</span>
+    <strong>Использование мобильного телефона:</strong>
+    <ul style="margin: 0.3rem 0 0 1.2rem;">
+      <li><strong>Категорически запрещается</strong> использование телефона в <strong>личных целях</strong> (просмотр социальных сетей, видеороликов, мессенджеров, игр и т.п.) <strong>в присутствии гостей</strong> в парке.</li>
+      <li>Допускается использование телефона <strong>только в служебных помещениях</strong> (раздевалка, офис) или для <strong>оперативной связи по рабочим вопросам</strong> (с разрешения руководителя).</li>
+      <li>Если вам необходимо срочно ответить на звонок — отойдите в служебную зону и вернитесь к гостям как можно быстрее.</li>
+      <li>Помните: телефон в руках при гостях создаёт впечатление безразличия и снижает доверие.</li>
+    </ul>
+  </div>
+
+  <!-- Поведение с гостями -->
+  <h2>2. 🤝 Поведение с гостями</h2>
+
+  <h3>Вежливость</h3>
+  <ul>
+    <li>Избегайте фамильярности: не обнимайте и не трогайте детей без разрешения родителей.</li>
+    <li>Не обсуждайте личные темы или проблемы центра с гостями.</li>
+    <li>Обязательно улыбаться, поддерживать доброжелательный тон, говорить «здравствуйте», «до свидания», «спасибо» при каждом контакте.</li>
+    <li>Всегда показывать максимальное внимание и готовность помочь.</li>
+    <li>Если гость показывает знание продукта — не перебивать, выслушать.</li>
+    <li>Говорить с гостем только на интересующую его тему, в рамках компетенций.</li>
+  </ul>
+
+  <h3>Учёт типа гостя</h3>
+  <ul>
+    <li>Регулировать поведение в зависимости от возраста: с ребёнком — иначе, чем со взрослым.</li>
+    <li>Будьте внимательны к детям: избегайте резких движений, громких звуков и суеты.</li>
+    <li>Не заставлять ждать: если заняты — сказать «Сейчас подойду к вам!».</li>
+    <li>Общайтесь с детьми на их уровне (присядьте). С родителями — тактично и профессионально.</li>
+  </ul>
+
+  <h3>Безопасность</h3>
+  <ul>
+    <li>Не указывайте пальцем — используйте открытую ладонь.</li>
+    <li>Следите, чтобы дети не бегали в опасных зонах.</li>
+  </ul>
+
+  <h3>Предугадывание потребностей</h3>
+  <ul>
+    <li>Если ребёнок расстроен — отвлеките игрой или спокойным разговором.</li>
+    <li>Родителям с детьми предлагать высокие стульчики сразу (для ресторана).</li>
+  </ul>
+
+  <h3>Конфликты</h3>
+  <ul>
+    <li>Если родитель недоволен — выслушайте и предложите решение (позовите менеджера при необходимости).</li>
+    <li>Сохраняйте спокойствие, даже если ребёнок капризничает или родители недовольны.</li>
+    <li>Ошибки признавайте сразу: «Извините, мы исправим это».</li>
+  </ul>
+
+  <h3>Завершение визита</h3>
+  <ul>
+    <li>Тепло прощайтесь: «До новых встреч! Надеемся, вам понравилось!».</li>
+  </ul>
+
+  <h3>Категорически нельзя</h3>
+  <ul>
+    <li>Повышать голос на детей, даже если они капризничают.</li>
+    <li>Агрессировать, грубить, ругаться и дерзить гостям и коллегам.</li>
+    <li>Игнорировать просьбы родителей (например, «Помогите найти ребёнка»).</li>
+    <li>Давать свои личные данные (телефон, почту, соцсети) — только рабочие контакты.</li>
+    <li>Принимать подарки от посетителей (кроме благодарностей в книге отзывов или чаевых).</li>
+  </ul>
+
+  <!-- Примеры корректного/некорректного поведения -->
+  <h2>3. 📋 Примеры корректного и некорректного поведения</h2>
+  <table class="example-table">
+    <thead>
+      <tr>
+        <th>✅ Корректно</th>
+        <th>❌ Некорректно</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="corr">«Привет! Как тебя зовут? Хочешь покататься на горке?» — обращение к ребёнку.</td>
+        <td class="incorr">Игнорировать ребёнка, разговаривая только с родителем.</td>
+      </tr>
+      <tr>
+        <td class="corr">Указывать путь в зону скайрайдера открытой ладонью.</td>
+        <td class="incorr">«Спросите у другого» или тыкать пальцем.</td>
+      </tr>
+      <tr>
+        <td class="corr">Подойти подсказать гостям, работает ли скалодром.</td>
+        <td class="incorr">Стоять и ждать, пока люди сами подойдут.</td>
+      </tr>
+      <tr>
+        <td class="corr">Улыбчиво рассказать про правила парка при регистрации.</td>
+        <td class="incorr">Молча делать свою работу, отвечать только на вопросы.</td>
+      </tr>
+      <tr>
+        <td class="corr">Уточнить формат праздника и предложить активности.</td>
+        <td class="incorr">Отвечать только на вопросы, не рассказывая о возможностях.</td>
+      </tr>
+      <tr>
+        <td class="corr">При необходимости отойти в служебную зону для ответа на звонок.</td>
+        <td class="incorr">Стоять с телефоном в руках при гостях, листая соцсети.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Алгоритм "потерялся ребёнок" -->
+  <h2>4. 🆘 Что делать, если ребёнок потерялся</h2>
+  <ol class="algorithm-steps">
+    <li>Немедленно сообщить администратору.</li>
+    <li>Опросить других детей («Ты видел Сашу? Он в синей футболке»).</li>
+    <li>Не выводить ребёнка за пределы центра — ждать родителей.</li>
+  </ol>
+
+  <!-- Важные напоминания -->
+  <div class="info-box">
+    <span class="badge badge-info">💡 Для родителей</span> Вы — пример для их детей. Ваша вежливость и энергия создают настроение.<br>
+    <span class="badge badge-info">🏢 Для центра</span> Лояльные гости вернутся снова, если чувствовали заботу.
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Ссылка на стандарт внешнего вида -->
+  <div id="appearance" style="background: #f0f7fc; padding: 1rem 2rem; border-radius: 16px; margin-top: 1.5rem;">
+    <h3 style="margin-top: 0;">👔 Отдельный стандарт внешнего вида</h3>
+    <p style="margin-bottom: 0.5rem;">Детальные требования к униформе, причёске, маникюру, обуви, татуировкам и др. — в утверждённом <strong>Стандарте внешнего вида сотрудников парка</strong> (версия 1.8). Скачать его можно вместе с этим документом (кнопка ниже сохранит текущую страницу, в которой есть все ссылки).</p>
+    <p style="margin-bottom: 0;">Основные отличия от прошлых правил: <strong>разрешены яркий лак, кроссовки с принтом, тату (кроме агрессивных)</strong>; для администрации — <strong>smart casual, джинсы запрещены</strong>.</p>
+  </div>
+
+  <!-- Эмоциональное завершение -->
+  <div style="margin-top: 2rem; padding: 1.2rem 1.8rem; background: #fef6e0; border-radius: 16px; border-left: 6px solid #f9b23f; text-align: center;">
+    <p style="margin: 0; font-weight: 500; font-size: 1.1rem;">
+      🌟 Помни: ты — часть детской сказки! Твоя улыбка, опрятность и доброжелательность делают наш парк местом, куда хочется возвращаться снова и снова. Будь примером для маленьких гостей и гордостью нашей команды! 💫
+    </p>
+  </div>
+
+  <div class="footer-note">
+    Стандарт поведения утверждён ООО «АмбиЛэнд» • Версия 2.0 (дополнен пунктом о телефоне) • Вступает в силу с момента публикации
+  </div>
+
+</div> <!-- конец контейнера для сохранения -->
+
+<!-- Кнопка сохранения -->
+<div class="btn-wrap">
+  <button class="save-btn" onclick="savePage()">📥 Сохранить как HTML / Word</button>
+</div>
+
+<script>
+  function savePage() {
+    const content = document.getElementById('content-to-save').innerHTML;
+    const styles = document.querySelector('style').innerHTML;
+    const title = 'Стандарт поведения сотрудников парка АмбиЛэнд';
+
+    const fullHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="UTF-8"><title>${title}</title><style>${styles}</style></head>
+        <body style="background:#f7f9fc; padding:2rem 1rem;">${content}</body>
+      </html>
+    `;
+
+    const blob = new Blob([fullHtml], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Стандарт_поведения_АмбиЛэнд.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+
+</body></html>
