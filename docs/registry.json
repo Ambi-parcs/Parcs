@@ -194,5 +194,13 @@
     "url": "docs/reglamenty/mth6tk6t-приложение-3-таблица-дополнительных-данных-воинский-учёт.html",
     "size": 9458,
     "ts": 1788177680910
+  },
+  {
+    "id": "static_reglamenty_1",
+    "section": "reglamenty",
+    "staticIndex": 1,
+    "hidden": true,
+    "title": "Письмо-ответ ООО «АмбиЛэнд»",
+    "ts": 1788178055937
   }
 ]
