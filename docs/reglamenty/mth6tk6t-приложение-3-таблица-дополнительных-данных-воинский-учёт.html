@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/Admin/Downloads/deepseek_html_20260630_844c5c.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приложение №3 — Таблица для воинского учёта</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 40px;
+            background: #fff;
+            color: #000;
+            line-height: 1.5;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 18pt;
+            margin-bottom: 5px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 14pt;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+        .note {
+            font-size: 13px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 4px solid #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 12px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 6px 8px;
+            vertical-align: middle;
+            text-align: left;
+        }
+        th {
+            background: #f0f0f0;
+            font-weight: 700;
+            text-align: center;
+        }
+        td {
+            height: 28px;
+        }
+        .signature-block {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .signature {
+            width: 45%;
+        }
+        .btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #34495e;
+        }
+        @media print {
+            .btn-container {
+                display: none;
+            }
+            body {
+                margin: 0.5in;
+            }
+            .note {
+                background: none;
+                border-left: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="btn-container">
+        <button onclick="window.print()">🖨️ Печать / Сохранить как PDF</button>
+        <button onclick="downloadWord()">📄 Скачать как Word (.doc)</button>
+    </div>
+
+    <h1>Приложение № 3</h1>
+    <h2>Таблица дополнительных данных для воинского учёта<br>(для мужчин-граждан РФ)</h2>
+
+    <div class="note">
+        <p><strong>Обращаем внимание:</strong> при оформлении мужчин-граждан РФ обязательно присылать в кадровый отдел копию <strong>УДОСТОВЕРЕНИЯ</strong> (для призывника) или <strong>ВОЕННОГО БИЛЕТА</strong> (для военнообязанного). Копии делать всех страниц, где есть запись, стоит штамп или печать! Заполнять таблицу (с дополнительными данными для оформления карточки формы Т-10). Таблицу присылать вместе со всеми документами.</p>
+        <p>Для прибывших мужчин в Москву из других городов – обязательно указывать <strong>адрес ПРОЖИВАНИЯ</strong> в Москве или Московской области.</p>
+        <p><strong>Приём будет осуществляться только при полном предоставлении информации.</strong></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width:5%;">№ п/п</th>
+                <th style="width:15%;">Фамилия, имя, отчество (при наличии)</th>
+                <th style="width:12%;">Телефон</th>
+                <th style="width:18%;">Образование, специальность, учебное заведение, год окончания</th>
+                <th style="width:15%;">Место жительства (место проживания, пребывания)</th>
+                <th style="width:10%;">Семейное положение</th>
+                <th style="width:15%;">Близкий родственник (мать, отец) год рождения</th>
+                <th style="width:10%;">Водительское удостоверение (серия, номер, категория ТС, дата выдачи)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align:center;">1</td>
+                <td>Матюхин Иван Егорович</td>
+                <td>+7(910)566-75-36</td>
+                <td>Среднее специальное, машинист, ПТУ № 17, окончил в 2001 г.</td>
+                <td>г. Москва, ул. Южная, д. 23, кв. 576</td>
+                <td>Женат (холост)</td>
+                <td>Отец – Матюхин С.Ю., 1974 г.р.</td>
+                <td>Серия 45 12, номер 345678, кат. B, дата выдачи 01.01.2020</td>
+            </tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+
+    <p style="font-size:12px; margin-top:5px;"><i>Примечание: в графе «Семейное положение» указывать: женат/холост; при наличии супруги – её Ф.И.О. и год рождения.</i></p>
+
+    <div class="signature-block">
+        <div class="signature">
+            <p>___________________________ <br> (подпись Генерального директора) <br> "___" _____________ 20__ г.</p>
+        </div>
+        <div class="signature">
+            <p>___________________________ <br> (Ф.И.О.)</p>
+        </div>
+    </div>
+
+    <script>
+        function downloadWord() {
+            // Клонируем body, убираем кнопки
+            const content = document.querySelector('body').cloneNode(true);
+            const btns = content.querySelector('.btn-container');
+            if (btns) btns.remove();
+
+            const htmlContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+                      xmlns:w="urn:schemas-microsoft-com:office:word" 
+                      xmlns="http://www.w3.org/TR/REC-html40">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Приложение №3 — Таблица для воинского учёта</title>
+                    <style>
+                        body { font-family: 'Times New Roman', Times, serif; margin: 1cm; }
+                        table { border-collapse: collapse; width: 100%; font-size: 12pt; }
+                        th, td { border: 1px solid #000; padding: 5px 8px; vertical-align: top; }
+                        th { background: #f0f0f0; }
+                        .note { margin-bottom: 15px; }
+                        .signature-block { margin-top: 30px; display: flex; justify-content: space-between; }
+                        .signature { width: 45%; }
+                    </style>
+                </head>
+                <body>
+                    ${content.innerHTML}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Приложение_3_Таблица_для_воинского_учёта.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+
+</body></html>
