@@ -77,6 +77,9 @@
         На портал
       </a>
     </nav>
+    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div id="syncContainer"></div>
+    </div>
     <div class="sidebar-footer">
       <div id="userBox" class="user-box"></div>
       <button id="logoutBtn" class="btn btn-ghost btn-sm">Выйти</button>
@@ -109,7 +112,13 @@
 <div id="toast" class="toast"></div>
 
 <!-- Скрипты: обычные (не модули) — работают по file:// -->
+<script>
+// Vercel proxy endpoint — замените на ваш URL после деплоя
+// Пример: window.VERCEL_PROXY = 'https://ambiland-api.vercel.app';
+window.VERCEL_PROXY = '';
+</script>
 <script src="js/db.js"></script>
+<script src="js/sync.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/seed.js"></script>
 <script src="js/contract-pdf.js"></script>
