@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/Admin/Downloads/deepseek_html_20260626_745789.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Приложение 1 – Заявка на подбор персонала</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 40px;
+            background: #fff;
+            color: #000;
+            line-height: 1.5;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 18pt;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 5px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #f0f0f0;
+        }
+        .btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #34495e;
+        }
+        @media print {
+            .btn-container {
+                display: none;
+            }
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="btn-container">
+        <button onclick="window.print()">Печать / Сохранить как PDF</button>
+        <button onclick="downloadWord()">Скачать как Word (.doc)</button>
+    </div>
+
+    <h1>ПРИЛОЖЕНИЕ 1<br>ЗАЯВКА НА ПОДБОР ПЕРСОНАЛА</h1>
+    <table>
+        <tbody><tr><td><b>Дата заявки</b></td><td>«___» ___________ 20__ г.</td></tr>
+        <tr><td><b>Подразделение (парк/офис)</b></td><td>__________________________</td></tr>
+        <tr><td><b>Инициатор (ФИО, должность)</b></td><td>__________________________</td></tr>
+        <tr><td><b>Наименование должности</b></td><td>__________________________</td></tr>
+        <tr><td><b>Количество вакансий</b></td><td>__________________________</td></tr>
+        <tr><td><b>Причина подбора</b></td><td>☐ Новая должность<br>☐ Замена уволившегося сотрудника<br>☐ Расширение штата</td></tr>
+        <tr><td><b>Срочность подбора</b></td><td>☐ Стандартная<br>☐ Срочная (указать причину) ____________________</td></tr>
+        <tr><td><b>Требования к кандидату</b></td><td>Образование: ____________________<br>Опыт работы: ____________________<br>Навыки: __________________________<br>Прочее: __________________________</td></tr>
+        <tr><td><b>Условия работы</b></td><td>График: ____________________<br>Оклад/ставка: ____________________<br>Испытательный срок: ☐ Да (___ мес.) ☐ Нет</td></tr>
+        <tr><td colspan="2"><b>Согласование:</b></td></tr>
+        <tr><td>Непосредственный руководитель</td><td>_________________ (подпись) / _________________ (ФИО)</td></tr>
+        <tr><td>Управляющий парком / Директор направления</td><td>_________________ (подпись) / _________________ (ФИО)</td></tr>
+        <tr><td><b>Генеральный директор</b><br>(для должностей, требующих утверждения)</td><td>_________________ (подпись) / _________________ (ФИО)</td></tr>
+        <tr><td>Руководитель кадрового отдела (отметка о получении)</td><td>_________________ (подпись) / Дата: ___________</td></tr>
+    </tbody></table>
+
+    <script>
+        function downloadWord() {
+            const printContent = document.querySelector('body').cloneNode(true);
+            const btnContainer = printContent.querySelector('.btn-container');
+            if (btnContainer) btnContainer.remove();
+            const htmlContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+                      xmlns:w="urn:schemas-microsoft-com:office:word" 
+                      xmlns="http://www.w3.org/TR/REC-html40">
+                <head><meta charset="UTF-8"><title>Приложение 1 – Заявка на подбор персонала</title></head>
+                <body>${printContent.innerHTML}</body>
+                </html>`;
+            const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Приложение_1_Заявка_на_подбор_персонала.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+</body></html>
