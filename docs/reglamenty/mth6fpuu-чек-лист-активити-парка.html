@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/Admin/Downloads/deepseek_html_20260629_672de0.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Чек-лист активити-парка</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 20px;
+            background: #f5f7fa;
+            color: #1a1a1a;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 { color: #2c3e50; }
+        .info { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+        .info label { font-weight: bold; margin-right: 5px; }
+        .info input { padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        th { background: #34495e; color: white; padding: 10px 8px; text-align: center; }
+        td { padding: 8px; border: 1px solid #ddd; vertical-align: middle; }
+        td:first-child { text-align: center; width: 40px; }
+        td:nth-child(2) { width: 60%; }
+        td:nth-child(3) { text-align: center; width: 120px; }
+        select { padding: 5px; border-radius: 4px; border: 1px solid #aaa; }
+        .total { font-weight: bold; background: #ecf0f1; font-size: 14px; }
+        .section-title { background: #2c3e50; color: white; padding: 10px 15px; margin: 25px 0 10px; border-radius: 6px; }
+        .result { background: #e8f5e9; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; font-size: 16px; }
+        .warning { background: #ffebee; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Чек-лист активити-парка</h1>
+    <div class="info">
+        <div><label>Объект:</label><input type="text" id="objectName" placeholder="Название парка"></div>
+        <div><label>Дата:</label><input type="date" id="checkDate"></div>
+        <div><label>Время:</label><input type="time" id="checkTime"></div>
+        <div><label>Проверяющий:</label><input type="text" id="inspector" placeholder="ФИО"></div>
+    </div>
+    <p><b>Максимальный балл:</b> 98 (49 пунктов × 2)</p>
+
+    <table id="parkTable">
+        <thead>
+            <tr><th>№</th><th>Пункт проверки</th><th>Оценка (0/1/2)</th></tr>
+        </thead>
+        <tbody>
+            <!-- Входная зона и территория (1–12) -->
+            <tr><td colspan="3" class="section-title">Входная зона и территория</td></tr>
+            <tr><td>1</td><td>Входная группа и кассовая зона находятся в чистоте, отсутствуют пыль, подтеки и загрязнения</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>2</td><td>Полы, покрытия, мебель и стены, без пыли и пятен</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>3</td><td>Стёкла чистые, без разводов и отпечатков</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>4</td><td>Вывеска, освещение и музыкальное оборудование функционируют исправно</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>5</td><td>Презентабельная выкладка товаров (мерч)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>6</td><td>В зоне кассы отсутствуют посторонние предметы, анкеты, флаеры, визитки размещены аккуратно</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>7</td><td>Телевизоры/экраны работают (при наличии)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>8</td><td>В кассовой зоне представлены актуальные рекламные материалы и информация о текущих тарифах и акциях</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>9</td><td>В гардеробном помещении чисто, вешалки расположены аккуратно, мусорные контейнеры не переполнены</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>10</td><td>Шкафчики для хранения вещей и обувные отсеки чистые, на полу отсутствуют посторонние предметы. На ячейках закреплены номерки, присутствуют ложки для обуви</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>11</td><td>Температурный режим в парке комфортный</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>12</td><td>Игровое оборудование чистое</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Аттракционы – безопасность и техническое состояние (13–26) -->
+            <tr><td colspan="3" class="section-title">Аттракционы – безопасность и техническое состояние</td></tr>
+            <tr><td>13</td><td>Правила эксплуатации размещены у входа на каждый аттракцион</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>14</td><td>Игровое оборудование исправно</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>15</td><td>Персонал размещен на рабочих местах в соответствии с паспортом аттракциона</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>16</td><td>Сотрудники контролируют соблюдение ограничений по росту, весу и возрасту</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>17</td><td>Сотрудники следят за соблюдением техники безопасности на аттракционах</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>18</td><td>На аттракционах установлены весы и ростомеры</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>19</td><td>На закрытых аттракционах для гостей установлены ограничительные ленты и информационные таблички</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>20</td><td>Освещение во всех аттракционах функционирует исправно</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>21</td><td>Ограждения и барьеры целы и надежны</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>22</td><td>На аттракционах отсутствуют выступающие стяжки, болты и металлические элементы</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>23</td><td>Защитные сетки и маты находятся в хорошем состоянии</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>24</td><td>Все карманы аттракционов закрыты на замок</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>25</td><td>Электропитание и заземление соответствуют нормам безопасности, розетки недоступны для детей, отсутствуют выступающие провода</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>26</td><td>Ведение ежедневных журналов игрового оборудования осуществляется</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Безопасность гостей и сотрудников (27–33) -->
+            <tr><td colspan="3" class="section-title">Безопасность гостей и сотрудников</td></tr>
+            <tr><td>27</td><td>План эвакуации размещён и актуален</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>28</td><td>Эвакуационные выходы свободны, обозначены</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>29</td><td>Огнетушители в наличии, проверены (срок годности)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>30</td><td>Аптечка укомплектована, препараты не просрочены</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>31</td><td>Персонал знает порядок действий при ЧС</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>32</td><td>Нет скользких / травмоопасных участков</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>33</td><td>Монитор смайл-оценки (NPS) работает, экран чистый</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Чистота и санитария парка (34–39) -->
+            <tr><td colspan="3" class="section-title">Чистота и санитария парка</td></tr>
+            <tr><td>34</td><td>Туалеты чистые, без запаха</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>35</td><td>В наличии мыло, туалетная бумага, бумажные полотенца</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>36</td><td>Сушилки / диспенсеры работают</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>37</td><td>Зона пеленания / детская комната в чистоте (если есть)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>38</td><td>Нет мусора на территории</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>39</td><td>Мусорные баки не переполнены</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Персонал и сервис (40–44) -->
+            <tr><td colspan="3" class="section-title">Персонал и сервис</td></tr>
+            <tr><td>40</td><td>Все сотрудники одеты в чистую форму, имеют бейджи, внешний вид опрятный</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>41</td><td>Персонал приветлив и готов оказать гостям помощь по любым вопросам</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>42</td><td>В зоне видимости гостей отсутствуют посторонние разговоры и использование мобильных телефонов</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>43</td><td>Сотрудники ознакомлены со всеми текущими акциями парка</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>44</td><td>Гостям предлагаются все дополнительные услуги парка (мерч, аквагрим, сертификаты, абонементы, услуги сопровождения)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <!-- Кассовая дисциплина и оборудование (45–49) -->
+            <tr><td colspan="3" class="section-title">Кассовая дисциплина и оборудование</td></tr>
+            <tr><td>45</td><td>Кассовые терминалы работают исправно</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>46</td><td>Чековая лента в наличии</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>47</td><td>Сканеры / турникеты на входе функционируют</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>48</td><td>Журнал кассира-операциониста заполняется (если применимо)</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+            <tr><td>49</td><td>Выручка сдаётся по регламенту</td><td><select class="score"><option value="0">0</option><option value="1">1</option><option value="2" selected="">2</option></select></td></tr>
+
+            <tr class="total"><td colspan="2">ИТОГО БАЛЛОВ по парку</td><td id="parkTotal">98</td></tr>
+            <tr><td colspan="2">Процент выполнения</td><td id="parkPercent">100%</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function calculateTotal() {
+        const selects = document.querySelectorAll('#parkTable .score');
+        let sum = 0;
+        selects.forEach(select => {
+            sum += parseInt(select.value);
+        });
+        document.getElementById('parkTotal').textContent = sum;
+        const percent = Math.round((sum / 98) * 100);
+        document.getElementById('parkPercent').textContent = percent + '%';
+    }
+
+    document.querySelectorAll('#parkTable .score').forEach(select => {
+        select.addEventListener('change', calculateTotal);
+    });
+
+    calculateTotal();
+</script>
+
+</body></html>
