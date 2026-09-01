@@ -175,11 +175,12 @@
 
   /* ---------- Ввод GitHub-токена (общий для кнопки и удаления) ---------- */
   function promptToken(hint) {
-    const t = prompt((hint ? hint + '\n\n' : '') + 'Вставьте GitHub Personal Access Token (ghp_...):', '');
-    if (t && t.trim().startsWith('ghp_')) {
-      GH.setToken(t.trim());
+    const t = prompt((hint ? hint + '\n\n' : '') + 'Вставьте GitHub Personal Access Token (ghp_... или github_pat_...):', '');
+    const tok = t ? t.trim() : '';
+    if (tok && (tok.startsWith('ghp_') || tok.startsWith('github_pat_'))) {
+      GH.setToken(tok);
     } else if (t) {
-      Portal.toast('Токен должен начинаться с ghp_');
+      Portal.toast('Токен должен начинаться с ghp_ или github_pat_');
     }
   }
 
