@@ -57,8 +57,13 @@ const GH = (() => {
     try {
       f = await getFile(path);
     } catch (e) {
-      // Приватный репозиторий: анонимное чтение с GitHub Pages НЕ работает.
-      // Если токен не задан или отвергнут — сообщаем об этом явно.
+      // Fallback: читаем напрямую с GitHub Pages (для публичного репо)
+      const root = location.href.replace(/[^/]*$/, '');
+      try {
+        const r = await fetch(root + path);
+        if (r.ok) return { json: await r.json(), sha: null };
+      } catch (fetchErr) { /* ignore */ }
+      // Если и fallback не сработал — проверяем токен
       if (!hasToken()) {
         throw new Error(TOKEN_MISSING_MSG);
       }
