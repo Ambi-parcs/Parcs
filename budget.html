@@ -2551,7 +2551,10 @@ function getPlanForPark(park, month, cat) {
 function renderYear() {
     const container = document.getElementById('yearContent');
     const months = ACTIVE_MONTHS;
-    const parkFilter = document.getElementById('yearParkSelect').value;
+    let parkFilter = document.getElementById('yearParkSelect').value;
+    if (currentUser && currentUser.role === 'manager') {
+        parkFilter = currentUser.park;
+    }
     const isApproved = data.isYearApproved;
 
     // Проверка прав на редактирование планов
@@ -2818,7 +2821,10 @@ function fillMonthlyFromAnnual() {
 function renderQuarter() {
     const quarter = parseInt(document.getElementById('quarterSelect').value);
     const container = document.getElementById('quarterContent');
-    const parkFilter = document.getElementById('quarterParkSelect').value;
+    let parkFilter = document.getElementById('quarterParkSelect').value;
+    if (currentUser && currentUser.role === 'manager') {
+        parkFilter = currentUser.park;
+    }
     const isApproved = data.isQuarterApproved[quarter] || false;
 
     // Проверка прав на редактирование планов
@@ -3540,6 +3546,9 @@ function renderWeek() {
 
     container.innerHTML = '';
     let parks = data.parks;
+    if (currentUser && currentUser.role === 'manager') {
+        parks = [currentUser.park];
+    }
     if (currentUser && currentUser.role === 'manager') {
         parks = [currentUser.park];
     }
@@ -5250,6 +5259,31 @@ document.getElementById('founderMonthSelect').value = defaultMonth;
 const portalSess = localStorage.getItem('ambi_portal_session_v1');
 if (!portalSess) { location.replace('index.html?login=1'); }
 
+// Преобразование ролей портала в роли бюджета
+const PORTAL_TO_BUDGET = {
+    'admin': { role: 'admin', park: null },
+    'director': { role: 'director', park: null },
+    'cmo': { role: 'cmo', park: null },
+    'cfo': { role: 'cfo', park: null },
+    'art': { role: 'art', park: null },
+    'horosho': { role: 'manager', park: 'Хорошо!' },
+    'columbus': { role: 'manager', park: 'Коламбус' },
+    'vegas': { role: 'manager', park: 'Вегас' },
+    'okeania': { role: 'manager', park: 'Океания' }
+};
+
+// Если нет сохранённого пользователя бюджета — создаём из сессии портала
+if (!localStorage.getItem('ambiland_user') && portalSess) {
+    try {
+        const sess = JSON.parse(portalSess);
+        const mapping = PORTAL_TO_BUDGET[sess.role];
+        if (mapping) {
+            const budgetUser = { role: mapping.role, name: sess.name, park: mapping.park };
+            localStorage.setItem('ambiland_user', JSON.stringify(budgetUser));
+        }
+    } catch(e) {}
+}
+
 const savedUser = localStorage.getItem('ambiland_user');
 if (savedUser) {
     try {
@@ -5262,6 +5296,16 @@ if (savedUser) {
         renderWeek();
         renderFounder();
         renderRegulations();
+
+        // Для менеджеров — сразу переключаем на вкладку "Месячный бюджет"
+        if (currentUser && currentUser.role === 'manager') {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const monthTab = document.getElementById('tabMonth');
+            const monthContent = document.getElementById('monthContent');
+            if (monthTab) monthTab.classList.add('active');
+            if (monthContent) monthContent.classList.add('active');
+        }
     } catch(e) {
         showLogin();
     }
