@@ -1,0 +1,20 @@
+{
+  "name": "АмбиЛенд — Корпоративный портал",
+  "short_name": "АмбиЛенд",
+  "description": "Корпоративный портал сети активити-парков АмбиЛенд",
+  "start_url": "/Parcs/index.html",
+  "display": "standalone",
+  "background_color": "#1a3c5e",
+  "theme_color": "#1a3c5e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "ru",
+  "dir": "ltr"
+}
