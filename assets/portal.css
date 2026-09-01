@@ -434,3 +434,57 @@ body.has-portal-bar{padding-top:52px !important}
   .perm-row .pr-desc{display:none}
   .folder-num{font-size:12px}
 }
+
+/* ============================================
+   ДОПОЛНИТЕЛЬНАЯ МОБИЛЬНАЯ АДАПТАЦИЯ
+   ============================================ */
+
+/* Планшеты (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 641px) {
+  .wrap { padding: 0 16px; }
+  .portal-header .head-row { flex-wrap: wrap; gap: 8px; }
+  .portal-header .head-title { font-size: 18px; }
+  .portal-header .head-sub { font-size: 12px; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .card { padding: 16px; }
+  .card h3 { font-size: 15px; }
+}
+
+/* Мобильные (до 640px) — расширение существующих */
+@media (max-width: 640px) {
+  .portal-header { padding: 12px 0; }
+  .portal-header .head-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .portal-header .head-icon { width: 36px; height: 36px; }
+  .portal-header .head-title { font-size: 16px; }
+  .portal-header .head-sub { font-size: 11px; }
+
+  .grid { grid-template-columns: 1fr; gap: 12px; }
+  .card { padding: 14px; }
+  .card h3 { font-size: 14px; }
+  .card p { font-size: 12px; }
+
+  .section-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .section-head h2 { font-size: 16px; }
+
+  .docs { grid-template-columns: 1fr; }
+  .doc { padding: 14px; }
+
+  footer .wrap { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+/* Маленькие мобильные (до 400px) */
+@media (max-width: 400px) {
+  .wrap { padding: 0 10px; }
+  .portal-header .head-title { font-size: 14px; }
+  .card { padding: 12px; }
+  .btn { padding: 6px 12px; font-size: 12px; }
+}
+
+/* Предпочтение уменьшенной анимации */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
