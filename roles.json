@@ -181,5 +181,51 @@
       "view.reglamenty": true,
       "manage.kontrol": true
     }
+  },
+  {
+    "id": "rop",
+    "login": "rop",
+    "pwdHash": "d5c43188",
+    "name": "РОП (Руководитель отдела продаж)",
+    "note": "Просмотр всех разделов, управление продажами",
+    "builtin": false,
+    "perms": {
+      "roles.create": false,
+      "view.kontrol": true,
+      "manage.kontrol": false,
+      "view.budget": true,
+      "manage.budget": false,
+      "view.analitika": true,
+      "manage.analitika": false,
+      "view.obuchenie": true,
+      "manage.obuchenie": false,
+      "view.motivatsia": true,
+      "manage.motivatsia": false,
+      "view.reglamenty": true,
+      "manage.reglamenty": false
+    }
+  },
+  {
+    "id": "brend",
+    "login": "brend",
+    "pwdHash": "574acc1f",
+    "name": "Бренд-шеф",
+    "note": "Просмотр всех разделов, управление брендом и меню",
+    "builtin": false,
+    "perms": {
+      "roles.create": false,
+      "view.kontrol": true,
+      "manage.kontrol": false,
+      "view.budget": true,
+      "manage.budget": false,
+      "view.analitika": true,
+      "manage.analitika": false,
+      "view.obuchenie": true,
+      "manage.obuchenie": false,
+      "view.motivatsia": true,
+      "manage.motivatsia": false,
+      "view.reglamenty": true,
+      "manage.reglamenty": false
+    }
   }
 ]
