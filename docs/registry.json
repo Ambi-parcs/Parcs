@@ -238,5 +238,13 @@
     "hidden": true,
     "title": "План на июль 2026",
     "ts": 1788325067358
+  },
+  {
+    "id": "static_analitika_3",
+    "section": "analitika",
+    "staticIndex": 3,
+    "hidden": true,
+    "title": "Еженедельные отчёты (бюджет)",
+    "ts": 1788326172959
   }
 ]
