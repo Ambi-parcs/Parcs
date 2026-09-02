@@ -317,19 +317,24 @@ const Portal = (() => {
   /* ---------- Модалка входа ---------- */
   function openLoginModal(onSuccess) {
     openModal({
-      title: 'Вход на портал',
+      title: '',
       bodyHTML: `
-        <div class="p-field">
-          <label for="pLoginUser">Логин</label>
-          <input type="text" id="pLoginUser" autocomplete="username" placeholder="Ваш логин">
+        <div style="text-align:center;margin-bottom:20px">
+          <div style="font-size:48px;margin-bottom:8px">🏰</div>
+          <h3 style="margin:0;font-size:20px;color:#1a3c5e;font-weight:700">АмбиЛенд</h3>
+          <p style="margin:4px 0 0;color:#6b7280;font-size:13px">Корпоративный портал</p>
         </div>
         <div class="p-field">
-          <label for="pLoginPass">Пароль</label>
-          <input type="password" id="pLoginPass" autocomplete="current-password" placeholder="Ваш пароль">
+          <label for="pLoginUser">👤 Логин</label>
+          <input type="text" id="pLoginUser" autocomplete="username" placeholder="Введите логин">
+        </div>
+        <div class="p-field">
+          <label for="pLoginPass">🔒 Пароль</label>
+          <input type="password" id="pLoginPass" autocomplete="current-password" placeholder="Введите пароль">
         </div>
         <div class="p-error" id="pLoginErr"></div>
-        <div class="p-hint">Доступ выдаёт администратор. Если забыли пароль — обратитесь к администратору портала.</div>`,
-      footerHTML: `<button class="btn-p primary" id="pLoginGo">${icon('lock')} Войти</button>`,
+        <div class="p-hint" style="text-align:center">Доступ выдаёт администратор. <a href="admin.html" style="color:#1a3c5e;font-weight:600">⚙️ Управление доступом</a></div>`,
+      footerHTML: `<button class="btn-p primary" id="pLoginGo" style="width:100%;padding:12px;font-size:15px">${icon('lock')} Войти в портал</button>`,
       onOpen(wrap, close) {
         const user = wrap.querySelector('#pLoginUser');
         const pass = wrap.querySelector('#pLoginPass');
@@ -341,7 +346,7 @@ const Portal = (() => {
           go.textContent = 'Вход…';
           const res = await login(user.value, pass.value);
           go.disabled = false;
-          go.innerHTML = icon('lock') + ' Войти';
+          go.innerHTML = icon('lock') + ' Войти в портал';
           if (!res.ok) { err.textContent = res.error; return; }
           close();
           toast('Вы вошли как ' + (res.role.name || res.role.login) + (res.via === 'github' ? '' : ' (демо-режим)'));
