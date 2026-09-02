@@ -214,5 +214,13 @@
     "url": "docs/reglamenty/mth7a08z-регламент-заключения-договоров-с-обходным-листом.html",
     "size": 21563,
     "ts": 1788178449082
+  },
+  {
+    "id": "static_analitika_0",
+    "section": "analitika",
+    "staticIndex": 0,
+    "hidden": true,
+    "title": "Анализ и прогноз 2026",
+    "ts": 1788324583654
   }
 ]
