@@ -222,5 +222,13 @@
     "hidden": true,
     "title": "Анализ и прогноз 2026",
     "ts": 1788324583654
+  },
+  {
+    "id": "static_analitika_4",
+    "section": "analitika",
+    "staticIndex": 4,
+    "hidden": true,
+    "title": "Еженедельные отчёты",
+    "ts": 1788324674739
   }
 ]
