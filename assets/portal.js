@@ -62,6 +62,10 @@ const Portal = (() => {
         note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
       { id: 'mgr_okeania', login: 'okeania', pwdHash: hashPwd('men4567'), name: 'Управляющий парка «Океания»',
         note: 'Раздел 1: управление, остальные — просмотр', builtin: true, perms: { ...mgr } },
+      { id: 'rop', login: 'rop', pwdHash: hashPwd('event234'), name: 'РОП (Руководитель отдела продаж)',
+        note: 'Просмотр всех разделов', perms: { ...mgr } },
+      { id: 'brend', login: 'brend', pwdHash: hashPwd('brend234'), name: 'Бренд-шеф',
+        note: 'Просмотр всех разделов', perms: { ...mgr } },
     ];
   }
 
