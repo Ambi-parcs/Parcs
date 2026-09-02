@@ -194,12 +194,14 @@ window.GH_CONFIG = {
         <span class="au-role">${role.login}</span>
         <button class="au-logout" id="authLogout">${Portal.icon('out')} Выйти</button>
       </div>
-      ${Portal.can('roles.create') ? `<a href="admin.html" class="btn-p light" style="text-decoration:none;display:inline-block;text-align:center">${Portal.icon('key')} ⚙️ Администрирование</a>` : ''}`;
+      ${Portal.can('roles.create') ? `<button class="btn-p light" id="authAdmin">${Portal.icon('key')} ⚙️ Администрирование</button>` : ''}`;
     authBox.querySelector('#authLogout').addEventListener('click', () => {
       Portal.logout();
       Portal.toast('Вы вышли из портала');
       renderAuth();
     });
+    const adminBtn = authBox.querySelector('#authAdmin');
+    if (adminBtn) adminBtn.addEventListener('click', () => location.href = 'admin.html');
   }
 
   function permsSummary(role) {
