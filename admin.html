@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Администрирование — АмбиЛенд</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f6f8; color: #1a1a2e; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px; }
+  .header { background: #1a3c5e; color: #fff; padding: 24px 0; margin-bottom: 24px; }
+  .header h1 { font-size: 22px; }
+  .header p { opacity: 0.7; font-size: 13px; margin-top: 4px; }
+  .card { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 16px; color: #1a3c5e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1a3c5e; color: #fff; text-align: left; padding: 10px 12px; }
+  td { padding: 10px 12px; border-bottom: 1px solid #e5e7eb; }
+  tr:hover { background: #f9fafb; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px; }
+  .field input, .field select { width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; }
+  .btn { border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #1a3c5e; color: #fff; }
+  .btn-primary:hover { background: #142d47; }
+  .btn-danger { background: #fee2e2; color: #991b1b; }
+  .btn-danger:hover { background: #fecaca; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn-ghost { background: transparent; color: #1a3c5e; border: 1px solid #d1d5db; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge-admin { background: #fef3c7; color: #92400e; }
+  .badge-user { background: #f3f4f6; color: #6b7280; }
+  .hidden { display: none !important; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #1a3c5e; color: #fff; padding: 12px 20px; border-radius: 8px; opacity: 0; transition: opacity 0.3s; z-index: 200; }
+  .toast.show { opacity: 1; }
+  .toast.error { background: #dc2626; }
+  .tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 2px solid #e5e7eb; }
+  .tab { padding: 8px 16px; cursor: pointer; font-size: 14px; color: #6b7280; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+  .tab.active { color: #1a3c5e; border-bottom-color: #d4af37; font-weight: 600; }
+  .back-link { color: #1a3c5e; text-decoration: none; font-weight: 600; }
+  .back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="wrap">
+    <h1>⚙️ Администрирование портала</h1>
+    <p>Управление пользователями, ролями и паролями</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="accessDenied" class="card hidden">
+    <h2>❌ Доступ запрещён</h2>
+    <p>Эта страница доступна только администратору портала.</p>
+    <a href="index.html" class="back-link">← На главную</a>
+  </div>
+
+  <div id="adminPanel" class="hidden">
+    <div style="margin-bottom:16px">
+      <a href="index.html" class="back-link">← Вернуться на портал</a>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="list" onclick="showTab('list')">👥 Пользователи</div>
+      <div class="tab" data-tab="add" onclick="showTab('add')">➕ Добавить</div>
+    </div>
+
+    <!-- Список -->
+    <div id="tab-list" class="card">
+      <h2>Список пользователей</h2>
+      <table>
+        <thead>
+          <tr><th>Логин</th><th>Должность</th><th>Тип</th><th>Действия</th></tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+      </table>
+    </div>
+
+    <!-- Добавить -->
+    <div id="tab-add" class="card hidden">
+      <h2>Добавить нового пользователя</h2>
+      <form id="addUserForm">
+        <div class="field"><label>Логин (только a-z, 0-9, _)</label><input id="newLogin" placeholder="ivanov" required pattern="[a-z0-9_]+"></div>
+        <div class="field"><label>Должность / ФИО</label><input id="newName" placeholder="Иванов И.П. / Менеджер" required></div>
+        <div class="field"><label>Пароль (минимум 4 символа)</label><input id="newPass" type="password" placeholder="••••" required minlength="4"></div>
+        <div class="field"><label>Примечание (опционально)</label><input id="newNote" placeholder="Дополнительная информация"></div>
+        <button type="submit" class="btn btn-primary">➕ Добавить пользователя</button>
+      </form>
+    </div>
+
+    <!-- Смена пароля -->
+    <div id="tab-password" class="card hidden">
+      <h2>🔑 Сменить пароль</h2>
+      <p id="pwdUserName" style="margin-bottom:12px;font-weight:600;color:#1a3c5e"></p>
+      <form id="changePwdForm">
+        <input type="hidden" id="pwdUserId">
+        <div class="field"><label>Новый пароль (минимум 4 символа)</label><input id="newPwd" type="password" placeholder="••••" required minlength="4"></div>
+        <button type="submit" class="btn btn-primary">💾 Сохранить пароль</button>
+        <button type="button" class="btn btn-ghost" onclick="showTab('list')" style="margin-left:8px">Отмена</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const ROLES_KEY = 'ambiland_portal_roles_v1';
+const SESSION_KEY = 'ambi_portal_session_v1';
+
+function hashPwd(pwd) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < String(pwd).length; i++) {
+    h ^= String(pwd).charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(16).padStart(8, '0');
+}
+
+function getRoles() {
+  try {
+    const raw = localStorage.getItem(ROLES_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  // Встроенные роли
+  const mgr = {'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':false,'view.analitika':true,'manage.analitika':false,'view.obuchenie':true,'manage.obuchenie':false,'view.motivatsia':true,'manage.motivatsia':false,'view.reglamenty':true,'manage.reglamenty':false};
+  return [
+    {id:'admin',login:'admin',pwdHash:hashPwd('0987'),name:'Администратор',note:'Полный доступ',builtin:true,perms:{'roles.create':true,'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':true,'view.analitika':true,'manage.analitika':true,'view.obuchenie':true,'manage.obuchenie':true,'view.motivatsia':true,'manage.motivatsia':true,'view.reglamenty':true,'manage.reglamenty':true}},
+    {id:'director',login:'director',pwdHash:hashPwd('0987'),name:'Генеральный директор',note:'Полный доступ',builtin:true,perms:{'roles.create':true,'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':true,'view.analitika':true,'manage.analitika':true,'view.obuchenie':true,'manage.obuchenie':true,'view.motivatsia':true,'manage.motivatsia':true,'view.reglamenty':true,'manage.reglamenty':true}},
+    {id:'cmo',login:'cmo',pwdHash:hashPwd('cmo123'),name:'Коммерческий директор',note:'Полный доступ',builtin:true,perms:{'roles.create':false,'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':true,'view.analitika':true,'manage.analitika':true,'view.obuchenie':true,'manage.obuchenie':true,'view.motivatsia':true,'manage.motivatsia':true,'view.reglamenty':true,'manage.reglamenty':true}},
+    {id:'cfo',login:'cfo',pwdHash:hashPwd('cfo123'),name:'Финансовый директор',note:'Полный доступ',builtin:true,perms:{'roles.create':false,'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':true,'view.analitika':true,'manage.analitika':true,'view.obuchenie':true,'manage.obuchenie':true,'view.motivatsia':true,'manage.motivatsia':true,'view.reglamenty':true,'manage.reglamenty':true}},
+    {id:'art',login:'art',pwdHash:hashPwd('art234'),name:'Арт-директор',note:'Полный доступ',builtin:true,perms:{'roles.create':false,'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':true,'view.analitika':true,'manage.analitika':true,'view.obuchenie':true,'manage.obuchenie':true,'view.motivatsia':true,'manage.motivatsia':true,'view.reglamenty':true,'manage.reglamenty':true}},
+    {id:'horosho',login:'horosho',pwdHash:hashPwd('1234'),name:'Управляющий парка «Хорошо»',note:'Раздел 1: управление, остальные — просмотр',builtin:true,perms:{...mgr}},
+    {id:'columbus',login:'columbus',pwdHash:hashPwd('men2345'),name:'Управляющий парка «Коламбус»',note:'Раздел 1: управление, остальные — просмотр',builtin:true,perms:{...mgr}},
+    {id:'vegas',login:'vegas',pwdHash:hashPwd('3456'),name:'Управляющий парка «Вегас»',note:'Раздел 1: управление, остальные — просмотр',builtin:true,perms:{...mgr}},
+    {id:'okeania',login:'okeania',pwdHash:hashPwd('men4567'),name:'Управляющий парка «Океания»',note:'Раздел 1: управление, остальные — просмотр',builtin:true,perms:{...mgr}},
+    {id:'rop',login:'rop',pwdHash:hashPwd('event234'),name:'РОП (Руководитель отдела продаж)',note:'Просмотр всех разделов',builtin:true,perms:{...mgr}},
+    {id:'brend',login:'brend',pwdHash:hashPwd('brend234'),name:'Бренд-шеф',note:'Просмотр всех разделов',builtin:true,perms:{...mgr}},
+  ];
+}
+
+function saveRoles(roles) {
+  localStorage.setItem(ROLES_KEY, JSON.stringify(roles));
+}
+
+function toast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Проверка доступа
+const session = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+if (!session || session.role !== 'admin') {
+  document.getElementById('accessDenied').classList.remove('hidden');
+} else {
+  document.getElementById('adminPanel').classList.remove('hidden');
+  renderUsers();
+}
+
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => { if(t.dataset.tab === name) t.classList.add('active'); });
+  document.getElementById('tab-list').classList.toggle('hidden', name !== 'list');
+  document.getElementById('tab-add').classList.toggle('hidden', name !== 'add');
+  document.getElementById('tab-password').classList.toggle('hidden', name !== 'password');
+}
+
+function renderUsers() {
+  const roles = getRoles();
+  const tbody = document.getElementById('usersTable');
+  tbody.innerHTML = roles.map(r => `
+    <tr>
+      <td><b>${r.login}</b></td>
+      <td>${r.name}</td>
+      <td>${r.builtin ? '<span class="badge badge-admin">Встроенная</span>' : '<span class="badge badge-user">Пользовательская</span>'}</td>
+      <td>
+        <button class="btn btn-sm btn-primary" onclick="openPwd('${r.id}', '${r.name.replace(/'/g, "\'")}')">🔑 Пароль</button>
+        ${!r.builtin ? `<button class="btn btn-sm btn-danger" onclick="deleteUser('${r.id}')" style="margin-left:4px">🗑 Удалить</button>` : ''}
+      </td>
+    </tr>
+  `).join('');
+}
+
+document.getElementById('addUserForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const login = document.getElementById('newLogin').value.trim().toLowerCase();
+  const name = document.getElementById('newName').value.trim();
+  const pass = document.getElementById('newPass').value;
+  const note = document.getElementById('newNote').value.trim();
+
+  if (!login || !name || !pass) { toast('Заполните все обязательные поля', true); return; }
+  if (!/^[a-z0-9_]+$/.test(login)) { toast('Логин: только латинские буквы, цифры и _', true); return; }
+  if (pass.length < 4) { toast('Пароль: минимум 4 символа', true); return; }
+
+  const roles = getRoles();
+  if (roles.some(r => r.login === login)) { toast('Логин уже занят', true); return; }
+
+  const mgr = {'view.kontrol':true,'manage.kontrol':false,'view.budget':true,'manage.budget':false,'view.analitika':true,'manage.analitika':false,'view.obuchenie':true,'manage.obuchenie':false,'view.motivatsia':true,'manage.motivatsia':false,'view.reglamenty':true,'manage.reglamenty':false};
+  roles.push({id: 'user_' + Date.now(), login, pwdHash: hashPwd(pass), name, note: note || 'Пользовательская роль', builtin: false, perms: mgr});
+  saveRoles(roles);
+  toast('✅ Пользователь ' + login + ' добавлен');
+  this.reset();
+  showTab('list');
+  renderUsers();
+});
+
+function openPwd(id, name) {
+  document.getElementById('pwdUserId').value = id;
+  document.getElementById('pwdUserName').textContent = 'Смена пароля для: ' + name;
+  document.getElementById('newPwd').value = '';
+  showTab('password');
+}
+
+document.getElementById('changePwdForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const id = document.getElementById('pwdUserId').value;
+  const pwd = document.getElementById('newPwd').value;
+  if (!pwd || pwd.length < 4) { toast('Минимум 4 символа', true); return; }
+
+  const roles = getRoles();
+  const user = roles.find(r => r.id === id);
+  if (!user) { toast('Пользователь не найден', true); return; }
+
+  user.pwdHash = hashPwd(pwd);
+  saveRoles(roles);
+  toast('✅ Пароль для ' + user.login + ' изменён');
+  showTab('list');
+  renderUsers();
+});
+
+function deleteUser(id) {
+  const roles = getRoles();
+  const user = roles.find(r => r.id === id);
+  if (!user) return;
+  if (!confirm('Удалить пользователя «' + user.name + '» (' + user.login + ')?')) return;
+  const filtered = roles.filter(r => r.id !== id);
+  saveRoles(filtered);
+  toast('🗑 Пользователь удалён');
+  renderUsers();
+}
+</script>
+
+</body>
+</html>
