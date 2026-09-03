@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход — АмбиЛенд</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1a3c5e; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .login-box { background: #fff; padding: 40px; border-radius: 16px; width: 360px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .logo { text-align: center; margin-bottom: 24px; }
+  .logo-icon { font-size: 48px; }
+  .logo h1 { font-size: 22px; color: #1a3c5e; margin-top: 8px; }
+  .logo p { color: #6b7280; font-size: 13px; margin-top: 4px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px; }
+  .field input { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; }
+  .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .btn-primary { background: #1a3c5e; color: #fff; }
+  .btn-primary:hover { background: #142d47; }
+  .error { color: #dc2626; font-size: 13px; margin-top: 10px; text-align: center; min-height: 20px; }
+  .back { text-align: center; margin-top: 16px; }
+  .back a { color: #1a3c5e; font-size: 13px; text-decoration: none; }
+  .back a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <div class="logo">
+    <div class="logo-icon">🏰</div>
+    <h1>АмбиЛенд</h1>
+    <p>Корпоративный портал</p>
+  </div>
+
+  <form id="loginForm">
+    <div class="field">
+      <label>👤 Логин</label>
+      <input type="text" id="loginUser" placeholder="admin" required>
+    </div>
+    <div class="field">
+      <label>🔒 Пароль</label>
+      <input type="password" id="loginPass" placeholder="••••" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Войти в портал</button>
+    <div class="error" id="loginError"></div>
+  </form>
+
+  <div class="back">
+    <a href="index.html">← На главную</a>
+  </div>
+</div>
+
+<script>
+function hashPwd(pwd) {
+  var h = 0x811c9dc5;
+  var s = String(pwd);
+  for (var i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = ((h * 0x01000193) >>> 0);
+  }
+  return (h >>> 0).toString(16);
+}
+
+var ROLES = [
+  {login:'admin',pwdHash:'ea46519b',name:'Администратор'},
+  {login:'director',pwdHash:'ea46519b',name:'Генеральный директор'},
+  {login:'cmo',pwdHash:'f34f2642',name:'Коммерческий директор'},
+  {login:'cfo',pwdHash:'39961c27',name:'Финансовый директор'},
+  {login:'art',pwdHash:'85b84b6f',name:'Арт-директор'},
+  {login:'horosho',pwdHash:'fdc422fd',name:'Управляющий парка «Хорошо»'},
+  {login:'columbus',pwdHash:'fb54d9c3',name:'Управляющий парка «Коламбус»'},
+  {login:'vegas',pwdHash:'576de059',name:'Управляющий парка «Вегас»'},
+  {login:'okeania',pwdHash:'2dbb6ff7',name:'Управляющий парка «Океания»'},
+  {login:'rop',pwdHash:'c8c9e0d4',name:'РОП'},
+  {login:'brend',pwdHash:'e4f5g6h7',name:'Бренд-шеф'}
+];
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var user = document.getElementById('loginUser').value.trim().toLowerCase();
+  var pass = document.getElementById('loginPass').value;
+  var err = document.getElementById('loginError');
+
+  var role = null;
+  for (var i = 0; i < ROLES.length; i++) {
+    if (ROLES[i].login === user) { role = ROLES[i]; break; }
+  }
+
+  if (!role) { err.textContent = 'Пользователь не найден'; return; }
+  if (hashPwd(pass) !== role.pwdHash) { err.textContent = 'Неверный пароль'; return; }
+
+  localStorage.setItem('ambi_portal_session_v1', JSON.stringify({
+    login: role.login, name: role.name, role: role.login, ts: Date.now()
+  }));
+  location.href = 'index.html';
+});
+</script>
+
+</body>
+</html>
