@@ -28,90 +28,111 @@
     <div class="meta">Выберите раздел, чтобы продолжить. Доступные сервисы помечены значком «Доступно».</div>
     <div class="portal-auth" id="portalAuth"></div>
 <script>
-// Inline авторизация (работает независимо от portal.js)
-(function(){
-  const box = document.getElementById('portalAuth');
-  if (!box) return;
+// Авторизация v2 — надёжная версия
+try {
+  (function(){
+    var box = document.getElementById('portalAuth');
+    if (!box) { console.error('portalAuth not found'); return; }
 
-  const SESS_KEY = 'ambi_portal_session_v1';
-  const ROLES_KEY = 'ambiland_portal_roles_v1';
+    var SESS_KEY = 'ambi_portal_session_v1';
 
-  function hashPwd(pwd) {
-    let h = 0x811c9dc5;
-    for (let i = 0; i < String(pwd).length; i++) {
-      h ^= String(pwd).charCodeAt(i);
-      h = Math.imul(h, 0x01000193);
+    function hashPwd(pwd) {
+      var h = 0x811c9dc5;
+      var s = String(pwd);
+      for (var i = 0; i < s.length; i++) {
+        h ^= s.charCodeAt(i);
+        h = ((h * 0x01000193) >>> 0);
+      }
+      return (h >>> 0).toString(16);
     }
-    return (h >>> 0).toString(16).padStart(8, '0');
-  }
 
-  function getRoles() {
-    try {
-      const raw = localStorage.getItem(ROLES_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch(e) {}
-    const mgr = {'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':false,'view.analitika':true,'manage.analitika':false,'view.obuchenie':true,'manage.obuchenie':false,'view.motivatsia':true,'manage.motivatsia':false,'view.reglamenty':true,'manage.reglamenty':false};
-    return [
-      {id:'admin',login:'admin',pwdHash:hashPwd('0987'),name:'Администратор',perms:{'roles.create':true}},
-      {id:'director',login:'director',pwdHash:hashPwd('0987'),name:'Генеральный директор',perms:{'roles.create':true}},
-      {id:'cmo',login:'cmo',pwdHash:hashPwd('cmo123'),name:'Коммерческий директор',perms:{'roles.create':false}},
-      {id:'cfo',login:'cfo',pwdHash:hashPwd('cfo123'),name:'Финансовый директор',perms:{'roles.create':false}},
-      {id:'art',login:'art',pwdHash:hashPwd('art234'),name:'Арт-директор',perms:{'roles.create':false}},
-      {id:'horosho',login:'horosho',pwdHash:hashPwd('1234'),name:'Управляющий парка «Хорошо»',perms:mgr},
-      {id:'columbus',login:'columbus',pwdHash:hashPwd('men2345'),name:'Управляющий парка «Коламбус»',perms:mgr},
-      {id:'vegas',login:'vegas',pwdHash:hashPwd('3456'),name:'Управляющий парка «Вегас»',perms:mgr},
-      {id:'okeania',login:'okeania',pwdHash:hashPwd('men4567'),name:'Управляющий парка «Океания»',perms:mgr},
-      {id:'rop',login:'rop',pwdHash:hashPwd('event234'),name:'РОП',perms:mgr},
-      {id:'brend',login:'brend',pwdHash:hashPwd('brend234'),name:'Бренд-шеф',perms:mgr},
-    ];
-  }
-
-  function login(user, pass) {
-    const roles = getRoles();
-    const role = roles.find(r => r.login === user.trim().toLowerCase());
-    if (!role) return {ok:false, error:'Пользователь не найден'};
-    if (role.pwdHash !== hashPwd(pass)) return {ok:false, error:'Неверный пароль'};
-    localStorage.setItem(SESS_KEY, JSON.stringify({login:role.login, name:role.name, role:role.login, ts:Date.now()}));
-    return {ok:true, role};
-  }
-
-  function logout() {
-    localStorage.removeItem(SESS_KEY);
-    render();
-  }
-
-  function render() {
-    const sess = JSON.parse(localStorage.getItem(SESS_KEY) || 'null');
-    if (!sess) {
-      box.innerHTML = '<button id="inlineLoginBtn" style="background:#1a3c5e;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600">🔐 Войти на портал</button>';
-      document.getElementById('inlineLoginBtn').onclick = showLogin;
-      return;
+    function getRoles() {
+      var mgr = {'view.kontrol':true,'manage.kontrol':true,'view.budget':true,'manage.budget':false,'view.analitika':true,'manage.analitika':false,'view.obuchenie':true,'manage.obuchenie':false,'view.motivatsia':true,'manage.motivatsia':false,'view.reglamenty':true,'manage.reglamenty':false};
+      return [
+        {login:'admin',pwdHash:hashPwd('0987'),name:'Администратор',perms:{'roles.create':true}},
+        {login:'director',pwdHash:hashPwd('0987'),name:'Генеральный директор',perms:{'roles.create':true}},
+        {login:'cmo',pwdHash:hashPwd('cmo123'),name:'Коммерческий директор',perms:{'roles.create':false}},
+        {login:'cfo',pwdHash:hashPwd('cfo123'),name:'Финансовый директор',perms:{'roles.create':false}},
+        {login:'art',pwdHash:hashPwd('art234'),name:'Арт-директор',perms:{'roles.create':false}},
+        {login:'horosho',pwdHash:hashPwd('1234'),name:'Управляющий парка «Хорошо»',perms:mgr},
+        {login:'columbus',pwdHash:hashPwd('men2345'),name:'Управляющий парка «Коламбус»',perms:mgr},
+        {login:'vegas',pwdHash:hashPwd('3456'),name:'Управляющий парка «Вегас»',perms:mgr},
+        {login:'okeania',pwdHash:hashPwd('men4567'),name:'Управляющий парка «Океания»',perms:mgr},
+        {login:'rop',pwdHash:hashPwd('event234'),name:'РОП',perms:mgr},
+        {login:'brend',pwdHash:hashPwd('brend234'),name:'Бренд-шеф',perms:mgr}
+      ];
     }
-    const roles = getRoles();
-    const role = roles.find(r => r.login === sess.role);
-    const isAdmin = role && role.perms && role.perms['roles.create'];
-    box.innerHTML = '<span style="font-size:13px;color:#1a3c5e;font-weight:600">👤 ' + sess.name + '</span>' +
-      '<button id="inlineLogoutBtn" style="background:transparent;color:#6b7280;border:1px solid #d1d5db;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px">Выйти</button>' +
-      (isAdmin ? '<a href="admin.html" style="background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:4px;text-decoration:none;font-size:12px;font-weight:600">⚙️ Админ</a>' : '');
-    document.getElementById('inlineLogoutBtn').onclick = logout;
-  }
 
-  function showLogin() {
-    const user = prompt('👤 Логин:');
-    if (!user) return;
-    const pass = prompt('🔒 Пароль:');
-    if (!pass) return;
-    const res = login(user, pass);
-    if (res.ok) {
-      alert('✅ Вы вошли как ' + res.role.name);
+    function login(user, pass) {
+      var roles = getRoles();
+      var role = null;
+      for (var i = 0; i < roles.length; i++) {
+        if (roles[i].login === user.trim().toLowerCase()) { role = roles[i]; break; }
+      }
+      if (!role) return {ok:false, error:'Пользователь не найден'};
+      if (role.pwdHash !== hashPwd(pass)) return {ok:false, error:'Неверный пароль'};
+      localStorage.setItem(SESS_KEY, JSON.stringify({login:role.login, name:role.name, role:role.login, ts:Date.now()}));
+      return {ok:true, role:role};
+    }
+
+    function logout() {
+      localStorage.removeItem(SESS_KEY);
       render();
-    } else {
-      alert('❌ ' + res.error);
     }
-  }
 
-  render();
-})();
+    function render() {
+      try {
+        var sess = null;
+        var raw = localStorage.getItem(SESS_KEY);
+        if (raw) sess = JSON.parse(raw);
+
+        if (!sess) {
+          box.innerHTML = '<button id="inlineLoginBtn" style="background:#1a3c5e;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px">🔐 Войти на портал</button>';
+          var btn = document.getElementById('inlineLoginBtn');
+          if (btn) btn.onclick = showLogin;
+          return;
+        }
+
+        var roles = getRoles();
+        var role = null;
+        for (var i = 0; i < roles.length; i++) {
+          if (roles[i].login === sess.role) { role = roles[i]; break; }
+        }
+        var isAdmin = role && role.perms && role.perms['roles.create'];
+
+        box.innerHTML = '<span style="font-size:13px;color:#1a3c5e;font-weight:600">👤 ' + sess.name + '</span>' +
+          '<button id="inlineLogoutBtn" style="background:transparent;color:#6b7280;border:1px solid #d1d5db;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:12px">Выйти</button>' +
+          (isAdmin ? '<a href="admin.html" style="background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:4px;text-decoration:none;font-size:12px;font-weight:600">⚙️ Админ</a>' : '');
+
+        var logoutBtn = document.getElementById('inlineLogoutBtn');
+        if (logoutBtn) logoutBtn.onclick = logout;
+      } catch(e) {
+        console.error('Auth render error:', e);
+        box.innerHTML = '<button id="inlineLoginBtn" style="background:#1a3c5e;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px">🔐 Войти на портал</button>';
+        var btn = document.getElementById('inlineLoginBtn');
+        if (btn) btn.onclick = showLogin;
+      }
+    }
+
+    function showLogin() {
+      var user = prompt('👤 Логин:');
+      if (!user) return;
+      var pass = prompt('🔒 Пароль:');
+      if (!pass) return;
+      var res = login(user, pass);
+      if (res.ok) {
+        alert('✅ Вы вошли как ' + res.role.name);
+        render();
+      } else {
+        alert('❌ ' + res.error);
+      }
+    }
+
+    render();
+  })();
+} catch(e) {
+  console.error('Auth init error:', e);
+}
 </script>
   </div>
 </header>
