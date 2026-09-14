@@ -816,10 +816,9 @@
     </div>
     </div>
 
-    <div class="footer">Данные сохраняются в облачной базе и доступны с любого компьютера.</div>
+    <div class="footer">Данные сохраняются в облачном хранилище (GitHub) и доступны с любого компьютера.</div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ========================================================================
 //  ПОЛНЫЙ JS-КОД СО ВСЕМИ ТАБЛИЦАМИ, РОЛЯМИ, УТВЕРЖДЕНИЕМ И МГНОВЕННЫМ СУММИРОВАНИЕМ
@@ -998,9 +997,13 @@ function dropJulAugData() {
     const oldMonths = [6, 7];
     if (data.annualPlan) {
         Object.keys(data.annualPlan).forEach(art => {
-            oldMonths.forEach(m => { data.annualPlan[art][m] = 0; });
+            if (Array.isArray(data.annualPlan[art])) oldMonths.forEach(m => { data.annualPlan[art][m] = 0; });
         });
     }
+    if (!Array.isArray(data.parks)) data.parks = ['Коламбус', 'Вегас', 'Океания', 'Хорошо!'];
+    if (!data.monthData) data.monthData = {};
+    if (!data.weekData) data.weekData = {};
+    if (!data.savedMonth) data.savedMonth = {};
     data.parks.forEach(p => {
         oldMonths.forEach(m => {
             if (data.monthData[p]) delete data.monthData[p][m];
@@ -1206,7 +1209,8 @@ function initQuarterData() {
             if (!data.quarterData[q][m]) data.quarterData[q][m] = {};
             ANNUAL_ARTICLES.forEach(art => {
                 if (!data.quarterData[q][m][art]) data.quarterData[q][m][art] = { plan: 0, fact: 0 };
-                data.quarterData[q][m][art].plan = data.annualPlan[art] ? data.annualPlan[art][monthIndex] : 0;
+                const ap = data.annualPlan && data.annualPlan[art];
+                data.quarterData[q][m][art].plan = (ap && ap[monthIndex] !== undefined) ? ap[monthIndex] : 0;
                 data.quarterData[q][m][art].fact = 0;
             });
         }
@@ -1215,6 +1219,7 @@ function initQuarterData() {
 
 function syncWeekToMonth() {
     data.parks.forEach(p => {
+        if (!data.monthData[p]) data.monthData[p] = {};
         ACTIVE_MONTHS.forEach(m => {
             const md = data.monthData[p][m];
             if (!md) return;
@@ -1268,32 +1273,37 @@ function syncQuarterFromMonth() {
 }
 
 // ========================================================================
-//  ОБЛАЧНОЕ ХРАНИЛИЩЕ (Supabase) — данные доступны с любого компьютера
+//  ОБЛАЧНОЕ ХРАНИЛИЩЕ НА GITHUB (ранее — Supabase)
+//  Данные бюджета хранятся файлом data/budget.json прямо в этом
+//  репозитории. Чтение — без токена (публичный репозиторий, raw URL).
+//  Запись — через GitHub API, токен вводит пользователь один раз
+//  (хранится в localStorage браузера, в коде не светится).
 // ========================================================================
-// ВСТАВЬТЕ сюда значения из вашего проекта Supabase:
-// Project Settings → API → Project URL и anon public key
-const SUPABASE_URL = 'https://dinyzjnluupaeyyasxtl.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_V6w3_dIkRPq86AuvUzw9sw_wBLRk9GA';
-const CLOUD_TABLE = 'budget_storage';
-const CLOUD_ROW_ID = 1;
+const GH_BUDGET = {
+    owner: 'Ambi-parcs',
+    repo: 'Parcs',
+    branch: 'main',
+    path: 'data/budget.json'
+};
+const GH_RAW_URL = 'https://raw.githubusercontent.com/' + GH_BUDGET.owner + '/' +
+    GH_BUDGET.repo + '/' + GH_BUDGET.branch + '/' + GH_BUDGET.path;
+const GH_API_URL = 'https://api.github.com/repos/' + GH_BUDGET.owner + '/' +
+    GH_BUDGET.repo + '/contents/' + GH_BUDGET.path;
 
-let supabaseClient = null;
+let supabaseClient = null;   // оставлено для совместимости проверок "if (!supabaseClient)"
 let cloudSaveTimer = null;
+let ghFileSha = null;        // sha текущего файла в репозитории (нужен для записи)
+let ghReadOnly = false;      // true, если токена нет — работаем только на чтение
 
-function isCloudConfigured() {
-    return SUPABASE_URL.indexOf('http') === 0 && SUPABASE_ANON_KEY.indexOf('sb_') === 0;
+function ghToken() {
+    try { return localStorage.getItem('gh_token') || ''; } catch (e) { return ''; }
 }
 
 function initSupabase() {
-    if (!isCloudConfigured()) {
-        console.warn('Supabase не настроен: данные сохраняются только в этом браузере.');
-        return;
-    }
-    try {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    } catch (e) {
-        console.warn('Не удалось подключиться к Supabase:', e);
-    }
+    // Инициализация не требуется: чтение идёт по публичному raw-URL.
+    // Клиент считаем "подключённым" всегда — доступность проверится на запросе.
+    supabaseClient = true;
+    ghReadOnly = !ghToken();
 }
 
 // Загружает данные из облака. Если в облаке есть сохранённые данные —
@@ -1301,21 +1311,33 @@ function initSupabase() {
 async function loadCloudData() {
     if (!supabaseClient) return;
     try {
-        // Таймаут: если облако "уснуло" или сеть медленная, не ждём вечно —
-        // через 8 секунд продолжаем работу с локальными данными.
-        const query = supabaseClient
-            .from(CLOUD_TABLE)
-            .select('payload')
-            .eq('id', CLOUD_ROW_ID)
-            .maybeSingle();
-        const timeout = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('timeout')), 8000));
-        const { data: row, error } = await Promise.race([query, timeout]);
-        if (error) {
-            console.warn('Ошибка чтения из облака:', error.message);
-            setCloudStatus('error', 'Облако недоступно — работаем с локальными данными');
+        // Таймаут: если сеть медленная, не ждём вечно — через 8 секунд
+        // продолжаем работу с локальными данными.
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 8000);
+        let resp;
+        try {
+            resp = await fetch(GH_RAW_URL + '?t=' + Date.now(), {
+                signal: ctrl.signal, cache: 'no-store'
+            });
+        } finally {
+            clearTimeout(timer);
+        }
+        if (resp.status === 404) {
+            // Файл ещё не создан в репозитории — начинаем с чистого листа,
+            // первая же запись его создаст.
+            setCloudStatus('ok', 'Облако (GitHub): файла данных пока нет — будет создан при сохранении');
             return;
         }
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const payload = await resp.json();
+        // Получаем sha файла для последующих записей (без токена — публичное API)
+        try {
+            const meta = await fetch(GH_API_URL + '?ref=' + GH_BUDGET.branch, { cache: 'no-store' });
+            if (meta.ok) { const mj = await meta.json(); ghFileSha = mj.sha || null; }
+        } catch (e) { /* sha подхватим при первой записи */ }
+        const row = payload ? { payload } : null;
+        const error = null;
         if (row && row.payload) {
             let payload = row.payload;
             if (!payload.julAugRemoved) {
@@ -1326,7 +1348,13 @@ async function loadCloudData() {
                 localStorage.setItem('ambiland_budget_v7', JSON.stringify(payload));
                 data = payload;
                 dropJulAugData();
+                if (!data.monthData) data.monthData = {};
+                if (!data.weekData) data.weekData = {};
+                if (!data.savedMonth) data.savedMonth = {};
                 data.parks.forEach(p => {
+                    if (!data.monthData[p]) data.monthData[p] = {};
+                    if (!data.weekData[p]) data.weekData[p] = {};
+                    if (!data.savedMonth[p]) data.savedMonth[p] = {};
                     ACTIVE_MONTHS.forEach(m => {
                         if (!data.monthData[p][m]) {
                             data.monthData[p][m] = { revenue: [], expenses: [] };
@@ -1359,22 +1387,78 @@ async function loadCloudData() {
 // Сохраняет текущие данные в облако. Возвращает true при успехе.
 async function saveDataToCloud() {
     if (!supabaseClient) return false;
+    const token = ghToken();
+    if (!token) {
+        // Нет токена — сохраняем только локально и молча пропускаем облако
+        // (статус покажем один раз, чтобы не дёргать пользователя).
+        setCloudStatus('error', 'Локально · для облачного сохранения задайте GitHub-токен (кнопка ☁️)');
+        return false;
+    }
     try {
-        const query = supabaseClient
-            .from(CLOUD_TABLE)
-            .upsert({ id: CLOUD_ROW_ID, payload: data, updated_at: new Date().toISOString() });
-        const timeout = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('timeout')), 8000));
-        const { error } = await Promise.race([query, timeout]);
-        if (error) {
-            console.warn('Ошибка записи в облако:', error.message);
-            setCloudStatus('error', 'Ошибка сохранения в облако');
+        // Если sha ещё неизвестен — получаем (файл мог быть создан/изменён другим пользователем)
+        if (!ghFileSha) {
+            const meta = await fetch(GH_API_URL + '?ref=' + GH_BUDGET.branch, { cache: 'no-store' });
+            if (meta.ok) { const mj = await meta.json(); ghFileSha = mj.sha || null; }
+        }
+        const bodyObj = {
+            message: 'Бюджет: автосохранение данных (' + new Date().toLocaleString('ru-RU') + ')',
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(data)))),
+            branch: GH_BUDGET.branch
+        };
+        if (ghFileSha) bodyObj.sha = ghFileSha;
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 12000);
+        let resp;
+        try {
+            resp = await fetch(GH_API_URL, {
+                method: 'PUT',
+                signal: ctrl.signal,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/vnd.github+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyObj)
+            });
+        } finally {
+            clearTimeout(timer);
+        }
+        if (resp.status === 401 || resp.status === 403) {
+            setCloudStatus('error', 'GitHub-токен отклонён — обновите токен (кнопка ☁️)');
             return false;
         }
-        setCloudStatus('ok', 'Сохранено в облаке · ' + new Date().toLocaleTimeString('ru-RU'));
+        if (resp.status === 409 || resp.status === 422) {
+            // Конфликт версий: кто-то записал файл параллельно.
+            // Перечитываем sha и пробуем ещё раз один раз.
+            const meta = await fetch(GH_API_URL + '?ref=' + GH_BUDGET.branch, { cache: 'no-store' });
+            if (meta.ok) {
+                const mj = await meta.json();
+                ghFileSha = mj.sha || null;
+                bodyObj.sha = ghFileSha;
+                const retry = await fetch(GH_API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/vnd.github+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bodyObj)
+                });
+                if (!retry.ok) throw new Error('HTTP ' + retry.status);
+                const rj = await retry.json();
+                ghFileSha = (rj.content && rj.content.sha) || ghFileSha;
+                setCloudStatus('ok', 'Сохранено в облаке (GitHub) · ' + new Date().toLocaleTimeString('ru-RU'));
+                return true;
+            }
+            throw new Error('conflict');
+        }
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const rj = await resp.json();
+        ghFileSha = (rj.content && rj.content.sha) || ghFileSha;
+        setCloudStatus('ok', 'Сохранено в облаке (GitHub) · ' + new Date().toLocaleTimeString('ru-RU'));
         return true;
     } catch (e) {
-        console.warn('Облако недоступно:', e);
+        console.warn('Облако (GitHub) недоступно:', e);
         setCloudStatus('error', 'Ошибка сохранения в облако');
         return false;
     }
@@ -1390,15 +1474,20 @@ function scheduleCloudSave() {
 // Явное сохранение по кнопке: сначала локально, затем в облако, с понятным сообщением
 async function saveWithStatus() {
     saveData();
-    if (!supabaseClient) {
-        alert('Данные сохранены только в этом браузере.\nОблачное хранилище не настроено (нужно вставить SUPABASE_URL и ключ в код).');
-        return;
+    if (!ghToken()) {
+        const t = prompt('Данные сохранены локально в этом браузере.\n\nЧтобы сохранять в облако (GitHub), вставьте токен доступа к репозиторию\n(или нажмите Отмена — останется только локальное сохранение):');
+        if (t && t.trim()) {
+            try { localStorage.setItem('gh_token', t.trim()); } catch (e) {}
+            ghReadOnly = false;
+        } else {
+            return;
+        }
     }
     setCloudStatus('saving', 'Сохранение в облако…');
     clearTimeout(cloudSaveTimer);
     const ok = await saveDataToCloud();
     if (ok) {
-        alert('Данные сохранены в облако. Они будут доступны с любого компьютера.');
+        alert('Данные сохранены в облако (GitHub). Они будут доступны с любого компьютера.');
     } else {
         alert('Не удалось сохранить в облако. Данные сохранены локально в этом браузере, попробуйте ещё раз.');
     }
@@ -1423,6 +1512,22 @@ function setCloudStatus(state, text) {
     badge.style.color = '#fff';
     badge.textContent = s.icon + text;
     badge.style.opacity = '1';
+    badge.style.cursor = 'pointer';
+    badge.title = 'Нажмите, чтобы задать/обновить GitHub-токен для облачного сохранения';
+    if (!badge.dataset.tokenHandler) {
+        badge.dataset.tokenHandler = '1';
+        badge.addEventListener('click', function() {
+            const cur = ghToken();
+            const t = prompt('GitHub-токен для облачного сохранения' + (cur ? ' (сейчас задан — введите новый или очистите поле для удаления)' : '') + ':', cur);
+            if (t === null) return;
+            try {
+                if (t.trim()) localStorage.setItem('gh_token', t.trim());
+                else localStorage.removeItem('gh_token');
+            } catch (e) {}
+            ghReadOnly = !ghToken();
+            setCloudStatus('ok', ghToken() ? 'Токен сохранён — облачное сохранение включено' : 'Токен удалён — только локальное сохранение');
+        });
+    }
     if (state === 'ok') {
         setTimeout(function() { badge.style.opacity = '0.35'; }, 4000);
     }
