@@ -33,7 +33,9 @@ const Sync = (() => {
   async function exportDB() {
     const out = {};
     for (const s of Object.keys(DB.STORES)) {
-      out[s] = await DB.getAll(s);
+      // Бинарные файлы через JSON не синхронизируются (blob превратился бы в мусор,
+      // а приёмник эти хранилища пропускает) — уезжают только метаданные (files_meta).
+      out[s] = (s === 'files' || s === 'contractFiles') ? [] : await DB.getAll(s);
     }
     out.files_meta = (await DB.getAllFiles()).map(f => ({
       id: f.id, name: f.name, size: f.size, type: f.type, ext: f.ext,
@@ -71,6 +73,17 @@ const Sync = (() => {
         }
         await DB.clear(s);
         await DB.bulkPut(s, merged);
+      }
+    }
+
+    // Метаданные файлов (без бинарников): подтягиваем карточки, которых нет локально,
+    // иначе файлы автора исчезали бы с «портала» после синхронизации другого компьютера.
+    // Бинарник остаётся у автора; остальным карточка показывается с пометкой.
+    if (Array.isArray(remote.files_meta)) {
+      for (const meta of remote.files_meta) {
+        if (meta && meta.id && !(await DB.getFileRecord(meta.id))) {
+          await DB.saveFileRecord(meta, null);
+        }
       }
     }
   }

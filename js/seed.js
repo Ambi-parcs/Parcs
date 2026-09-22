@@ -22,6 +22,68 @@ const Seed = (() => {
     prepay:'Предоплата', doing:'Выполнение', accept:'Приёмка', final:'Финал. оплата', done:'Завершено',
   };
 
+  // ============ ФОРМУЛЯРЫ-ХАРАКТЕРИСТИКИ ПАРКОВ (ТИ) ============
+  // Данные из формуляров, заполненных управляющими объектами.
+  // Накладываются на карточки парков при сиде и через разовую миграцию applyTiSpecs().
+  const TI_SPECS = {
+    'Парк «Хорошо»': {
+      address: 'Хорошёвское ш., вл. 27',
+      area: 1364,
+      hasRestaurant: true,
+      restaurantArea: 232,
+      restaurantTerrace: 45.2,
+      restaurantSeats: 131,
+      opened: 2025,
+      openedDate: '24.01.2025',
+      attendance: 'будни ~30 / пятница 35–45 / выходные 180–200 детей',
+      capacity: 120,
+      operators: 8,
+      peakHours: 'будни 17:00–19:00, пятница 17:00–19:00, выходные 14:00–18:00',
+      visitorsMonth: 1500,
+      eventsMonth: '90–100',
+      avgCheckEvent: 77000,
+      avgCheckRestaurant: 3300,
+      restaurantVisitorsMonth: 980,
+      avgCheckEntry: 3750,
+      attractions: [
+        'Детский игровой комплекс (серия YK, конф. 03)',
+        'Карусель «3 чаши»',
+        'Карусель «Чаша»',
+        'Карусель «Волшебник»',
+        'Интерактивный аттракцион «Выше шаг»',
+        'Карусель «Качели»',
+        'Большой лабиринт',
+      ],
+      description: 'Семейный активити-парк сети Амбиленд в ТРЦ «Хорошо!». 7 единиц игрового оборудования и аттракционов, ресторан на 131 место (зал 232 м² + веранда 45,2 м²). Открыт 24.01.2025.',
+    },
+    'Парк «Океания»': {
+      area: 1789,
+      hasRestaurant: false,
+      restaurantArea: null,
+      restaurantTerrace: null,
+      restaurantSeats: null,
+      opened: 2025,
+      openedDate: '20.12.2025',
+      attendance: 'будни 57–90 / пятница 90–180 / выходные 250–300',
+      capacity: 103,
+      capacityNote: 'фактически в парке ~200–210 чел.',
+      operators: 9,
+      peakHours: 'будни 17:00–18:00, пятница 16:00–19:00, выходные 16:00–18:00',
+      visitorsMonth: 3500,
+      avgCheckEvent: 32000,
+      avgCheckEntry: 3200,
+      attractions: [
+        'Лабиринт «Большая космическая станция»',
+        'Лабиринт «Малый лабиринт космос»',
+        'Аттракцион «Вулкан»',
+        'Аттракцион «Небесная башня»',
+        'Скайрайдер',
+        'Батутная арена (малая)',
+      ],
+      description: 'Парк Амбиленд в ТРЦ «Океания» (Кутузовский пр-т). 6 аттракционов: космические лабиринты, «Вулкан», «Небесная башня», скайрайдер, батутная арена. Без ресторана. Введён в эксплуатацию 20.12.2025.',
+    },
+  };
+
   // ---- Даты-помощники ----
   const today = new Date();
   const dstr = (d) => d.toISOString().slice(0,10);
@@ -35,11 +97,14 @@ const Seed = (() => {
     await DB.clearAll();
 
     // ============ ПАРКИ (id объявляем раньше, чтобы связать с пользователями) ============
-    const p1=DB.uid(), p2=DB.uid(), p3=DB.uid(), p4=DB.uid();
+    // Фиксированные ID: все браузеры (компьютеры) должны получать ОДНИ И ТЕ ЖЕ
+    // демо-записи, иначе при синхронизации случайные ID превратятся в дубли
+    // парков и пользователей на каждом новом компьютере.
+    const p1='park_horosho', p2='park_columbus', p3='park_vegas', p4='park_okeania';
 
     // ============ ПОЛЬЗОВАТЕЛИ ============
-    const directorId = DB.uid();
-    const m1 = DB.uid(), m2 = DB.uid(), m3 = DB.uid(), m4 = DB.uid();
+    const directorId = 'user_director';
+    const m1 = 'user_horosho', m2 = 'user_columbus', m3 = 'user_vegas', m4 = 'user_okeania';
 
     const users = [
       { id: directorId, login:'director', pwdHash: Auth.hashPwd('0987'), role:'director', name:'Генеральный директор' },
@@ -83,6 +148,12 @@ const Seed = (() => {
         description:'Парк Амбиленд в ТРЦ «Океания» (Кутузовский пр-т). Без ресторана.' },
     ];
 
+    // Накладываем данные формуляров-характеристик (ТИ) на карточки парков
+    for (const p of parksData) {
+      const spec = TI_SPECS[p.name];
+      if (spec) Object.assign(p, spec);
+    }
+
     // ============ РАБОТЫ ============
     // Реестр работ очищен по запросу руководства — демо-работы удалены.
     // Новые работы добавляются вручную через интерфейс («+ Новая работа»).
@@ -93,10 +164,12 @@ const Seed = (() => {
     const contracts = [];
 
     // ============ ОБОРУДОВАНИЕ ============
-    // Оборудование = аттракционы и зоны парка (из «Общих данных»), статус по умолчанию «Работает»
+    // Оборудование = аттракционы и зоны парка (из «Общих данных»), статус по умолчанию «Работает».
+    // ID детерминированные (<store>_<parkId>_<name>), чтобы синхронизация между
+    // компьютерами не плодила дубли сеянных записей.
     const equipment = [
       ...[p1, p2, p3, p4].flatMap(pid =>
-        (parksData.find(p => p.id === pid).attractions || []).map(name => ({ id: DB.uid(), parkId: pid, name, status: 'ok' }))),
+        (parksData.find(p => p.id === pid).attractions || []).map(name => ({ id: `eq_${pid}_${name}`, parkId: pid, name, status: 'ok' }))),
     ];
 
     // ============ ПОМЕЩЕНИЯ ============
@@ -133,6 +206,101 @@ const Seed = (() => {
     await DB.bulkPut('journals', journals);
 
     return { skipped: false, counts: { parks:4, users:5, works:works.length, contracts:contracts.length } };
+  }
+
+  // Разовая миграция: применяет данные формуляров ТИ к уже созданным (сеянным ранее) БД.
+  // Срабатывает один раз на каждый браузер (флаг в localStorage).
+  // Обновляет общие данные парков и пересобирает их оборудование по новым перечням.
+  async function applyTiSpecs() {
+    const FLAG = 'ambi_ti_specs_v3';
+    if (localStorage.getItem(FLAG)) return;
+    const parks = await DB.getAll('parks');
+    for (const park of parks) {
+      const spec = TI_SPECS[park.name];
+      if (!spec) continue;
+      Object.assign(park, spec);
+      await DB.put('parks', park);
+      const old = await DB.getByIndex('equipment', 'parkId', park.id);
+      for (const e of old) await DB.remove('equipment', e.id);
+      await DB.bulkPut('equipment', (park.attractions || []).map(name =>
+        ({ id: `eq_${park.id}_${name}`, parkId: park.id, name, status: 'ok' })));
+    }
+    localStorage.setItem(FLAG, '1');
+  }
+
+  // Разовая миграция: приводит ID сидированных парков и пользователей к каноническим
+  // значениям (тем, что создаёт run() выше). Нужна для синхронизации между компьютерами:
+  // старые базы с случайными ID иначе породили бы дубли при merge.
+  // Срабатывает один раз на каждый браузер (флаг в localStorage).
+  async function canonicalizeIdsOnce() {
+    const FLAG = 'ambi_canon_ids_v4';
+    if (localStorage.getItem(FLAG)) return;
+
+    const PARK_IDS = {
+      'Парк «Хорошо»': 'park_horosho',
+      'Парк «Колумбус»': 'park_columbus',
+      'Парк «Вегас»': 'park_vegas',
+      'Парк «Океания»': 'park_okeania',
+    };
+    const USER_IDS = {
+      director: 'user_director', horosho: 'user_horosho', columbus: 'user_columbus',
+      vegas: 'user_vegas', okeania: 'user_okeania',
+    };
+    const REF_STORES = ['works', 'contracts', 'equipment', 'premises', 'documents', 'journals'];
+
+    const parks = await DB.getAll('parks');
+    for (const p of parks) {
+      const canon = PARK_IDS[p.name];
+      if (!canon || p.id === canon) continue;
+      const oldId = p.id;
+      for (const store of REF_STORES) {
+        const rows = await DB.getByIndex(store, 'parkId', oldId);
+        for (const r of rows) { r.parkId = canon; await DB.put(store, r); }
+      }
+      const users = await DB.getAll('users');
+      for (const u of users) {
+        if (u.parkId === oldId) { u.parkId = canon; await DB.put('users', u); }
+      }
+      p.id = canon;
+      await DB.put('parks', p);
+      await DB.remove('parks', oldId);
+    }
+
+    const users = await DB.getAll('users');
+    for (const u of users) {
+      const canon = USER_IDS[(u.login || '').toLowerCase()];
+      if (!canon || u.id === canon) continue;
+      const oldId = u.id;
+      u.id = canon;
+      await DB.put('users', u);
+      await DB.remove('users', oldId);
+    }
+
+    // --- дочерние демо-записи: приводим ID к тому же детерминированному формату,
+    // что использует run() (<store>_<parkId>_<name>), иначе синхронизация даст дубли ---
+    const CHILD_STORES = [['equipment', 'eq'], ['premises', 'pm'], ['documents', 'doc'], ['journals', 'jr']];
+    for (const [store, prefix] of CHILD_STORES) {
+      const rows = await DB.getAll(store);
+      for (const r of rows) {
+        if (!r.parkId || !r.name) continue;
+        const canon = `${prefix}_${r.parkId}_${r.name}`;
+        if (r.id === canon) continue;
+        const oldId = r.id;
+        r.id = canon;
+        await DB.put(store, r);
+        await DB.remove(store, oldId);
+      }
+    }
+
+    // Сессия могла ссылаться на старый ID пользователя — если запись не найдена, разлогиниваем
+    try {
+      const sess = JSON.parse(sessionStorage.getItem('parks_session') || 'null');
+      if (sess && !(await DB.getByKey('users', sess.userId))) {
+        sessionStorage.removeItem('parks_session');
+      }
+    } catch { /* сессии нет — ок */ }
+
+    localStorage.setItem(FLAG, '1');
   }
 
   // ============ Хелперы-конструкторы записей ============
@@ -174,11 +342,11 @@ const Seed = (() => {
   // оборудование: [название, состояние(1-5), status]
   const eq = (parkId, rows) => rows.map(([name, cond, status]) => ({ id:DB.uid(), parkId, name, condition:cond, status, note:'' }));
   // помещения: [название, status, note]
-  const pm = (parkId, rows) => rows.map(([name, status, note]) => ({ id:DB.uid(), parkId, name, status, note }));
+  const pm = (parkId, rows) => rows.map(([name, status, note]) => ({ id: `pm_${parkId}_${name}`, parkId, name, status, note }));
   // документы: [название, срок]
-  const doc = (parkId, rows) => rows.map(([name, validTo]) => ({ id:DB.uid(), parkId, name, validTo, issued: dstr(daysAgo(300)) }));
+  const doc = (parkId, rows) => rows.map(([name, validTo]) => ({ id: `doc_${parkId}_${name}`, parkId, name, validTo, issued: dstr(daysAgo(300)) }));
   // журналы: [название, status, последняя запись]
-  const jr = (parkId, rows) => rows.map(([name, status, lastEntry]) => ({ id:DB.uid(), parkId, name, status, lastEntry }));
+  const jr = (parkId, rows) => rows.map(([name, status, lastEntry]) => ({ id: `jr_${parkId}_${name}`, parkId, name, status, lastEntry }));
 
-  return { run, STAGES, STAGE_NAMES };
+  return { run, applyTiSpecs, canonicalizeIdsOnce, STAGES, STAGE_NAMES };
 })();

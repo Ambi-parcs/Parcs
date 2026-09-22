@@ -60,9 +60,11 @@ const App = (() => {
   async function init() {
     await DB.open();
     await Seed.run(); // наполнить демо-данными, если пусто
+    await Seed.canonicalizeIdsOnce(); // канонические ID парков/пользователей (для синхронизации между компьютерами)
     await migrateFilesFromContracts(); // перенести PDF-договоры в новое хранилище (v6)
     await clearWorksOnce(); // разовая очистка реестра работ (по запросу руководства)
     await restorePasswordsOnce(); // персональные пароли (men2345 / men4567 для Колумбуса и Океании)
+    await Seed.applyTiSpecs(); // данные формуляров ТИ по паркам «Хорошо» и «Океания»
 
     // Если уже есть сессия — показать приложение
     if (Auth.current()) showApp();
@@ -155,6 +157,35 @@ const App = (() => {
       return renderStorage(tag);
     }
     if (parts[0] === 'settings')  return renderSettings();
+    if (parts[0] === 'help')      return renderHelp();
+    if (parts[0] === 'contract')  return renderContract(parts[1]);
+  }
+
+  // ============================================================
+  // ИНСТРУКЦИЯ
+  // ============================================================
+  async function renderHelp() {
+    $('#viewTitle').textContent = 'Инструкция';
+    $('#viewActions').innerHTML = `<button class="btn btn-ghost btn-sm" onclick="App.downloadInstruction()">⬇ Скачать инструкцию</button>`;
+    setActiveNav('help');
+    $('#view').innerHTML = `<iframe class="help-frame" src="instruktsiya.html" title="Инструкция по работе с разделом"></iframe>`;
+  }
+
+  // Отдельное скачивание инструкции (HTML-файл с сохранением стилей)
+  async function downloadInstruction() {
+    try {
+      const r = await fetch('instruktsiya.html');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'instruktsiya.html'; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      toast('Инструкция скачана');
+    } catch (e) {
+      // Fallback: открыть файл в новой вкладке — пользователь сохранит через Ctrl+S
+      window.open('instruktsiya.html', '_blank');
+    }
   }
 
   // ============================================================
@@ -310,8 +341,8 @@ const App = (() => {
       `<div class="history-item"><b>${fmtDate(h.date)}</b> — ${escapeHtml(h.text)} <i>(${escapeHtml(h.who||'')})</i></div>`).join('');
 
     const contractHtml = myContracts.length
-      ? myContracts.map(con => `<button class="btn btn-ghost btn-sm" onclick="location.hash='#/storage/${con.id}'">📄 ${escapeHtml(con.fileName||'Договор')}</button>`).join(' ')
-      : `<span class="help">Договоров нет. Загрузите в разделе «Хранилище».</span>`;
+      ? myContracts.map(con => `<button class="btn btn-ghost btn-sm" onclick="App.closeModalFn();location.hash='#/contract/${con.id}'">📄 ${escapeHtml(con.fileName||'Договор')}</button>`).join(' ')
+      : `<span class="help">Договоров нет. Загрузите в разделе «Хранилище» (📄 Договор PDF).</span>`;
 
     const body = `<div class="work-detail">
       <h4>${escapeHtml(w.title)}</h4>
@@ -579,12 +610,26 @@ const App = (() => {
     ['floor', 'Этаж', 'text'],
     ['area', 'Площадь парка, м²', 'number'],
     ['restaurantArea', 'Площадь ресторана, м²', 'number'],
+    ['restaurantTerrace', 'Площадь веранды, м²', 'number'],
+    ['restaurantSeats', 'Посадочных мест в ресторане', 'number'],
     ['opened', 'Год открытия', 'number'],
+    ['openedDate', 'Дата открытия (по формуляру)', 'text'],
     ['hours', 'Часы работы', 'text'],
     ['managerName', 'Управляющий (ФИО)', 'text'],
     ['phone', 'Телефон', 'text'],
     ['email', 'Email', 'text'],
     ['site', 'Сайт', 'text'],
+    ['attendance', 'Среднедневная посещаемость', 'text'],
+    ['capacity', 'Вместимость по паспортам, чел.', 'number'],
+    ['capacityNote', 'Вместимость фактическая', 'text'],
+    ['operators', 'Операторов в смену, чел.', 'number'],
+    ['peakHours', 'Пиковые часы (трафик)', 'text'],
+    ['visitorsMonth', 'Посетителей в месяц', 'number'],
+    ['eventsMonth', 'Мероприятий в месяц', 'text'],
+    ['avgCheckEvent', 'Ср.чек мероприятия, ₽', 'number'],
+    ['avgCheckRestaurant', 'Ср.чек ресторана, ₽', 'number'],
+    ['restaurantVisitorsMonth', 'Посетителей ресторана в месяц', 'number'],
+    ['avgCheckEntry', 'Ср.чек входной группы, ₽', 'number'],
   ];
 
   // Вкладка «Общие сведения» — таблица; директор и управляющий парка могут редактировать
@@ -1303,13 +1348,19 @@ const App = (() => {
 
   // ---- Загрузка PDF-договора ----
   let _cachedWorks = [];
+  // Последняя созданная работа парка — её предлагаем по умолчанию при загрузке договора,
+  // чтобы договор не остался «в свободном плавании» без привязки.
+  function latestWorkId(parkId) {
+    const list = _cachedWorks.filter(w => !parkId || w.parkId === parkId);
+    return (list.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0] || {}).id || '';
+  }
   async function uploadContract() {
     const parks = await DB.getAll('parks');
     const filter = Auth.visibleParkFilter();
     _cachedWorks = await DB.getAll('works');
     const parkOpts = parks.map(p => `<option value="${p.id}" ${p.id===filter?'selected':''}>${escapeHtml(p.name)}</option>`).join('');
     const workOptsHtml = (parkId) => _cachedWorks.filter(w => !parkId || w.parkId === parkId)
-      .map(w => `<option value="${w.id}">${escapeHtml(w.title)}</option>`).join('');
+      .map(w => `<option value="${w.id}" ${w.id===latestWorkId(parkId)?'selected':''}>${escapeHtml(w.title)}</option>`).join('');
 
     const body = `<div class="field"><label>Парк</label><select id="up_park" onchange="document.getElementById('up_work').innerHTML=App.workOpts(this.value)">${parkOpts}</select></div>
       <div class="field"><label>Связать с работой (необязательно)</label><select id="up_work"><option value="">— без привязки —</option>${workOptsHtml(filter)}</select></div>
@@ -1346,6 +1397,24 @@ const App = (() => {
     }
   }
 
+  // Подтягивает извлечённые из договора данные в работу:
+  // сумма, структура оплаты, подрядчик, номер договора. Используется и при загрузке, и при привязке позже.
+  async function applyContractToWork(contract, work) {
+    if (!work) return false;
+    const data = contract.extracted || {};
+    let changed = false;
+    if (!work.contractor && contract.contractor) { work.contractor = contract.contractor; changed = true; }
+    if (data.payments?.total && work.amount !== data.payments.total) { work.amount = data.payments.total; changed = true; }
+    if (data.payments?.prepayPct && work.prepayPct !== data.payments.prepayPct) { work.prepayPct = data.payments.prepayPct; changed = true; }
+    if (!work.contractNo && contract.contractNo) { work.contractNo = contract.contractNo; changed = true; }
+    if (changed) {
+      if (!work.history) work.history = [];
+      work.history.push({ text: 'Из договора (PDF): сумма, структура оплаты, подрядчик', date: today(), who: Auth.current().name, ts: Date.now() });
+      await DB.put('works', work);
+    }
+    return changed;
+  }
+
   async function processUpload() {
     if (!_pendingFile) { toast('Выберите файл', true); return; }
     const parkId = $('#up_park').value;
@@ -1363,7 +1432,7 @@ const App = (() => {
         id: DB.uid(), parkId, workId,
         title: work ? work.title : _pendingFile.name.replace(/\.pdf$/i, ''),
         fileName: _pendingFile.name,
-        contractNo: work?.contractNo || data.payments?.terms ? '' : '',
+        contractNo: work?.contractNo || data.contractNo || '',
         contractor: work?.contractor || data.parties?.contractor?.name || '',
         amount: data.payments?.total || work?.amount || 0,
         extracted: data,
@@ -1381,20 +1450,27 @@ const App = (() => {
         note: work ? `Связан с работой: ${work.title}` : '',
       }, _pendingFile);
       rememberTags(['Договор']);
+      await applyContractToWork(contract, work);
 
       closeModal();
-      toast('Договор сохранён и отсканирован');
       _pendingFile = null;
-      location.hash = '#/storage';
+      if (workId) {
+        toast('Договор сохранён и отсканирован');
+        location.hash = '#/storage';
+      } else {
+        // без привязки договор «потеряется» для работы — сразу предлагаем привязать
+        toast('Договор сохранён');
+        linkContract(contract.id);
+      }
     } catch (err) {
       result.innerHTML = `<div class="help" style="color:var(--bad)">Ошибка сканирования: ${escapeHtml(err.message)}<br>Проверьте, что это текстовый PDF (не скан).</div>`;
     }
   }
 
-  // Синхронная версия для onchange select'а (использует кэш, заполненный в uploadContract)
+  // Синхронная версия для onchange select'а парка (использует кэш, заполненный в uploadContract)
   function workOpts(parkId) {
     return _cachedWorks.filter(w => !parkId || w.parkId === parkId)
-      .map(w => `<option value="${w.id}">${escapeHtml(w.title)}</option>`).join('');
+      .map(w => `<option value="${w.id}" ${w.id===latestWorkId(parkId)?'selected':''}>${escapeHtml(w.title)}</option>`).join('');
   }
 
   async function reextract(contractId) {
@@ -1403,6 +1479,7 @@ const App = (() => {
     const f = files[0];
     toast('Сканирование…');
     const blob = await DB.getFile(f.id);
+    if (!blob || !blob.blob) { toast('PDF хранится на компьютере, где он был загружен', true); return; }
     const file = new File([blob.blob], f.name, { type: 'application/pdf' });
     try {
       const data = await ContractPDF.extract(file);
@@ -1412,6 +1489,99 @@ const App = (() => {
       toast('Пересканировано');
       route();
     } catch (err) { toast('Ошибка: ' + err.message, true); }
+  }
+
+  // ============================================================
+  // ДЕТАЛЬ ДОГОВОРА (извлечённые данные + действия)
+  // ============================================================
+  async function renderContract(id) {
+    const c = await DB.getByKey('contracts', id);
+    if (!c) { $('#viewTitle').textContent = 'Договор не найден'; $('#view').innerHTML = ''; return; }
+    setActiveNav('storage');
+    const work = c.workId ? await DB.getByKey('works', c.workId) : null;
+    const files = await DB.getFilesByContract(id);
+    const data = c.extracted || {};
+    const pay = data.payments || {};
+    const cust = (data.parties && data.parties.customer) || {};
+    const contr = (data.parties && data.parties.contractor) || {};
+    const sch = data.schedule || {};
+
+    $('#viewTitle').textContent = 'Договор';
+    $('#viewActions').innerHTML = `
+      ${work
+        ? `<button class="btn btn-ghost btn-sm" onclick="App.openWork('${work.id}')">🔗 ${escapeHtml(work.title)}</button>`
+        : `<button class="btn btn-primary btn-sm" onclick="App.linkContract('${c.id}')">🔗 Привязать к работе</button>`}
+      ${files.length ? `<button class="btn btn-ghost btn-sm" onclick="App.downloadFile('${files[0].id}', '${escapeAttr(files[0].name)}')">⬇ Скачать PDF</button>` : ''}
+      <button class="btn btn-ghost btn-sm" onclick="App.reextract('${c.id}')">🔁 Пересканировать</button>
+      <button class="btn btn-danger btn-sm" onclick="App.deleteContract('${c.id}')">🗑 Удалить</button>`;
+
+    const side = (p) => {
+      const bits = [];
+      if (p.inn) bits.push('ИНН ' + p.inn + (p.kpp ? ', КПП ' + p.kpp : ''));
+      if (p.ogrn) bits.push('ОГРН ' + p.ogrn);
+      if (p.address) bits.push(p.address);
+      if (p.bank) bits.push(p.bank + (p.account ? ', р/с ' + p.account : '') + (p.bic ? ', БИК ' + p.bic : ''));
+      if (p.phone) bits.push('тел. ' + p.phone);
+      return bits.length ? `<br><span class="help">${bits.map(escapeHtml).join('<br>')}</span>` : '';
+    };
+
+    $('#view').innerHTML = `<div class="park-info">
+      <div class="park-info-header">
+        <div>
+          <h3>${escapeHtml(c.title || c.fileName || 'Договор')}</h3>
+          <div class="park-info-sub">${escapeHtml(c.fileName || '')}${c.contractNo ? ' • № ' + escapeHtml(c.contractNo) : ''}${work ? '' : ' • <b>не привязан к работе</b>'}</div>
+        </div>
+      </div>
+      <div class="section-title">💰 Сумма и оплата (из договора)</div>
+      <table class="table info-table"><tbody>
+        <tr><td class="pi-label">Сумма договора</td><td>${pay.total != null ? fmtMoney(pay.total) : '<span class="pi-empty">— не распознано —</span>'}</td></tr>
+        <tr><td class="pi-label">Аванс</td><td>${pay.prepayPct != null ? pay.prepayPct + ' %' : '—'}${pay.prepayAmount != null ? ' = ' + fmtMoney(pay.prepayAmount) : ''}</td></tr>
+        <tr><td class="pi-label">Окончательный расчёт</td><td>${pay.finalPct != null ? pay.finalPct + ' %' : '—'}${pay.finalAmount != null ? ' = ' + fmtMoney(pay.finalAmount) : ''}</td></tr>
+        ${pay.terms ? `<tr><td class="pi-label">Порядок расчётов</td><td>${escapeHtml(pay.terms)}</td></tr>` : ''}
+      </tbody></table>
+      <div class="section-title">🏛 Стороны</div>
+      <table class="table info-table"><tbody>
+        <tr><td class="pi-label">Заказчик</td><td>${escapeHtml(cust.name || '—')}${side(cust)}</td></tr>
+        <tr><td class="pi-label">Подрядчик</td><td>${escapeHtml(contr.name || '—')}${side(contr)}</td></tr>
+      </tbody></table>
+      ${(sch.startDate || sch.endDate) ? `
+      <div class="section-title">📅 Сроки</div>
+      <table class="table info-table"><tbody>
+        <tr><td class="pi-label">Начало</td><td>${fmtDate(sch.startDate)}</td></tr>
+        <tr><td class="pi-label">Окончание</td><td>${fmtDate(sch.endDate)}</td></tr>
+      </tbody></table>` : ''}
+      ${(data.subject && data.subject.description) ? `
+      <div class="section-title">📌 Предмет договора</div>
+      <p style="max-width:760px">${escapeHtml(data.subject.description)}</p>` : ''}
+      <div class="help" style="margin-top:10px">Данные распознаны автоматически из PDF — перед оплатой сверьте с оригиналом.</div>
+    </div>`;
+  }
+
+  // Привязка уже загруженного договора к работе (если при загрузке пропустили поле)
+  async function linkContract(contractId) {
+    const c = await DB.getByKey('contracts', contractId);
+    if (!c) return;
+    const works = (await DB.getAll('works')).filter(w => w.parkId === c.parkId);
+    if (!works.length) { toast('В парке пока нет работ — сначала создайте работу', true); return; }
+    const opts = works.map(w => `<option value="${w.id}">${escapeHtml(w.title)}</option>`).join('');
+    const body = `<div class="field"><label>Работа</label><select id="lk_work">${opts}</select></div>
+      <div class="help">В работу подтянутся: сумма, структура оплаты, подрядчик, № договора.</div>`;
+    const footer = `<button class="btn btn-ghost" onclick="App.closeModalFn()">Отмена</button>
+      <button class="btn btn-primary" onclick="App.saveContractLink('${c.id}')">Привязать</button>`;
+    openModal('Привязать договор к работе', body, footer);
+  }
+
+  async function saveContractLink(contractId) {
+    const c = await DB.getByKey('contracts', contractId);
+    const work = await DB.getByKey('works', $('#lk_work').value);
+    if (!c || !work) return;
+    c.workId = work.id;
+    if (!c.title || c.title === (c.fileName || '').replace(/\.pdf$/i, '')) c.title = work.title;
+    await DB.put('contracts', c);
+    await applyContractToWork(c, work);
+    closeModal();
+    toast('Договор привязан к работе');
+    route();
   }
 
   async function downloadFile(fileId, name) {
@@ -1527,19 +1697,27 @@ const App = (() => {
   async function openFile(id) {
     const f = await DB.getFileRecord(id);
     if (!f) { toast('Файл не найден', true); return; }
+    // Если это договор — найдём связанную запись, чтобы дать кнопку к данным договора
+    const linkedContract = (f.tags || []).includes('Договор')
+      ? (await DB.getAll('contracts')).find(x => x.fileName === f.name)
+      : null;
     const v = fileVisual(f);
     const tagChips = (f.tags || []).map(t =>
       `<button class="tag-chip ${tagColor(t)}" onclick="location.hash='#/storage/tag/${encodeURIComponent(t)}';App.closeModalFn()">#${escapeHtml(t)}</button>`).join('');
     const isImage = (f.type || '').startsWith('image/');
     const isPdf = (f.type || '').includes('pdf') || f.ext === 'pdf';
-    const isPreviewable = isImage || isPdf;
+    const isPreviewable = (isImage || isPdf) && f.blob;
     const url = isPreviewable ? URL.createObjectURL(f.blob) : '';
 
-    const previewHtml = isImage
+    // Файл синхронизируется между компьютерами только как карточка (метаданные);
+    // бинарник живёт на компьютере автора.
+    const noBlobNote = f.blob ? '' : `<div class="help" style="padding:8px 12px;background:rgba(255,193,7,.12);border-radius:8px">Файл загружен на другом компьютере — здесь доступна только карточка (предпросмотр и скачивание недоступны).</div>`;
+
+    const previewHtml = isPreviewable && isImage
       ? `<img class="file-preview" src="${url}" alt="${escapeHtml(f.name)}">`
-      : isPdf
+      : isPreviewable && isPdf
       ? `<iframe class="file-preview" src="${url}"></iframe>`
-      : `<div class="file-no-preview"><div class="empty-icon">${v.icon}</div><div class="help">Предпросмотр недоступен — скачайте файл.</div></div>`;
+      : `<div class="file-no-preview"><div class="empty-icon">${v.icon}</div><div class="help">${f.blob ? 'Предпросмотр недоступен — скачайте файл.' : 'Файл доступен на компьютере автора.'}</div></div>`;
 
     const body = `<div class="file-detail">
         <div class="file-detail-head">
@@ -1550,11 +1728,13 @@ const App = (() => {
           </div>
         </div>
         ${previewHtml}
+        ${noBlobNote}
         ${f.note ? `<div class="file-note">${escapeHtml(f.note)}</div>` : ''}
         <div class="chips">${tagChips || '<span class="help">тегов нет</span>'}</div>
       </div>`;
 
-    const footer = `<button class="btn btn-ghost btn-sm" onclick="App.editFileTags('${f.id}')">🏷 Теги</button>
+    const footer = `${linkedContract ? `<button class="btn btn-primary btn-sm" onclick="App.closeModalFn();location.hash='#/contract/${linkedContract.id}'">📑 Данные договора</button>` : ''}
+      <button class="btn btn-ghost btn-sm" onclick="App.editFileTags('${f.id}')">🏷 Теги</button>
       <button class="btn btn-ghost btn-sm" onclick="App.downloadFileRecord('${f.id}')">⬇ Скачать</button>
       <button class="btn btn-danger btn-sm" onclick="App.deleteFileRecord('${f.id}')">🗑 Удалить</button>`;
     openModal(f.name, body, footer, true);
@@ -1592,6 +1772,7 @@ const App = (() => {
   async function downloadFileRecord(id) {
     const f = await DB.getFileRecord(id);
     if (!f) return;
+    if (!f.blob) { toast('Файл хранится на компьютере, где он был загружен', true); return; }
     const url = URL.createObjectURL(f.blob);
     const a = document.createElement('a');
     a.href = url; a.download = f.name; a.click();
@@ -1753,9 +1934,11 @@ const App = (() => {
   let _pendingFile = null;
 
   return {
-    init, route, renderDashboard, renderBoard, renderPark, renderStorage,
+    init, route, renderDashboard, renderBoard, renderPark, renderStorage, renderHelp,
+    downloadInstruction,
     openWork, editWork, saveWork, deleteWork, openNewWork, createWork, advanceWork,
     uploadContract, processUpload, reextract, downloadFile, deleteContract,
+    renderContract, linkContract, saveContractLink,
     uploadFile, processFileUpload, openFile, editFileTags, saveFileTags,
     downloadFileRecord, deleteFileRecord, onFileSearch,
     exportBackup, importBackup, resetDemo, closeModalFn: closeModal,

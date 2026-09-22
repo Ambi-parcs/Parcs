@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Инструкция — Контроль активити-парков</title>
+<style>
+  :root {
+    --bg:#f2f5f8; --panel:#ffffff; --ink:#1a2733; --ink-soft:#5c6b7a;
+    --line:#e3e8ee; --brand:#0d7a6f; --brand-dark:#0a5f57; --brand-soft:#e2f2ef;
+    --ok:#16a34a; --warn:#d97706; --bad:#dc2626;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+         font-size:15px; line-height:1.55; }
+  .page { max-width: 880px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  .doc-head { display:flex; align-items:center; justify-content:space-between; gap:16px;
+              background:linear-gradient(135deg, var(--brand-dark), var(--brand));
+              color:#fff; border-radius:16px; padding:24px 28px; margin-bottom:24px; }
+  .doc-head h1 { margin:0 0 6px; font-size:24px; }
+  .doc-head .sub { opacity:.85; font-size:14px; }
+  .doc-actions { display:flex; gap:8px; flex-shrink:0; }
+  .btn { border:0; border-radius:10px; padding:10px 16px; font-size:14px; font-weight:600;
+         cursor:pointer; text-decoration:none; display:inline-block; font-family:inherit; }
+  .btn-light { background:#fff; color:var(--brand-dark); }
+  .btn-ghost { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.5); }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:14px;
+          padding:24px 28px; margin-bottom:20px; }
+  .card h2 { margin:0 0 14px; font-size:19px; color:var(--brand-dark);
+             display:flex; align-items:center; gap:10px; }
+  .card h3 { margin:20px 0 8px; font-size:15.5px; }
+  .card p { margin:8px 0; }
+  .card ul, .card ol { margin:8px 0; padding-left:22px; }
+  .card li { margin:5px 0; }
+  .card hr { border:0; border-top:1px solid var(--line); margin:16px 0; }
+
+  table { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); }
+  th { background:var(--brand-soft); color:var(--brand-ink); font-weight:600; }
+  code { background:#eef2f5; border-radius:6px; padding:1px 7px;
+         font-family:Consolas, 'Courier New', monospace; font-size:13px; }
+  .kbd { background:var(--navy,#10243a); color:#fff; border-radius:6px; padding:1px 8px; font-size:13px; }
+
+  .note { background:var(--brand-soft); border-left:4px solid var(--brand);
+          border-radius:8px; padding:12px 16px; margin:12px 0; font-size:14px; }
+  .warn { background:#fdf3e3; border-left:4px solid var(--warn); }
+  .tip  { background:#e9f7ee; border-left:4px solid var(--ok); }
+
+  .footer-note { text-align:center; color:var(--ink-soft); font-size:13px; margin-top:28px; }
+
+  @media print {
+    body { background:#fff; font-size:12px; }
+    .page { padding:0; max-width:none; }
+    .doc-head { background:#fff; color:var(--ink); border:1px solid var(--line); border-radius:0; padding:12px 0; }
+    .doc-actions { display:none; }
+    .card { border:0; border-bottom:1px solid var(--line); border-radius:0; padding:12px 0; margin:0; page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-head">
+    <div>
+      <h1>Контроль активити-парков — инструкция</h1>
+      <div class="sub">Учёт работ, договоров, документов и оборудования по паркам сети Амбиленд</div>
+    </div>
+    <div class="doc-actions">
+      <button class="btn btn-light" onclick="window.print()">🖨 Печать / PDF</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔑 Доступы</h2>
+    <table>
+      <tr><th>Роль</th><th>Логин</th><th>Пароль</th><th>Что видит</th></tr>
+      <tr><td>Генеральный директор</td><td><code>director</code></td><td><code>0987</code></td><td>Все парки сети</td></tr>
+      <tr><td>Управляющий парка «Хорошо»</td><td><code>horosho</code></td><td><code>1234</code></td><td>Только свой парк</td></tr>
+      <tr><td>Управляющий парка «Колумбус»</td><td><code>columbus</code></td><td><code>men2345</code></td><td>Только свой парк</td></tr>
+      <tr><td>Управляющий парка «Вегас»</td><td><code>vegas</code></td><td><code>3456</code></td><td>Только свой парк</td></tr>
+      <tr><td>Управляющий парка «Океания»</td><td><code>okeania</code></td><td><code>men4567</code></td><td>Только свой парк</td></tr>
+    </table>
+    <div class="note">Пароли выдаёт администратор портала. Не передавайте свой доступ коллегам.</div>
+  </div>
+
+  <div class="card">
+    <h2>1️⃣ Генеральный директор</h2>
+
+    <h3>Вход и обзор</h3>
+    <ol>
+      <li>Откройте раздел «Контроль активити-парков», введите логин <code>director</code> и пароль.</li>
+      <li><b>Дашборд</b> — сводка по всем паркам: финансы, этапы работ, просроченные документы.</li>
+      <li>В левой колонке: список всех парков, <b>Этапы работ</b> (общая доска сети), <b>Хранилище</b>, <b>Настройки</b>.</li>
+    </ol>
+
+    <h3>Работа с парками</h3>
+    <ul>
+      <li>Вкладка <b>«ℹ️ Общие»</b> в карточке парка — площади, посещаемость, вместимость, чеки. Редактирование — кнопка <b>«✎ Редактировать»</b>.</li>
+      <li>Остальные вкладки парка: <b>Работ</b>, <b>🔧 Оборудование</b> (статусы), <b>🏗 Помещения</b>, <b>📜 Документы</b> (со сроками действия), <b>📖 Журналы</b>.</li>
+      <li><b>«🧹 Очистить от работ»</b> удаляет все работы парка. Действие необратимо.</li>
+    </ul>
+
+    <h3>Работы и договоры</h3>
+    <ul>
+      <li>Создание работы — кнопка <b>«＋ Работа»</b> на странице парка или <b>«＋ Новая работа»</b> на доске этапов.</li>
+      <li>В карточке работы виден этап (от «Проблема» до «Завершено»), сумма, история изменений. Нижняя кнопка переводит работу на следующий этап.</li>
+      <li>Договор (PDF) прикрепляет управляющий. У директора договор открывается из работы или Хранилища — с реквизитами сторон, суммой и структурой оплаты, извлечёнными из файла автоматически.</li>
+    </ul>
+
+    <h3>Синхронизация — главное</h3>
+    <ul>
+      <li>В начале рабочего дня нажмите <b>«🔄 Синхронизировать»</b> (внизу левой колонки) — подтянутся работы, внесённые управляющими.</li>
+      <li>После собственных изменений тоже нажмите кнопку. Без неё изменения остаются только на вашем компьютере.</li>
+    </ul>
+
+    <h3>Настройки</h3>
+    <ul>
+      <li><b>Экспорт резервной копии</b> — скачать все данные в JSON.</li>
+      <li><b>Импорт из файла</b> — восстановить данные из копии.</li>
+      <li><b>Сброс демо-данных</b> — вернуть исходное наполнение (удалит все реально внесённые данные!).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>2️⃣ Управляющий парком</h2>
+
+    <h3>Вход</h3>
+    <p>Войдите под своим логином (см. таблицу доступов). Вы видите <b>только свой парк</b> — чужие парки и общие доски недоступны.</p>
+
+    <h3>Как внести работу</h3>
+    <ol>
+      <li>На странице своего парка нажмите <b>«＋ Работа»</b>.</li>
+      <li>Заполните: название / проблема, сумма-ориентир, дедлайн, описание. Парк уже выбран — ваш.</li>
+      <li>Работа появится на вкладке <b>«📋 Работ»</b> с этапом «Проблема».</li>
+      <li>По мере выполнения открывайте работу и переводите этап кнопкой внизу («→ Подрядчик», «→ Договор» и т.д.).</li>
+    </ol>
+
+    <h3>Как прикрепить договор и получить данные из скана</h3>
+    <ol>
+      <li>Откройте <b>«Хранилище»</b> → кнопка <b>«📄 Договор PDF»</b>.</li>
+      <li>В поле «Связать с работой» выберите работу — по умолчанию подставляется последняя созданная. Если оставить «— без привязки —», приложение сразу предложит привязать договор после сохранения.</li>
+      <li>Перетащите PDF в область загрузки (или нажмите и выберите файл).</li>
+      <li>Нажмите <b>«Сканировать и сохранить»</b>.</li>
+      <li>Система сама извлечёт из договора и запишет в работу:
+        <b>сумму договора</b>, <b>структуру оплаты</b> (аванс % / финал %), <b>юридические лица сторон</b>
+        (название, ИНН, КПП, ОГРН, адрес), а также сроки и номер договора.</li>
+    </ol>
+    <h3>Где смотреть распознанные данные</h3>
+    <ul>
+      <li>В карточке работы появится кнопка <b>«📄 имя_файла.pdf»</b> — она открывает договор с суммой, оплатой и реквизитами сторон.</li>
+      <li>Либо: <b>«Хранилище»</b> → откройте файл договора → кнопка <b>«📑 Данные договора»</b>.</li>
+      <li>На странице договора доступны: скачивание PDF, кнопка <b>«🔗 Привязать к работе»</b> (если привязки нет) и <b>«🔁 Пересканировать»</b> при ошибках распознавания.</li>
+    </ul>
+    <div class="warn note"><b>Требование к файлу:</b> PDF с текстовым слоем (например, распечатанный из Word). Сканы-картинки система не распознаёт — появится ошибка «проверьте, что это текстовый PDF».</div>
+    <div class="note"><b>Проверяйте распознанное:</b> данные извлекаются автоматически — перед оплатой сверьте сумму и реквизиты с оригиналом договора.</div>
+
+    <h3>Оборудование, помещения, документы, журналы</h3>
+    <ul>
+      <li><b>«🔧 Оборудование»</b> — перечень аттракционов; при поломке меняйте статус — директор увидит.</li>
+      <li><b>«📜 Документы»</b> — разрешительная документация со сроками; следите за просрочкой.</li>
+      <li><b>«🏗 Помещения»</b>, <b>«📖 Журналы»</b> — состояние и записи.</li>
+    </ul>
+
+    <h3>Синхронизация — обязательный шаг</h3>
+    <ol>
+      <li>Внесли работу, договор или изменения → нажмите <b>«🔄 Синхронизировать»</b> внизу левой колонки. Дождитесь надписи «✅ Синхронизировано».</li>
+      <li>Синхронизация также происходит автоматически при нажатии <b>«Выйти»</b>.</li>
+    </ol>
+    <div class="tip note"><b>Правило простое:</b> пока не синхронизировали — директор ваших данных не видит.</div>
+
+    <h3>Что видно у директора</h3>
+    <ul>
+      <li>Все ваши работы с этапами, суммами и историей.</li>
+      <li>Договоры с извлечёнными реквизитами.</li>
+      <li>Карточка прикреплённого файла (название, размер). Сам PDF хранится на вашем компьютере — у директора доступны извлечённые данные, но не сам скан.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🔄 Памятка по синхронизации (для всех)</h2>
+    <ul>
+      <li>Кнопка <b>«🔄 Синхронизировать»</b> делает два действия: отправляет ваши изменения на сервер и забирает чужие.</li>
+      <li>Нажимайте её в начале работы и после значимых изменений.</li>
+      <li>Конфликты одинаковых записей решаются по времени последнего изменения: новее побеждает.</li>
+      <li>Если на экране «❌ ошибка синхронизации» — проверьте интернет и повторите.</li>
+    </ul>
+  </div>
+
+  <div class="footer-note">Раздел «Контроль активити-парков» • сеть Амбиленд • инструкция актуальна для версии с синхронизацией</div>
+
+</div>
+</body>
+</html>
